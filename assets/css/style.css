@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+
+:root {
+  --primary: #06b6d4;       /* Cyan */
+  --primary-glow: rgba(6, 182, 212, 0.4);
+  --secondary: #10b981;     /* Emerald */
+  --secondary-glow: rgba(16, 185, 129, 0.3);
+  --accent: #8b5cf6;        /* Violet */
+  --bg-dark: #0a0f1d;       /* Deep space dark */
+  --bg-card: rgba(15, 23, 42, 0.75);
+  --border-card: rgba(148, 163, 184, 0.12);
+}
+
+body {
+  font-family: 'Inter', 'Noto Sans TC', sans-serif;
+  background-color: var(--bg-dark);
+  color: #e2e8f0;
+  overflow-x: hidden;
+}
+
+code, pre, .font-mono {
+  font-family: 'Fira Code', monospace;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0f1d;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #06b6d4;
+}
+
+/* Glassmorphism Cards */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-card);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel:hover {
+  border-color: rgba(6, 182, 212, 0.4);
+  box-shadow: 0 10px 30px -10px var(--primary-glow);
+  transform: translateY(-3px);
+}
+
+/* Gradient Glowing Text */
+.text-glow-cyan {
+  text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+}
+
+.gradient-title {
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, #34d399 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 3D Canvas Container */
+#molecule-canvas {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+#molecule-canvas:active {
+  cursor: grabbing;
+}
+
+/* Hacker Terminal Modal */
+.terminal-window {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px -10px rgba(6, 182, 212, 0.25);
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 9px;
+  height: 17px;
+  background: #10b981;
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Glow Badges */
+.badge-tech {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  color: #7dd3fc;
+  transition: all 0.2s ease;
+}
+.badge-tech:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.5);
+  transform: scale(1.03);
+}
+
+/* Active tab style */
+.tab-active {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: white !important;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+}

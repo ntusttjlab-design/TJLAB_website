@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Scale Modeling LAB @ NTUST | 多尺度模擬與熱力學實驗室</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#070b14',
+                            800: '#0f172a',
+                            700: '#1e293b',
+                            600: '#334155'
+                        },
+                        cyber: {
+                            cyan: '#06b6d4',
+                            emerald: '#10b981',
+                            violet: '#8b5cf6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body class="bg-dark-900 text-slate-200 antialiased selection:bg-cyan-500 selection:text-slate-950">
+
+    <!-- Top Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-40 bg-dark-900/80 backdrop-blur-md border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center text-dark-900 font-bold shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+                    <i data-lucide="atom" class="w-5 h-5 text-slate-950"></i>
+                </div>
+                <div>
+                    <span class="font-extrabold text-sm sm:text-base tracking-wider text-white flex items-center gap-1.5">
+                        MSMTJL <span class="text-cyan-400 font-normal text-xs sm:text-sm">@ NTUST</span>
+                    </span>
+                    <span class="text-[10px] text-slate-400 hidden sm:block tracking-tight">多尺度模擬與熱力學實驗室</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center gap-7 text-xs font-medium text-slate-300">
+                <a href="#about" class="hover:text-cyan-400 transition-colors">實驗室簡介</a>
+                <a href="#research" class="hover:text-cyan-400 transition-colors">研究領域</a>
+                <a href="#tools" class="hover:text-cyan-400 transition-colors">計算工具棧</a>
+                <a href="#pi" class="hover:text-cyan-400 transition-colors">主持人介紹</a>
+                <a href="#publications" class="hover:text-cyan-400 transition-colors">著作發表</a>
+                <a href="#tutorials" class="hover:text-cyan-400 transition-colors">開放課程</a>
+                <a href="#join" class="hover:text-cyan-400 transition-colors text-emerald-400 font-semibold flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 加入我們
+                </a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <!-- Terminal Trigger Button -->
+                <button id="open-terminal-btn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700/80 text-xs font-mono text-cyan-400 shadow-sm transition-all hover:scale-105" title="按下 `~` 鍵快速開啟終端機">
+                    <i data-lucide="terminal" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    <span class="hidden sm:inline">CLI Mode</span>
+                    <kbd class="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-[10px] text-slate-400">~</kbd>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white p-1">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark-800/95 border-b border-slate-800 px-6 py-4 space-y-3 text-sm">
+            <a href="#about" class="block text-slate-300 hover:text-cyan-400">實驗室簡介</a>
+            <a href="#research" class="block text-slate-300 hover:text-cyan-400">研究領域</a>
+            <a href="#tools" class="block text-slate-300 hover:text-cyan-400">計算工具棧</a>
+            <a href="#pi" class="block text-slate-300 hover:text-cyan-400">主持人介紹</a>
+            <a href="#publications" class="block text-slate-300 hover:text-cyan-400">著作發表</a>
+            <a href="#tutorials" class="block text-slate-300 hover:text-cyan-400">開放課程</a>
+            <a href="#join" class="block text-emerald-400 font-medium">加入我們 (Join Lab)</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="about" class="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden border-b border-slate-800/60">
+        <!-- Background subtle glow -->
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Left: Hero Text -->
+            <div class="lg:col-span-7 space-y-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-800/50 text-cyan-300 text-xs font-mono">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                    國立臺灣科技大學 材料科學與工程系
+                </div>
+
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+                    用<span class="gradient-title">量子化學與分子動力學</span><br>
+                    破解高分子的微觀熱力學世界
+                </h1>
+
+                <p class="text-slate-400 text-sm sm:text-base leading-relaxed max-w-2xl">
+                    Hello World! 歡迎來到林子敬老師主持的「多尺度模擬與熱力學實驗室 (MSMTJL)」。
+                    我們專注於從 <strong>1 飛秒 ($10^{-15}\text{ s}$) 的原子震盪</strong> 到 <strong>50 奈米的巨觀聚集態</strong>，結合第一原理計算 (DFT)、平衡/非平衡分子動力學 (MD) 與機器學習，設計高頻低介電高分子 (Low Dk/Df Polyimide)、催化劑與能源材料。
+                </p>
+
+                <!-- Stats Badges -->
+                <div class="grid grid-cols-3 gap-3 pt-2 max-w-lg">
+                    <div class="glass-panel p-3 rounded-xl border border-slate-800">
+                        <div class="text-xl sm:text-2xl font-extrabold text-cyan-400 font-mono">1 Å ~ 50 nm</div>
+                        <div class="text-[11px] text-slate-400">多尺度計算跨度</div>
+                    </div>
+                    <div class="glass-panel p-3 rounded-xl border border-slate-800">
+                        <div class="text-xl sm:text-2xl font-extrabold text-emerald-400 font-mono">19+</div>
+                        <div class="text-[11px] text-slate-400">國際高影響力期刊</div>
+                    </div>
+                    <div class="glass-panel p-3 rounded-xl border border-slate-800">
+                        <div class="text-xl sm:text-2xl font-extrabold text-violet-400 font-mono">10+ Playlists</div>
+                        <div class="text-[11px] text-slate-400">YouTube 免費教學</div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap items-center gap-4 pt-4">
+                    <a href="#research" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 hover:scale-105 transition-transform flex items-center gap-2">
+                        <span>探索研究領域</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#publications" class="px-5 py-2.5 rounded-xl glass-panel text-slate-200 hover:text-white font-medium text-sm hover:border-cyan-500/50 transition-colors flex items-center gap-2">
+                        <i data-lucide="book-open" class="w-4 h-4 text-cyan-400"></i>
+                        <span>論文發表</span>
+                    </a>
+                    <a href="mailto:tjlin@mail.ntust.edu.tw" class="px-4 py-2.5 rounded-xl text-slate-400 hover:text-cyan-300 text-sm flex items-center gap-1.5 transition-colors">
+                        <i data-lucide="mail" class="w-4 h-4"></i>
+                        <span>預約實驗室參觀</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right: Interactive 3D Molecular Simulation -->
+            <div class="lg:col-span-5">
+                <div class="relative glass-panel rounded-2xl p-2 border border-slate-700/80 shadow-2xl overflow-hidden group">
+                    <!-- Top Canvas Header -->
+                    <div class="flex items-center justify-between px-3 py-2 border-b border-slate-800 text-xs font-mono text-slate-400">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block"></span>
+                            <span class="ml-2 text-slate-300 text-[11px]">Polyimide_Repeat_Unit.pdb</span>
+                        </div>
+                        <span id="field-status-indicator" class="text-[10px] text-cyan-400">電場 OFF (平衡態)</span>
+                    </div>
+
+                    <!-- 3D Canvas Box -->
+                    <div class="relative h-[340px] sm:h-[380px] w-full bg-gradient-to-b from-dark-900 to-slate-950 rounded-xl overflow-hidden">
+                        <div id="molecule-canvas"></div>
+
+                        <!-- On-canvas Floating Control -->
+                        <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-auto">
+                            <span class="text-[10px] text-slate-400 bg-slate-900/80 backdrop-blur px-2.5 py-1 rounded-md border border-slate-800 flex items-center gap-1">
+                                <i data-lucide="mouse-pointer" class="w-3 h-3 text-cyan-400"></i> 滑鼠拖曳旋轉 / 滾輪縮放
+                            </span>
+                            <button id="toggle-field-btn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-mono font-semibold transition-all flex items-center gap-1.5 shadow-md">
+                                <i data-lucide="zap" class="w-3.5 h-3.5 text-yellow-400"></i>
+                                <span>施加 10 GHz 電場</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-3 text-[11px] text-slate-400 flex items-center justify-between bg-dark-900/60 rounded-b-xl border-t border-slate-800/80">
+                        <span>🧪 模擬展示：含側鏈氟基之低介電聚醯亞胺結構單元</span>
+                        <span class="text-cyan-400 font-mono">Three.js WebGL</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Multi-Scale Overview Banner -->
+    <section class="py-12 bg-dark-800/40 border-b border-slate-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-8">
+                <h2 class="text-2xl font-bold tracking-tight text-white">跨越尺度限制的計算光譜</h2>
+                <p class="text-xs sm:text-sm text-slate-400 mt-2">
+                    從單一水分子的偶極矩，到原子團簇 (Cluster)、晶格相變、高分子聚集態與 AI 機器學習預測
+                </p>
+            </div>
+
+            <div class="glass-panel p-4 sm:p-6 rounded-2xl border border-slate-800 text-center">
+                <img src="./assets/images/homepage_img_1.png" alt="Multi-Scale Modeling Spectrum" class="w-full max-w-4xl mx-auto rounded-xl shadow-lg border border-slate-800/60">
+                <div class="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs font-mono text-slate-400">
+                    <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5 text-cyan-400"></i> 時間尺度: 1 fs ~ 100 ns</span>
+                    <span class="text-slate-600">|</span>
+                    <span class="flex items-center gap-1.5"><i data-lucide="maximize" class="w-3.5 h-3.5 text-emerald-400"></i> 空間跨度: 1 Å ~ 50 nm</span>
+                    <span class="text-slate-600">|</span>
+                    <span class="flex items-center gap-1.5"><i data-lucide="cpu" class="w-3.5 h-3.5 text-violet-400"></i> 第一原理 (DFT) + 分子動力學 (MD) + 深度神經網路</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 7 Core Research Directions -->
+    <section id="research" class="py-20 border-b border-slate-800/60 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-cyan-400 text-xs font-mono tracking-widest uppercase">Research Directions</span>
+                    <h2 class="text-3xl font-extrabold text-white mt-1">7 大核心研究支柱</h2>
+                </div>
+                <p class="text-slate-400 text-sm max-w-md mt-2 md:mt-0">
+                    結合高分子物理、界面化學、計算模擬與機器學習，解決先端工程與通訊領域的硬核難題。
+                </p>
+            </div>
+
+            <!-- Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- 1. Dielectric Loss -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800/80 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-cyan-950/80 border border-cyan-800/50 flex items-center justify-center text-cyan-400 mb-4 group-hover:scale-110 transition-transform">
+                            <i data-lucide="radio" class="w-6 h-6"></i>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-900/40 text-cyan-300 border border-cyan-800/40">5G / 6G 通訊材料</span>
+                        <h3 class="text-lg font-bold text-white mt-2">高分子高頻介電損耗研究</h3>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                            運用全原子分子動力學 (All-Atomic MD)，探討高頻訊號下聚醯亞胺 (Polyimides) 分子主鏈與側鏈對介電常數 (Dk) 與損耗因數 (Df) 的影響機制。
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-800/60 mt-4 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                        <span>#Polyimide #Low-Dk-Df</span>
+                        <span class="text-cyan-400">ChemPhysChem 2023</span>
+                    </div>
+                </div>
+
+                <!-- 2. Metal-Support Interaction -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800/80 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-950/80 border border-emerald-800/50 flex items-center justify-center text-emerald-400 mb-4 group-hover:scale-110 transition-transform">
+                            <i data-lucide="layers" class="w-6 h-6"></i>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-900/40 text-emerald-300 border border-emerald-800/40">界面催化</span>
+                        <h3 class="text-lg font-bold text-white mt-2">催化劑之金屬-載體交互作用</h3>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                            透過密度泛函理論 (DFT) 模擬奈米金屬團簇與載體表面的電荷轉移與電子結構，揭露催化反應活性位點與穩定性機制。
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-800/60 mt-4 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                        <span>#Catalysis #SMSI #DFT</span>
+                        <span class="text-emerald-400">DFT Simulation</span>
+                    </div>
+                </div>
+
+                <!-- 3. ALD Chemistry -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800/80 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-violet-950/80 border border-violet-800/50 flex items-center justify-center text-violet-400 mb-4 group-hover:scale-110 transition-transform">
+                            <i data-lucide="sparkles" class="w-6 h-6"></i>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-violet-900/40 text-violet-300 border border-violet-800/40">半導體薄膜製程</span>
+                        <h3 class="text-lg font-bold text-white mt-2">原子層沉積 (ALD) 化學反應</h3>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                            探討前驅物分子在基板表面的吸附、解離及自限性反應路徑，精確模擬電漿輔助與氫電漿對金屬薄膜表面的微觀改質過程。
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-800/60 mt-4 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                        <span>#ALD #PlasmaTreatment</span>
+                        <span class="text-violet-400">Appl. Surf. Sci. 2025</span>
+                    </div>
+                </div>
+
+                <!-- 4. OPV Molecular Design -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800/80 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-amber-950/80 border border-amber-800/50 flex items-center justify-center text-amber-400 mb-4 group-hover:scale-110 transition-transform">
+                            <i data-lucide="sun" class="w-6 h-6"></i>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-900/40 text-amber-300 border border-amber-800/40">綠能與光電</span>
+                        <h3 class="text-lg font-bold text-white mt-2">有機太陽能電池分子設計</h3>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                            針對非富勒烯受體分子 (Non-fullerene Acceptors)，研究其在固態薄膜中的堆疊排列行為、激子解離與電荷轉移特性。
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-800/60 mt-4 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                        <span>#OPV #ChargeTransfer</span>
+                        <span class="text-amber-400">Small 2023 / TwIChE</span>
+                    </div>
+                </div>
+
+                <!-- 5. Machine Learning on Materials -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800/80 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-sky-950/80 border border-sky-800/50 flex items-center justify-center text-sky-400 mb-4 group-hover:scale-110 transition-transform">
+                            <i data-lucide="brain-circuit" class="w-6 h-6"></i>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-sky-900/40 text-sky-300 border border-sky-800/40">AI for Science</span>
+                        <h3 class="text-lg font-bold text-white mt-2">結構-物性關係機器學習 (QSPR)</h3>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                            運用 Python、RDKit 化學分子指紋提取與 scikit-learn 演算法，針對高分子玻璃轉移溫度 (Tg)、介電常數進行快速迴歸預測與逆向分子篩選。
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-800/60 mt-4 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                        <span>#MachineLearning #RDKit</span>
+                        <span class="text-sky-400">QSPR AI Modeling</span>
+                    </div>
+                </div>
+
+                <!-- 6. Force Field & Thermodynamics -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800/80 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-pink-950/80 border border-pink-800/50 flex items-center justify-center text-pink-400 mb-4 group-hover:scale-110 transition-transform">
+                            <i data-lucide="share-2" class="w-6 h-6"></i>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-pink-900/40 text-pink-300 border border-pink-800/40">經典力場開發</span>
+                        <h3 class="text-lg font-bold text-white mt-2">力場開發與溶液相互作用參數</h3>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                            曾參與熱力學自洽之 INTERFACE Force Field (IFF) 國際開發，精確預測高分子-無機奈米界面組裝、水溶液 pH 響應與 Flory-Huggins $\chi$ 參數。
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-800/60 mt-4 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                        <span>#Interface-FF #Langmuir</span>
+                        <span class="text-pink-400">Langmuir / JPCC</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Computational Tools Ecosystem -->
+    <section id="tools" class="py-20 bg-dark-800/30 border-b border-slate-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="text-cyan-400 text-xs font-mono tracking-widest uppercase">Toolchain & Ecosystem</span>
+                <h2 class="text-3xl font-extrabold text-white mt-1">我們的計算武器庫</h2>
+                <p class="text-slate-400 text-sm mt-3">
+                    熱愛自動化腳本、並行運算與開放源碼工具。我們在 Linux 叢集伺服器上運算以下軟體：
+                </p>
+            </div>
+
+            <!-- Software Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+
+                <!-- LAMMPS -->
+                <div class="glass-panel p-4 rounded-xl text-center border border-slate-800 hover:border-cyan-500/50 transition-all">
+                    <div class="h-14 flex items-center justify-center font-extrabold font-mono text-cyan-400 text-lg">LAMMPS</div>
+                    <div class="text-xs font-bold text-white mt-1">分子動力學</div>
+                    <div class="text-[10px] text-slate-400 mt-0.5">大尺度原子並行模擬</div>
+                </div>
+
+                <!-- CP2K -->
+                <div class="glass-panel p-4 rounded-xl text-center border border-slate-800 hover:border-cyan-500/50 transition-all">
+                    <div class="h-14 flex items-center justify-center">
+                        <img src="./assets/images/homepage_img_3.png" alt="CP2K" class="max-h-12 object-contain">
+                    </div>
+                    <div class="text-xs font-bold text-white mt-1">CP2K</div>
+                    <div class="text-[10px] text-slate-400 mt-0.5">第一原理分子動力學</div>
+                </div>
+
+                <!-- Gaussian 16 -->
+                <div class="glass-panel p-4 rounded-xl text-center border border-slate-800 hover:border-cyan-500/50 transition-all">
+                    <div class="h-14 flex items-center justify-center font-bold text-red-400 text-xl font-serif">G16</div>
+                    <div class="text-xs font-bold text-white mt-1">Gaussian 16</div>
+                    <div class="text-[10px] text-slate-400 mt-0.5">高精度量子化學</div>
+                </div>
+
+                <!-- xTB -->
+                <div class="glass-panel p-4 rounded-xl text-center border border-slate-800 hover:border-cyan-500/50 transition-all">
+                    <div class="h-14 flex items-center justify-center">
+                        <img src="./assets/images/homepage_img_4.png" alt="xTB" class="max-h-11 object-contain">
+                    </div>
+                    <div class="text-xs font-bold text-white mt-1">xTB</div>
+                    <div class="text-[10px] text-slate-400 mt-0.5">極速半經驗緊束縛法</div>
+                </div>
+
+                <!-- GROMACS -->
+                <div class="glass-panel p-4 rounded-xl text-center border border-slate-800 hover:border-cyan-500/50 transition-all">
+                    <div class="h-14 flex items-center justify-center font-bold text-blue-400 font-sans tracking-wide">GROMACS</div>
+                    <div class="text-xs font-bold text-white mt-1">GROMACS</div>
+                    <div class="text-[10px] text-slate-400 mt-0.5">高效生物/高分子 MD</div>
+                </div>
+
+                <!-- CASTEP -->
+                <div class="glass-panel p-4 rounded-xl text-center border border-slate-800 hover:border-cyan-500/50 transition-all">
+                    <div class="h-14 flex items-center justify-center">
+                        <img src="./assets/images/homepage_img_5.png" alt="CASTEP" class="max-h-9 object-contain">
+                    </div>
+                    <div class="text-xs font-bold text-white mt-1">CASTEP</div>
+                    <div class="text-[10px] text-slate-400 mt-0.5">固態能帶與光譜計算</div>
+                </div>
+
+                <!-- RDKit -->
+                <div class="glass-panel p-4 rounded-xl text-center border border-slate-800 hover:border-cyan-500/50 transition-all">
+                    <div class="h-14 flex items-center justify-center">
+                        <img src="./assets/images/homepage_img_7.png" alt="RDKit" class="max-h-12 object-contain">
+                    </div>
+                    <div class="text-xs font-bold text-white mt-1">RDKit</div>
+                    <div class="text-[10px] text-slate-400 mt-0.5">化學資訊學與特徵工程</div>
+                </div>
+
+                <!-- scikit-learn -->
+                <div class="glass-panel p-4 rounded-xl text-center border border-slate-800 hover:border-cyan-500/50 transition-all">
+                    <div class="h-14 flex items-center justify-center">
+                        <img src="./assets/images/homepage_img_6.png" alt="scikit-learn" class="max-h-12 object-contain">
+                    </div>
+                    <div class="text-xs font-bold text-white mt-1">scikit-learn</div>
+                    <div class="text-[10px] text-slate-400 mt-0.5">物性迴歸與分類預測</div>
+                </div>
+
+                <!-- NumPy -->
+                <div class="glass-panel p-4 rounded-xl text-center border border-slate-800 hover:border-cyan-500/50 transition-all">
+                    <div class="h-14 flex items-center justify-center">
+                        <img src="./assets/images/homepage_img_8.png" alt="NumPy" class="max-h-11 object-contain">
+                    </div>
+                    <div class="text-xs font-bold text-white mt-1">NumPy / Python</div>
+                    <div class="text-[10px] text-slate-400 mt-0.5">高速科學陣列運算</div>
+                </div>
+
+                <!-- Linux & Bash -->
+                <div class="glass-panel p-4 rounded-xl text-center border border-slate-800 hover:border-cyan-500/50 transition-all">
+                    <div class="h-14 flex items-center justify-center font-mono text-emerald-400 font-bold text-sm">
+                        #!/bin/bash
+                    </div>
+                    <div class="text-xs font-bold text-white mt-1">Linux / Bash</div>
+                    <div class="text-[10px] text-slate-400 mt-0.5">自動化叢集排程管線</div>
+                </div>
+
+                <!-- Materials Studio -->
+                <div class="glass-panel p-4 rounded-xl text-center border border-slate-800 hover:border-cyan-500/50 transition-all">
+                    <div class="h-14 flex items-center justify-center font-semibold text-sky-300 text-xs text-center">
+                        Materials Studio
+                    </div>
+                    <div class="text-xs font-bold text-white mt-1">Materials Studio</div>
+                    <div class="text-[10px] text-slate-400 mt-0.5">晶體與聚合物建模</div>
+                </div>
+
+                <!-- Python -->
+                <div class="glass-panel p-4 rounded-xl text-center border border-slate-800 hover:border-cyan-500/50 transition-all">
+                    <div class="h-14 flex items-center justify-center font-mono text-yellow-400 text-base font-bold">
+                        Python 3.x
+                    </div>
+                    <div class="text-xs font-bold text-white mt-1">Python 生態系</div>
+                    <div class="text-[10px] text-slate-400 mt-0.5">資料分析與科學計算</div>
+                </div>
+
+            </div>
+
+            <!-- Geek Banner -->
+            <div class="mt-8 text-center">
+                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 border border-slate-800 text-xs text-slate-400 font-mono">
+                    <i data-lucide="terminal" class="w-3.5 h-3.5 text-cyan-400"></i>
+                    歡迎就以上計算套件、Shell Scripting 與分子動力學力場參數化交流合作！
+                </span>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Principal Investigator (PI) Section -->
+    <section id="pi" class="py-20 border-b border-slate-800/60 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel p-8 sm:p-10 rounded-3xl border border-slate-800 relative overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                    
+                    <!-- Avatar Column -->
+                    <div class="lg:col-span-4 text-center">
+                        <div class="relative inline-block group">
+                            <div class="w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden border-2 border-cyan-500/40 shadow-2xl mx-auto relative bg-slate-950">
+                                <img id="pi-avatar-img" src="./assets/images/pi-intro_img_1.png" alt="Prof. Tzu-Jen Lin" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                            </div>
+                            <!-- Meme Toggle Pill -->
+                            <button id="toggle-avatar-mode" class="mt-3 px-3 py-1 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[11px] font-mono text-cyan-300 transition-colors inline-flex items-center gap-1.5 shadow">
+                                <i data-lucide="smile" class="w-3 h-3 text-yellow-400"></i>
+                                <span>切換形象模式 (Meme Mode)</span>
+                            </button>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mt-3">林子敬 博士</h3>
+                        <p class="text-xs text-cyan-400 font-mono mt-0.5">Dr. Tzu-Jen Lin | 助理教授</p>
+                        <p class="text-[11px] text-slate-400 mt-1">國立臺灣科技大學 材料科學與工程系</p>
+                    </div>
+
+                    <!-- Bio Info Column -->
+                    <div class="lg:col-span-8 space-y-5">
+                        <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 text-slate-300 border border-slate-700">辦公室: 工程一館 E1-101-2</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 text-slate-300 border border-slate-700">實驗室: 工程一館 E1-241-2</span>
+                            <a href="mailto:tjlin@mail.ntust.edu.tw" class="px-2.5 py-1 rounded-md bg-cyan-950/60 text-cyan-300 border border-cyan-800/50 hover:bg-cyan-900/60 flex items-center gap-1">
+                                <i data-lucide="mail" class="w-3 h-3"></i> tjlin@mail.ntust.edu.tw
+                            </a>
+                            <a href="https://www.youtube.com/user/sdd3390" target="_blank" class="px-2.5 py-1 rounded-md bg-red-950/60 text-red-300 border border-red-800/50 hover:bg-red-900/60 flex items-center gap-1">
+                                <i data-lucide="youtube" class="w-3 h-3"></i> YouTube Channel
+                            </a>
+                        </div>
+
+                        <!-- Education & Career Timeline -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                            <div class="bg-dark-900/50 p-4 rounded-xl border border-slate-800/80">
+                                <h4 class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5 mb-2.5">
+                                    <i data-lucide="graduation-cap" class="w-4 h-4"></i> 學歷背景 (Education)
+                                </h4>
+                                <ul class="text-xs text-slate-300 space-y-2">
+                                    <li><strong>美國阿克倫大學 (Akron)</strong> - 高分子工程博士 (2013)</li>
+                                    <li><strong>英國曼徹斯特大學 (Manchester)</strong> - 化學哲學碩士 (2008)</li>
+                                    <li><strong>國立成功大學 (NCKU)</strong> - 化學工程學系學士 (2004)</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-dark-900/50 p-4 rounded-xl border border-slate-800/80">
+                                <h4 class="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5 mb-2.5">
+                                    <i data-lucide="briefcase" class="w-4 h-4"></i> 學術經歷 (Appointments)
+                                </h4>
+                                <ul class="text-xs text-slate-300 space-y-2">
+                                    <li><strong>台科大材料系</strong> - 助理教授 (2022/08 ~ 迄今)</li>
+                                    <li><strong>中原大學化工系</strong> - 助理教授 (2016/08 ~ 2022/07)</li>
+                                    <li><strong>中研院原分所 (IAMS)</strong> - 博士後研究員 (2014 ~ 2016)</li>
+                                    <li><strong>臺灣大學化工系</strong> - 博士後研究員 (2013 ~ 2014)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Personal Quote / Philosophy -->
+                        <div class="p-4 rounded-xl bg-gradient-to-r from-slate-900/90 to-dark-800/80 border-l-4 border-cyan-500 text-xs text-slate-300 leading-relaxed italic">
+                            「從 1 飛秒的化學鍵震盪，到 100 奈米的高分子聚集態，微觀世界裡藏著無窮的物理美感。我們透過模擬與計算打破實驗盲區，讓電腦幫人類預測未來的材料。」
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Selected Publications & Presentations -->
+    <section id="publications" class="py-20 border-b border-slate-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+                <div>
+                    <span class="text-cyan-400 text-xs font-mono tracking-widest uppercase">Scholarly Work</span>
+                    <h2 class="text-3xl font-extrabold text-white mt-1">著作與發表 (Publications)</h2>
+                </div>
+
+                <!-- Search Input -->
+                <div class="mt-4 md:mt-0 relative w-full md:w-72">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input id="pub-search-input" type="text" placeholder="即時搜尋論文關鍵字、年份或學生..." class="w-full pl-9 pr-3 py-2 rounded-xl bg-dark-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors">
+                </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="flex flex-wrap gap-2 mb-8">
+                <button class="pub-tab tab-active px-3 py-1.5 rounded-lg text-xs font-mono font-medium border border-slate-700 transition-all" data-filter="all">全部發表 (All)</button>
+                <button class="pub-tab px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-dark-900 text-slate-300 border border-slate-800 hover:border-slate-700 transition-all" data-filter="polyimide">低介電與高分子 (Polyimide)</button>
+                <button class="pub-tab px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-dark-900 text-slate-300 border border-slate-800 hover:border-slate-700 transition-all" data-filter="dft">量子化學與 DFT</button>
+                <button class="pub-tab px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-dark-900 text-slate-300 border border-slate-800 hover:border-slate-700 transition-all" data-filter="catalysis">能源與光電 (Energy/Catalysis)</button>
+                <button class="pub-tab px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-dark-900 text-slate-300 border border-slate-800 hover:border-slate-700 transition-all" data-filter="student">學生研討會發表</button>
+            </div>
+
+            <!-- Publications Cards List -->
+            <div class="space-y-4">
+
+                <!-- Paper 1 -->
+                <div class="pub-item glass-panel p-5 rounded-xl border border-slate-800/90" data-category="dft energy">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-900/40 text-cyan-300 border border-cyan-800/50">2026 最新發表</span>
+                            <span class="text-xs font-mono text-slate-400">Journal of Physics and Chemistry of Solids, 212, 113535</span>
+                        </div>
+                        <span class="text-xs font-mono text-emerald-400 font-bold">First Author: Jaysen Brian Susanto (學生)</span>
+                    </div>
+                    <h4 class="text-sm sm:text-base font-bold text-white leading-snug">
+                        "Using Trotter-Suzuki and Tight-Binding Time Propagation Method to Calculate Density of States and Optical Conductivity of Non-metal Doped Graphitic Heptazine Carbon Nitride"
+                    </h4>
+                    <p class="text-xs text-slate-400 mt-1">Jaysen Brian Susanto, Iman Santoso, <strong>Tzu-Jen Lin*</strong></p>
+                </div>
+
+                <!-- Paper 2 -->
+                <div class="pub-item glass-panel p-5 rounded-xl border border-slate-800/90" data-category="polyimide">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-900/40 text-cyan-300 border border-cyan-800/50">2026 最新發表</span>
+                            <span class="text-xs font-mono text-slate-400">ACS Applied Polymer Materials, 8 (1), 183–191</span>
+                        </div>
+                        <span class="text-xs font-mono text-emerald-400 font-bold">First Author: 蘇威儒 (學生)</span>
+                    </div>
+                    <h4 class="text-sm sm:text-base font-bold text-white leading-snug">
+                        "Toward Eco-Friendly Proton Exchange Membranes: A Molecular Dynamics Study of the Pendant Group Effects on Phosphoric Acid Doping in Polybenzimidazoles"
+                    </h4>
+                    <p class="text-xs text-slate-400 mt-1">Wei-Ru Su, <strong>Tzu-Jen Lin*</strong></p>
+                </div>
+
+                <!-- Paper 3 -->
+                <div class="pub-item glass-panel p-5 rounded-xl border border-slate-800/90" data-category="dft">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-300 border border-slate-700">2025</span>
+                            <span class="text-xs font-mono text-slate-400">Applied Surface Science, 685, 162040</span>
+                        </div>
+                        <span class="text-xs font-mono text-yellow-400">Impact Factor: 6.3 (Rank 29/179)</span>
+                    </div>
+                    <h4 class="text-sm sm:text-base font-bold text-white leading-snug">
+                        "Atomic Insights on Hydrogen Plasma Treatment for Sn Surfaces by First-Principles Calculations"
+                    </h4>
+                    <p class="text-xs text-slate-400 mt-1"><strong>Tzu-Jen Lin*</strong></p>
+                </div>
+
+                <!-- Paper 4 -->
+                <div class="pub-item glass-panel p-5 rounded-xl border border-slate-800/90" data-category="dft biomaterials">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-300 border border-slate-700">2025</span>
+                            <span class="text-xs font-mono text-slate-400">Ceramics International, 51 (16), 22575-22583</span>
+                        </div>
+                        <span class="text-xs font-mono text-yellow-400">Impact Factor: 5.1 (Rank 3/31)</span>
+                    </div>
+                    <h4 class="text-sm sm:text-base font-bold text-white leading-snug">
+                        "Assessment of the bioactivities of spray-dried pure and Zn-containing bioactive glass by experimental and DFT analysis"
+                    </h4>
+                    <p class="text-xs text-slate-400 mt-1">Wan-Feng Kao (高琬琁), Tzu-Jui Peng, Chao-Li Lee, Huan-Chia Chang, <strong>Tzu-Jen Lin*</strong></p>
+                </div>
+
+                <!-- Paper 5 -->
+                <div class="pub-item glass-panel p-5 rounded-xl border border-slate-800/90" data-category="polyimide">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-300 border border-slate-700">2023</span>
+                            <span class="text-xs font-mono text-slate-400">ChemPhysChem, e202300479</span>
+                        </div>
+                        <span class="text-xs font-mono text-cyan-400">高頻低介電代表作</span>
+                    </div>
+                    <h4 class="text-sm sm:text-base font-bold text-white leading-snug">
+                        "The Influence of Large Pendent Groups on Chain Anisotropy and Electrical Energy Loss of Polyimides at High Frequency through All-Atomic Molecular Simulation"
+                    </h4>
+                    <p class="text-xs text-slate-400 mt-1"><strong>Tzu-Jen Lin*</strong></p>
+                </div>
+
+                <!-- Paper 6 -->
+                <div class="pub-item glass-panel p-5 rounded-xl border border-slate-800/90" data-category="catalysis energy">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-300 border border-slate-700">2023</span>
+                            <span class="text-xs font-mono text-slate-400">Small, 2304813</span>
+                        </div>
+                        <span class="text-xs font-mono text-yellow-400">Impact Factor: 13.3 (Rank 19/161)</span>
+                    </div>
+                    <h4 class="text-sm sm:text-base font-bold text-white leading-snug">
+                        "Defective Potassium Poly(Heptazine Imide) Preventing Spin Delocalization and Hole Transfer Deactivation for Efficient Solar Energy Conversion and Storage"
+                    </h4>
+                    <p class="text-xs text-slate-400 mt-1">Li-Che Chueh, <strong>Tzu-Jen Lin</strong>, Jih-Jen Wu*</p>
+                </div>
+
+                <!-- Student Conference Highlight -->
+                <div class="pub-item glass-panel p-5 rounded-xl border border-emerald-900/60 bg-emerald-950/20" data-category="student polyimide">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-900/60 text-emerald-300 border border-emerald-700">2026 年會發表</span>
+                        <span class="text-xs font-mono text-emerald-400">熱力學與程序系統研討會 / 高分子年會</span>
+                    </div>
+                    <h4 class="text-sm sm:text-base font-bold text-white">
+                        學生研討會發表成果：
+                    </h4>
+                    <ul class="text-xs text-slate-300 space-y-1 mt-2 list-disc list-inside">
+                        <li><strong>蘇威儒</strong>: "Exploring High-Frequency Dielectric Dissipation in Polyimides via Molecular Dynamics" (2026 高分子年會)</li>
+                        <li><strong>劉兆恆</strong>: "探討利用全原子分子動力學研究高分子發泡材料的可行性" (2026 高分子年會)</li>
+                        <li><strong>林佩蓉</strong>: "非富勒烯受體分子在有機太陽能電池中之排列行為與電荷轉移特性模擬研究" (2025 化工年會)</li>
+                        <li><strong>鄭揚譯</strong>: "A Multi-Scale Modeling Approach to Investigate CTE in Modified Polyimide" (2025 高分子年會口頭報告)</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- View Full Markdown List Prompt -->
+            <div class="mt-8 text-center">
+                <a href="./content/03_publications_and_presentations.md" target="_blank" class="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 hover:text-cyan-300 underline">
+                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                    檢視完整 19 篇期刊發表與歷年研討會清單 (Markdown 檔案)
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Open Courseware & YouTube Hub -->
+    <section id="tutorials" class="py-20 bg-dark-800/30 border-b border-slate-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="text-cyan-400 text-xs font-mono tracking-widest uppercase">Open Educational Resources</span>
+                <h2 class="text-3xl font-extrabold text-white mt-1">開放式課程與教學影音庫</h2>
+                <p class="text-slate-400 text-sm mt-3">
+                    林子敬老師多年來堅持將工程數學、質能均衡與分子模擬課程免費公開於 YouTube，造福無數學子：
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <!-- Playlist 1: Engineering Math -->
+                <div class="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-lg bg-red-950/80 border border-red-800/50 flex items-center justify-center text-red-400 mb-3">
+                            <i data-lucide="video" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-white">工程數學 (一) 完整系列</h4>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                            微積分基礎、一階常微分方程、二階常微分方程、拉普拉斯轉換 (Laplace) 與數值解法。
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800">
+                        <a href="https://www.youtube.com/playlist?list=PLwwTz0GVILdKxEJei6gcbGobHsNuHff3a" target="_blank" class="text-xs text-cyan-400 hover:text-cyan-300 font-mono inline-flex items-center gap-1">
+                            前往觀看播放清單 <i data-lucide="external-link" class="w-3 h-3"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Playlist 2: Chemical Eng Calculations -->
+                <div class="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-lg bg-red-950/80 border border-red-800/50 flex items-center justify-center text-red-400 mb-3">
+                            <i data-lucide="calculator" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-white">化工計算原理 (質能均衡)</h4>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                            化工系核心基本功：質量均衡、能量均衡與實習題目逐題演練影片 (Practice 1 ~ 4)。
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800">
+                        <a href="https://www.youtube.com/playlist?list=PLwwTz0GVILdLCniQNHpMHLeLelFNZHhBn" target="_blank" class="text-xs text-cyan-400 hover:text-cyan-300 font-mono inline-flex items-center gap-1">
+                            前往觀看播放清單 <i data-lucide="external-link" class="w-3 h-3"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Playlist 3: Molecular Simulation -->
+                <div class="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-lg bg-red-950/80 border border-red-800/50 flex items-center justify-center text-red-400 mb-3">
+                            <i data-lucide="box" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-white">材料與分子模擬 (MD Tutorial)</h4>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                            分子動力學概念、Materials Studio 實作、高分子建模、能量最小化與熱力學性質分析。
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800">
+                        <a href="https://www.youtube.com/playlist?list=PLwwTz0GVILdLh5bHAE2QOLPwSZRlaYzli" target="_blank" class="text-xs text-cyan-400 hover:text-cyan-300 font-mono inline-flex items-center gap-1">
+                            前往觀看播放清單 <i data-lucide="external-link" class="w-3 h-3"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Playlist 4: Programming & Linux -->
+                <div class="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-lg bg-red-950/80 border border-red-800/50 flex items-center justify-center text-red-400 mb-3">
+                            <i data-lucide="terminal" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-white">電腦程式、MATLAB 與 Linux</h4>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                            從零基礎學習 Linux 終端機指令、Shell 批次腳本與 MATLAB 矩陣計算。
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800">
+                        <a href="https://www.youtube.com/playlist?list=PLwwTz0GVILdIBx-8pWmmWdRJiJnYvo_g8" target="_blank" class="text-xs text-cyan-400 hover:text-cyan-300 font-mono inline-flex items-center gap-1">
+                            前往觀看播放清單 <i data-lucide="external-link" class="w-3 h-3"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Join Us & Lab Culture (Why Join MSMTJL) -->
+    <section id="join" class="py-20 relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-800 text-emerald-300 text-xs font-mono mb-4">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                We are Recruiting: 大學部專題生 / 碩博士研究生
+            </div>
+
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+                想讓自己具備<span class="gradient-accent">「材料物理 × 程式開發 × 國際發表」</span>的罕見優勢嗎？
+            </h2>
+
+            <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto mt-4 leading-relaxed">
+                在 MSMTJL，你不會整天泡在有害溶劑裡反覆洗燒杯。我們用高階 GPU 伺服器、寫 Python 與分子力學解題。
+                你將帶走這時代半導體、高分子與 AI 材料界最渴求的硬實力。
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left mt-10">
+                <div class="glass-panel p-5 rounded-xl border border-slate-800">
+                    <div class="text-cyan-400 font-mono text-sm font-bold flex items-center gap-2 mb-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i> 不限背景，願意學就能上手
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        就算你從沒碰過 Linux 或 Python 也別擔心！老師親自手把手教學，完善的 YouTube 影音庫隨時能複習。
+                    </p>
+                </div>
+
+                <div class="glass-panel p-5 rounded-xl border border-slate-800">
+                    <div class="text-emerald-400 font-mono text-sm font-bold flex items-center gap-2 mb-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i> 充沛的高效能運算設備
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        獨立雙螢幕工作站、多節點 GPU/CPU 計算伺服器叢集，不需排隊卡資源，享有充足的算力揮灑創意。
+                    </p>
+                </div>
+
+                <div class="glass-panel p-5 rounded-xl border border-slate-800">
+                    <div class="text-violet-400 font-mono text-sm font-bold flex items-center gap-2 mb-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i> 豐富的國內外發表經驗
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        歷屆學長姐皆在台灣化工年會、高分子年會與國際會議口頭發表或獲獎，履歷競爭力極強。
+                    </p>
+                </div>
+            </div>
+
+            <!-- Contact Box -->
+            <div class="mt-12 p-8 glass-panel rounded-3xl border border-cyan-500/30 max-w-xl mx-auto shadow-2xl">
+                <h3 class="text-xl font-bold text-white">隨時歡迎敲門或來信預約參觀！</h3>
+                <p class="text-xs text-slate-400 mt-2">
+                    地址: 台北市大安區基隆路四段 43 號 國立臺灣科技大學 工程一館 E1-101-2 室
+                </p>
+                <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <a href="mailto:tjlin@mail.ntust.edu.tw?subject=諮詢加入多尺度模擬實驗室" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 hover:scale-105 transition-transform flex items-center justify-center gap-2">
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                        <span>寄信給林老師 (tjlin@mail.ntust.edu.tw)</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="py-12 bg-dark-900 border-t border-slate-800/80 text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                <p class="font-medium text-slate-400">Multi-Scale Modeling and Thermodynamics LAB @ NTUST</p>
+                <p class="mt-1">國立臺灣科技大學 材料科學與工程系 | 台北市大安區基隆路四段43號工程一館</p>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="https://sites.google.com/view/msmtjl/homepage" target="_blank" class="hover:text-slate-300 transition-colors">原始 Google Sites</a>
+                <a href="https://www.youtube.com/user/sdd3390" target="_blank" class="hover:text-slate-300 transition-colors">YouTube 頻道</a>
+                <button onclick="document.getElementById('open-terminal-btn').click()" class="hover:text-cyan-400 transition-colors font-mono">Terminal CLI</button>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Terminal Easter Egg Modal -->
+    <div id="terminal-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+        <div class="w-full max-w-2xl bg-dark-900 rounded-2xl border border-cyan-500/40 shadow-2xl terminal-window overflow-hidden flex flex-col h-[460px]">
+            
+            <!-- Window Titlebar -->
+            <div class="px-4 py-3 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <button id="close-terminal-btn" class="w-3 h-3 rounded-full bg-red-500 hover:opacity-80 transition-opacity" title="關閉"></button>
+                    <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                    <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                    <span class="text-xs font-mono text-slate-400 ml-2">tjlin@ntust-node-01: ~ (bash)</span>
+                </div>
+                <span class="text-[10px] font-mono text-slate-500 hidden sm:inline">按 ESC 或輸入 exit 關閉</span>
+            </div>
+
+            <!-- Terminal Output Area -->
+            <div id="terminal-output" class="flex-1 p-4 overflow-y-auto font-mono text-xs text-slate-300 space-y-1">
+                <div class="text-slate-400">
+                    Welcome to <strong class="text-cyan-400">MSMTJL Linux Cluster Terminal</strong> (NTUST-HPC v2.6.1)<br>
+                    Type <span class="text-emerald-400 font-bold">help</span> to view available commands, or try <span class="text-yellow-400 font-bold">run_md</span>, <span class="text-cyan-400 font-bold">cat pi.txt</span>, <span class="text-pink-400 font-bold">skills</span>, <span class="text-sky-400 font-bold">join</span>.
+                </div>
+            </div>
+
+            <!-- Terminal Input Prompt -->
+            <div class="p-3 bg-slate-950 border-t border-slate-800/80 flex items-center gap-2 font-mono text-xs">
+                <span class="text-emerald-400 font-bold">tjlin@ntust-node-01:~$</span>
+                <input id="terminal-input" type="text" class="flex-1 bg-transparent text-white focus:outline-none" autocomplete="off" spellcheck="false" placeholder="輸入指令...">
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./assets/js/main.js"></script>
+    <script>
+        lucide.createIcons();
+
+        // Avatar toggle Easter egg
+        const toggleBtn = document.getElementById('toggle-avatar-mode');
+        const avatarImg = document.getElementById('pi-avatar-img');
+        let isMeme = true;
+        if (toggleBtn && avatarImg) {
+            toggleBtn.addEventListener('click', () => {
+                isMeme = !isMeme;
+                if (!isMeme) {
+                    // Switch to academic avatar icon
+                    avatarImg.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=600&h=600&q=80";
+                    toggleBtn.innerHTML = '<i data-lucide="glasses" class="w-3 h-3 text-cyan-400"></i><span>切換回迷因模式 (Meme Mode)</span>';
+                } else {
+                    avatarImg.src = "./assets/images/pi-intro_img_1.png";
+                    toggleBtn.innerHTML = '<i data-lucide="smile" class="w-3 h-3 text-yellow-400"></i><span>切換形象模式 (Academic)</span>';
+                }
+                lucide.createIcons();
+            });
+        }
+    </script>
+</body>
+</html>
