@@ -88,9 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
   test(document.querySelector('#student-resources') === null && document.querySelector('a[href="#student-resources"]') === null, 'resources-removed');
   test(document.querySelector('#lab-life') !== null, 'activity-gallery');
   test(document.querySelectorAll('.member-bridge,.member-transition-copy').length===0,'no-separate-slides');
-  const flow=[...document.querySelectorAll('main > section[data-member-flow]')];
+  // GSAP pin wraps the real hero in a temporary pin-spacer; it does not add a new page.
+  const flow=[...document.querySelectorAll('main section[data-member-flow]')];
   test(flow.map(s=>s.id).join(',')==='members,members-list,lab-life,arcade,members-contact','natural-five-section-order');
-  test(flow.slice(1).every((node,i)=>flow[i].nextElementSibling===node),'direct-neighbor-sections');
+  const first=flow[0],following=first?.parentElement?.classList.contains('pin-spacer')?first.parentElement: first;
+  test(following?.nextElementSibling===flow[1] && flow.slice(2).every((node,i)=>flow[i+1].nextElementSibling===node),'direct-neighbor-sections');
   const header=document.querySelector('.site-header');
   const hero=document.querySelector('.cinematic-members-hero');
   const height=hero.getBoundingClientRect().height;
