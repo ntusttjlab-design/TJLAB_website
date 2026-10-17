@@ -1,32 +1,15 @@
-// 與遊戲在同一個 Apps Script 頁面，直接使用官方通道。
+// 與遊戲同頁，使用 Apps Script 官方通道讀寫每款遊戲前五名。
 let records=[],recordReady=false,pendingRecord=null,request=0;
-const recordStatus=document.getElementById('record-status');
-const recordDialog=document.getElementById('record-dialog');
+const recordStatus=document.getElementById('record-status'),recordDialog=document.getElementById('record-dialog');
+function recordError(message){recordStatus.textContent=message;if(recordDialog.open)document.getElementById('record-form-status').textContent=message;}
+function gameRecords(game){return records.filter(row=>row.game===game);}
 function renderRecords(){
- document.getElementById('record-list').replaceChildren();
- ['snake','rally'].forEach(game=>{const winner=records.find(row=>row.game===game),line=document.createElement('p');line.textContent=localized(game==='snake'?'分子貪食蛇':'彈跳球最快獲勝',game==='snake'?'Molecular snake':'Fastest rally win')+' · '+(winner?winner.nickname+' · '+(game==='snake'?winner.score+' DP':(winner.duration_ms/1000).toFixed(2)+' s')+' · '+new Date(winner.date).toLocaleString(language==='en'?'en-GB':'zh-TW',{timeZone:'Asia/Taipei',hour12:false}):localized('尚無紀錄','No record yet'));document.getElementById('record-list').append(line);});
+ const list=document.getElementById('record-list');list.replaceChildren();
+ ['snake','rally'].forEach(game=>{const section=document.createElement('section'),title=document.createElement('h3');title.textContent=localized(game==='snake'?'元素貪食蛇':'元素彈跳球',game==='snake'?'Element snake':'Element paddle rally');section.append(title);const ol=document.createElement('ol');gameRecords(game).forEach((row,index)=>{const item=document.createElement('li'),rank=document.createElement('span'),name=document.createElement('strong'),result=document.createElement('span'),time=document.createElement('time');rank.textContent=(index===0?'★ ':'')+(index+1);name.textContent=row.nickname;result.textContent=game==='snake'?localized(`${row.score} 個元素`,`${row.score} elements`):(row.duration_ms/1000).toFixed(2)+' s';time.textContent=new Date(row.date).toLocaleString(language==='en'?'en-GB':'zh-TW',{timeZone:'Asia/Taipei',hour12:false});item.append(rank,name,result,time);ol.append(item);});if(!ol.children.length){const empty=document.createElement('p');empty.textContent=localized('尚無紀錄','No records yet');section.append(empty);}else section.append(ol);list.append(section);});
 }
-function recordCall(method,payload,success){
- const ticket=++request;const timer=setTimeout(()=>{if(ticket===request){request++;recordStatus.textContent=localized('共用紀錄連線逾時，可稍後重試。','Records timed out. Please retry.');document.getElementById('record-submit').disabled=false;}},15000);
- const runner=google.script.run.withSuccessHandler(result=>{if(ticket!==request)return;clearTimeout(timer);success(result);}).withFailureHandler(()=>{if(ticket!==request)return;clearTimeout(timer);recordStatus.textContent=localized('共用紀錄暫時無法讀寫，遊戲仍可繼續。','Shared records are unavailable. You can still play.');document.getElementById('record-submit').disabled=false;});
- if(method==='read')runner.recordsRead();else runner.recordSubmit(payload);
-}
-function loadRecords(){recordCall('read',null,result=>{records=result.records;recordReady=true;renderRecords();recordStatus.textContent=localized('貪食蛇比最高 DP；彈跳球比獲勝局遊戲時間。紀錄時間為台灣時間。','Highest snake DP; shortest winning rally game time. Dates shown in Taiwan time.');});}
-window.labRecord=payload=>{
- if(!recordReady||recordDialog.open)return;
- const best=records.find(row=>row.game===payload.game);
- if(payload.game==='snake'&&(payload.score<4||best&&payload.score<=best.score)||payload.game==='rally'&&(payload.duration_ms<5000||best&&payload.duration_ms>=best.duration_ms))return;
- Object.values(gameControllers).forEach(game=>game.pause());pendingRecord=payload;
- document.getElementById('record-name').value=storage.get('msmtjl_nickname','');document.getElementById('record-submit').disabled=false;document.getElementById('record-form-status').textContent='';recordDialog.showModal();
-};
-document.getElementById('record-cancel').addEventListener('click',()=>recordDialog.close());
-document.getElementById('record-form').addEventListener('submit',event=>{
- event.preventDefault();if(!pendingRecord)return;
- const nickname=document.getElementById('record-name').value.trim();
- if(!/^[A-Za-z0-9\u3400-\u9fff][A-Za-z0-9\u3400-\u9fff ._-]{0,19}$/.test(nickname)){document.getElementById('record-form-status').textContent=localized('請填1至20字的中英文字或數字。','Use 1–20 letters or numbers.');return;}
- document.getElementById('record-submit').disabled=true;
- recordCall('submit',{...pendingRecord,nickname},result=>{records=result.records;storage.set('msmtjl_nickname',nickname);renderRecords();recordStatus.textContent=result.saved?localized('最高紀錄已儲存！','New record saved!'):localized('已有更佳或相同紀錄，已顯示最新冠軍。','An equal or better record exists. Showing the latest champion.');pendingRecord=null;recordDialog.close();});
-});
-document.getElementById('record-retry').addEventListener('click',loadRecords);
-document.addEventListener('languagechange',renderRecords);
-loadRecords();
+function recordCall(method,payload,success){const ticket=++request,timer=setTimeout(()=>{if(ticket===request){request++;recordError(localized('排行榜連線逾時，可稍後重試。','Leaderboard timed out. Please retry.'));document.getElementById('record-submit').disabled=false;}},15000);const runner=google.script.run.withSuccessHandler(result=>{if(ticket!==request)return;clearTimeout(timer);success(result);}).withFailureHandler(()=>{if(ticket!==request)return;clearTimeout(timer);recordError(localized('排行榜暫時無法讀寫，遊戲仍可繼續。','Leaderboard is unavailable. You can still play.'));document.getElementById('record-submit').disabled=false;});if(method==='read')runner.recordsRead();else runner.recordSubmit(payload);}
+function loadRecords(){recordCall('read',null,result=>{records=result.records;recordReady=true;renderRecords();recordStatus.textContent=localized('同成績由先達成者優先；時間為台灣時間。','Earlier results win ties. Times shown in Taiwan time.');});}
+window.labRecord=payload=>{if(!recordReady||recordDialog.open)return;const board=gameRecords(payload.game),qualifies=board.length<5||(payload.game==='snake'?payload.score>board.at(-1).score:payload.duration_ms<board.at(-1).duration_ms);if(!qualifies)return;Object.values(gameControllers).forEach(game=>game.pause());pendingRecord=payload;document.getElementById('record-name').value=storage.get('msmtjl_nickname','');document.getElementById('record-submit').disabled=false;document.getElementById('record-form-status').textContent='';recordDialog.showModal();};
+document.getElementById('record-cancel').addEventListener('click',()=>{pendingRecord=null;recordDialog.close();});
+document.getElementById('record-form').addEventListener('submit',event=>{event.preventDefault();if(!pendingRecord)return;const nickname=document.getElementById('record-name').value.trim();if(!/^[A-Za-z0-9\u3400-\u9fff][A-Za-z0-9\u3400-\u9fff ._-]{0,19}$/.test(nickname)){document.getElementById('record-form-status').textContent=localized('請填1至20字的中英文字或數字。','Use 1–20 letters or numbers.');return;}document.getElementById('record-submit').disabled=true;recordCall('submit',{...pendingRecord,nickname},result=>{records=result.records;storage.set('msmtjl_nickname',nickname);renderRecords();recordStatus.textContent=result.saved?localized('成績已列入前五名！','Score added to the top five!'):localized('提交期間榜單已更新，本次未進榜。','The board changed during submission; this result did not qualify.');pendingRecord=null;recordDialog.close();});});
+document.getElementById('record-retry').addEventListener('click',loadRecords);document.addEventListener('languagechange',renderRecords);loadRecords();

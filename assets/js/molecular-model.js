@@ -18,3 +18,4 @@ function createLabMolecule() {
     });
     return group;
 }
+

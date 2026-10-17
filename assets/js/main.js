@@ -61,10 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initPublications() {
-    const cards = [...document.querySelectorAll('.pub-card')];
+    const cards = [...document.querySelectorAll('.pub-card')].sort((a,b)=>Number(b.querySelector('.pub-year').textContent)-Number(a.querySelector('.pub-year').textContent));
+    document.getElementById('publication-list').replaceChildren(...cards);
     const search = document.getElementById('pub-search-input');
     const tabs = [...document.querySelectorAll('[data-filter]')];
-    let filter = 'all';
+    let filter = 'all', expanded = false;
+    const more = document.getElementById('pub-more');
     // 索引同時收錄中英文，語言切換後仍可搜尋另一種語言。
     const indexes = cards.map(card => {
         const translations = [...card.querySelectorAll('[data-en]')].map(node => node.dataset.en + ' ' + node.dataset.zh).join(' ');
@@ -72,14 +74,20 @@ function initPublications() {
     });
     function apply() {
         const query = search.value.trim().toLocaleLowerCase();
-        let count = 0;
+        let count = 0, visibleCount = 0;
         cards.forEach((card, index) => {
-            const show = (filter === 'all' || card.dataset.category.split(' ').includes(filter)) && indexes[index].includes(query);
+            const match = (filter === 'all' || card.dataset.category.split(' ').includes(filter)) && indexes[index].includes(query);
+            const show = match && (expanded || query || filter !== 'all' || index < 12);
             card.hidden = !show;
-            if (show) count++;
+            if (match) count++;
+            if (show) visibleCount++;
         });
-        document.getElementById('pub-count-display').textContent = localized(`顯示 ${count} / ${cards.length} 筆紀錄`, `Showing ${count} of ${cards.length} records`);
+        more.hidden = Boolean(query || filter !== 'all');
+        more.textContent = expanded ? localized('只看近期成果','Show recent results') : localized('查看全部成果','View all publications');
+        more.setAttribute('aria-expanded', String(expanded));
+        document.getElementById('pub-count-display').textContent = localized(`顯示 ${visibleCount} / ${count} 筆紀錄`, `Showing ${visibleCount} of ${count} records`);
         document.getElementById('pub-empty').hidden = count !== 0;
+        document.dispatchEvent(new Event('publicationschange'));
     }
     search.addEventListener('input', apply);
     tabs.forEach(tab => tab.addEventListener('click', () => {
@@ -87,6 +95,7 @@ function initPublications() {
         tabs.forEach(item => item.setAttribute('aria-pressed', String(item === tab)));
         apply();
     }));
+    more.addEventListener('click',()=>{expanded=!expanded;apply();});
     document.addEventListener('languagechange', apply);
     apply();
 }
@@ -128,44 +137,44 @@ function initSnake() {
     const ctx = canvas.getContext('2d');
     const status = document.getElementById('snake-status');
     const pauseButton = document.getElementById('snake-pause-btn');
-    const step = 16, cols = 30, rows = 20;
-    let snake, food, direction, nextDirection, changed = false, phase = 'idle', timer, activeMs = 0;
-    let best = Math.max(0, Number(storage.get('msmtjl_snake_high', '0')) || 0);
+    const elements=window.labElements, step = 30, cols = 20, rows = 14;
+    let snake, food, collected, direction, nextDirection, changed = false, phase = 'idle', timer, activeMs = 0;
+    let best = Math.max(0, Number(storage.get('msmtjl_element_snake_high', '0')) || 0);
     let canSave = true;
     const directions = {up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}};
-    function reset() { activeMs = 0; snake = [{x:10,y:10},{x:9,y:10},{x:8,y:10}]; direction = nextDirection = directions.right; changed = false; spawn(); }
+    function reset() { activeMs = 0; collected=[];snake = [{x:10,y:10},{x:9,y:10},{x:8,y:10}]; direction = nextDirection = directions.right; changed = false; spawn(); }
     function spawn() {
         const empty = [];
         for (let y=0;y<rows;y++) for(let x=0;x<cols;x++) if (!snake.some(part => part.x===x && part.y===y)) empty.push({x,y});
-        food = empty.length ? empty[Math.floor(Math.random()*empty.length)] : null;
+        food = empty.length && collected.length<elements.length ? empty[Math.floor(Math.random()*empty.length)] : null;
     }
     function announce() {
-        document.getElementById('snake-dp-score').textContent = snake.length;
+        document.getElementById('snake-dp-score').textContent = collected.length;
         document.getElementById('snake-high-score').textContent = best;
+        const next=elements[collected.length];
+        document.getElementById('snake-next').textContent=next?localized(`下一個：${next[0]} · ${next[2]}（原子序 ${collected.length+1}）`,`Next: ${next[0]} · ${next[1]} (atomic no. ${collected.length+1})`):localized('118 種元素收集完成','All 118 elements collected');
+        document.getElementById('element-collection-grid').textContent=collected.map((item,index)=>`${index+1} ${item[0]}`).join(' · ');
         pauseButton.setAttribute('aria-pressed', String(phase === 'paused'));
-        const messages = {idle:['按開始新局，或先看看其他研究內容。','Press New game when you are ready.'],running:['收集原子，挑戰自己的紀錄！','Collect atoms and beat your record!'],paused:['已暫停。','Paused.'],over:['本局結束，按開始新局再試一次。','Game over. Press New game to try again.'],won:['已填滿所有格子！','You filled the board!']};
+        const messages = {idle:['按開始新局，或先看看其他研究內容。','Press New game when you are ready.'],running:['依原子序收集元素，挑戰自己的紀錄！','Collect elements in atomic-number order!'],paused:['已暫停。','Paused.'],over:['本局結束，按開始新局再試一次。','Game over. Press New game to try again.'],won:['118 種元素收集完成！','All 118 elements collected!']};
         status.textContent = localized(...messages[phase]) + (canSave ? '' : localized(' 瀏覽器不允許儲存紀錄。', ' This browser cannot save the record.'));
     }
     function draw() {
-        ctx.fillStyle='#eff4ed';ctx.fillRect(0,0,480,320);
-        ctx.strokeStyle='#dde7da';ctx.lineWidth=.5;
-        for(let x=0;x<=480;x+=step){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,320);ctx.stroke();}
-        for(let y=0;y<=320;y+=step){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(480,y);ctx.stroke();}
-        snake.forEach((part,index)=>{ctx.fillStyle=index===0?'#17654e':'#619d88';ctx.beginPath();ctx.arc(part.x*step+8,part.y*step+8,6,0,Math.PI*2);ctx.fill();});
-        if(food){ctx.fillStyle='#b36337';ctx.beginPath();ctx.arc(food.x*step+8,food.y*step+8,6,0,Math.PI*2);ctx.fill();}
-        if(phase!=='running' && phase!=='idle'){ctx.fillStyle='rgba(246,248,245,.82)';ctx.fillRect(0,0,480,320);ctx.fillStyle='#19332f';ctx.font='bold 22px sans-serif';ctx.textAlign='center';ctx.fillText(phase==='paused'?'PAUSED':phase==='won'?'BOARD COMPLETE':'GAME OVER',240,165);}
+        ctx.fillStyle='#171d21';ctx.fillRect(0,0,600,420);ctx.textAlign='center';ctx.textBaseline='middle';
+        snake.forEach((part,index)=>{ctx.fillStyle=index===0?'#dce9e3':'#4f766b';ctx.beginPath();ctx.roundRect?.(part.x*step+2,part.y*step+2,26,26,5);ctx.fill();ctx.fillStyle=index===0?'#17332d':'#f4f2eb';ctx.font='600 14px sans-serif';ctx.fillText(collected.at(-(index+1))?.[0]||'·',part.x*step+15,part.y*step+15);});
+        if(food){ctx.fillStyle='#b58b4c';ctx.beginPath();ctx.arc(food.x*step+15,food.y*step+15,13,0,Math.PI*2);ctx.fill();ctx.fillStyle='#171d21';ctx.font='700 14px sans-serif';ctx.fillText(elements[collected.length][0],food.x*step+15,food.y*step+15);}
+        if(phase!=='running' && phase!=='idle'){ctx.fillStyle='rgba(23,29,33,.84)';ctx.fillRect(0,0,600,420);ctx.fillStyle='#f4f2eb';ctx.font='600 24px sans-serif';ctx.fillText(phase==='paused'?'PAUSED':phase==='won'?'118 ELEMENTS COMPLETE':'GAME OVER',300,210);}
     }
-    function schedule() { clearInterval(timer); timer = setInterval(tick, Math.max(65, 140-(snake.length-3)*2)); }
+    function delay(){return Math.max(65,140-collected.length*.6);}function schedule() { clearInterval(timer); timer = setInterval(tick, delay()); }
     function tick() {
         if(phase!=='running')return;
-        activeMs += Math.max(65,140-(snake.length-3)*2);direction=nextDirection;changed=false;
+        activeMs += delay();direction=nextDirection;changed=false;
         const head={x:snake[0].x+direction.x,y:snake[0].y+direction.y};
         const eating=food && head.x===food.x && head.y===food.y;
         // 未進食時尾端會離開原格，允許蛇頭走進該位置。
         const body=eating?snake:snake.slice(0,-1);
-        if(head.x<0||head.x>=cols||head.y<0||head.y>=rows||body.some(part=>part.x===head.x&&part.y===head.y)){phase='over';clearInterval(timer);announce();draw();window.labRecord?.({game:'snake',score:snake.length,duration_ms:activeMs});return;}
+        if(head.x<0||head.x>=cols||head.y<0||head.y>=rows||body.some(part=>part.x===head.x&&part.y===head.y)){phase='over';clearInterval(timer);announce();draw();if(collected.length)window.labRecord?.({game:'snake',score:collected.length,duration_ms:Math.round(activeMs)});return;}
         snake.unshift(head);
-        if(eating){if(snake.length>best){best=snake.length;canSave=storage.set('msmtjl_snake_high',String(best));}spawn();if(!food){phase='won';clearInterval(timer);window.labRecord?.({game:'snake',score:snake.length,duration_ms:activeMs});}else schedule();}else snake.pop();
+        if(eating){collected.push(elements[collected.length]);if(collected.length>best){best=collected.length;canSave=storage.set('msmtjl_element_snake_high',String(best));}spawn();if(!food){phase='won';clearInterval(timer);window.labRecord?.({game:'snake',score:collected.length,duration_ms:Math.round(activeMs)});}else schedule();}else snake.pop();
         announce();draw();
     }
     function turn(name){const next=directions[name];if(phase==='running'&&!changed&&next&&(next.x!==-direction.x||next.y!==-direction.y)){nextDirection=next;changed=true;}}
@@ -182,16 +191,16 @@ function initSnake() {
 function initRally() {
     const canvas=document.getElementById('volley-canvas'),ctx=canvas.getContext('2d');
     const status=document.getElementById('volley-status'),pauseButton=document.getElementById('volley-pause-btn');
-    let phase='idle',paddle=136,ai=136,ball,p1=0,p2=0,frame,lastTime=0,activeMs=0;
+    const elements=window.labElements;let phase='idle',paddle=136,ai=136,ball,p1=0,p2=0,frame,lastTime=0,activeMs=0,elementIndex=-1;
     const held=new Set();
     function resetBall(){ball={x:240,y:160,vx:(Math.random()>.5?1:-1)*210,vy:(Math.random()-.5)*180};}
-    function announce(){document.getElementById('volley-score-p1').textContent=p1;document.getElementById('volley-score-ai').textContent=p2;pauseButton.setAttribute('aria-pressed',String(phase==='paused'));status.textContent=phase==='over'?localized(p1===5?'你贏了！再來一場？':'AI 獲勝，再試一次吧。',p1===5?'You won! Another round?':'AI won. Give it another try.'):phase==='paused'?localized('已暫停。','Paused.'):localized('滑鼠、觸控或 W／S 控制球拍。','Use your mouse, touch or W / S to move.');}
-    function draw(){ctx.fillStyle='#eff4ed';ctx.fillRect(0,0,480,320);ctx.strokeStyle='#bfd1bd';ctx.setLineDash([5,5]);ctx.beginPath();ctx.moveTo(240,0);ctx.lineTo(240,320);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#17654e';ctx.fillRect(12,paddle,8,48);ctx.fillStyle='#6c8872';ctx.fillRect(460,ai,8,48);ctx.beginPath();ctx.arc(ball.x,ball.y,6,0,Math.PI*2);ctx.fillStyle='#b36337';ctx.fill();if(phase==='paused'||phase==='over'){ctx.fillStyle='rgba(246,248,245,.85)';ctx.fillRect(0,0,480,320);ctx.fillStyle='#19332f';ctx.font='bold 22px sans-serif';ctx.textAlign='center';ctx.fillText(phase==='paused'?'PAUSED':p1===5?'YOU WIN':'AI WINS',240,165);}}
-    function update(time){if(phase!=='running')return;const dt=Math.min((time-lastTime)/1000,.035);lastTime=time;activeMs+=dt*1000;if(held.has('w')||held.has('arrowup'))paddle-=270*dt;if(held.has('s')||held.has('arrowdown'))paddle+=270*dt;paddle=Math.max(0,Math.min(272,paddle));ai+=Math.max(-165*dt,Math.min(165*dt,ball.y-24-ai));ai=Math.max(0,Math.min(272,ai));ball.x+=ball.vx*dt;ball.y+=ball.vy*dt;if(ball.y<6){ball.y=6;ball.vy=Math.abs(ball.vy);}if(ball.y>314){ball.y=314;ball.vy=-Math.abs(ball.vy);}if(ball.vx<0&&ball.x<=26&&ball.x>=12&&ball.y>=paddle-6&&ball.y<=paddle+54){ball.x=26;ball.vx=Math.min(430,Math.abs(ball.vx)*1.06);ball.vy=(ball.y-paddle-24)*8;}if(ball.vx>0&&ball.x>=454&&ball.x<=468&&ball.y>=ai-6&&ball.y<=ai+54){ball.x=454;ball.vx=-Math.min(430,Math.abs(ball.vx)*1.06);ball.vy=(ball.y-ai-24)*8;}if(ball.x<0||ball.x>480){if(ball.x<0)p2++;else p1++;resetBall();if(p1===5||p2===5){phase='over';if(p1===5)window.labRecord?.({game:'rally',score:5,duration_ms:Math.round(activeMs)});}announce();}draw();if(phase==='running')frame=requestAnimationFrame(update);}
+    function announce(){const item=elements[Math.max(0,elementIndex)];document.getElementById('rally-element').textContent=localized(`本局元素：${item[0]} · ${item[2]}`,`Round element: ${item[0]} · ${item[1]}`);document.getElementById('volley-score-p1').textContent=p1;document.getElementById('volley-score-ai').textContent=p2;pauseButton.setAttribute('aria-pressed',String(phase==='paused'));status.textContent=phase==='over'?localized(p1===5?'你贏了！再來一場？':'AI 獲勝，再試一次吧。',p1===5?'You won! Another round?':'AI won. Give it another try.'):phase==='paused'?localized('已暫停。','Paused.'):localized('滑鼠、觸控或 W／S 控制球拍。','Use your mouse, touch or W / S to move.');}
+    function draw(){const item=elements[Math.max(0,elementIndex)];ctx.fillStyle='#171d21';ctx.fillRect(0,0,480,320);ctx.strokeStyle='#5e6d72';ctx.setLineDash([5,5]);ctx.beginPath();ctx.moveTo(240,0);ctx.lineTo(240,320);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#dce9e3';ctx.fillRect(12,paddle,8,48);ctx.fillStyle='#71878b';ctx.fillRect(460,ai,8,48);ctx.beginPath();ctx.arc(ball.x,ball.y,13,0,Math.PI*2);ctx.fillStyle=`hsl(${(elementIndex*37)%360} 35% 62%)`;ctx.fill();ctx.fillStyle='#172025';ctx.font='700 10px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(item[0],ball.x,ball.y);if(phase==='paused'||phase==='over'){ctx.fillStyle='rgba(23,29,33,.86)';ctx.fillRect(0,0,480,320);ctx.fillStyle='#f4f2eb';ctx.font='600 22px sans-serif';ctx.fillText(phase==='paused'?'PAUSED':p1===5?'YOU WIN':'AI WINS',240,165);}}
+    function update(time){if(phase!=='running')return;const elapsed=Math.max(0,time-lastTime),dt=Math.min(elapsed/1000,.035);lastTime=time;activeMs+=elapsed;if(held.has('w')||held.has('arrowup'))paddle-=270*dt;if(held.has('s')||held.has('arrowdown'))paddle+=270*dt;paddle=Math.max(0,Math.min(272,paddle));ai+=Math.max(-165*dt,Math.min(165*dt,ball.y-24-ai));ai=Math.max(0,Math.min(272,ai));ball.x+=ball.vx*dt;ball.y+=ball.vy*dt;if(ball.y<6){ball.y=6;ball.vy=Math.abs(ball.vy);}if(ball.y>314){ball.y=314;ball.vy=-Math.abs(ball.vy);}if(ball.vx<0&&ball.x<=26&&ball.x>=12&&ball.y>=paddle-6&&ball.y<=paddle+54){ball.x=26;ball.vx=Math.min(430,Math.abs(ball.vx)*1.06);ball.vy=(ball.y-paddle-24)*8;}if(ball.vx>0&&ball.x>=454&&ball.x<=468&&ball.y>=ai-6&&ball.y<=ai+54){ball.x=454;ball.vx=-Math.min(430,Math.abs(ball.vx)*1.06);ball.vy=(ball.y-ai-24)*8;}if(ball.x<0||ball.x>480){if(ball.x<0)p2++;else p1++;resetBall();if(p1===5||p2===5){phase='over';if(p1===5)window.labRecord?.({game:'rally',score:5,duration_ms:Math.round(activeMs)});}announce();}draw();if(phase==='running')frame=requestAnimationFrame(update);}
     function resume(){activateGame('rally');phase='running';lastTime=performance.now();cancelAnimationFrame(frame);frame=requestAnimationFrame(update);announce();canvas.focus({preventScroll:true});}
-    function pause(){if(phase==='running'){phase='paused';held.clear();cancelAnimationFrame(frame);announce();draw();}}
+    function pause(){if(phase==='running'){activeMs+=Math.max(0,performance.now()-lastTime);phase='paused';held.clear();cancelAnimationFrame(frame);announce();draw();}}
     gameControllers.rally={pause};
-    document.getElementById('volley-start-btn').addEventListener('click',()=>{activeMs=0;p1=p2=0;paddle=ai=136;resetBall();resume();});
+    document.getElementById('volley-start-btn').addEventListener('click',()=>{elementIndex=(Number(storage.get('msmtjl_rally_element','-1'))+1)%elements.length;storage.set('msmtjl_rally_element',String(elementIndex));activeMs=0;p1=p2=0;paddle=ai=136;resetBall();resume();});
     pauseButton.addEventListener('click',()=>{if(phase==='running')pause();else if(phase==='paused')resume();});
     const move=event=>{if(phase!=='running')return;const box=canvas.getBoundingClientRect();paddle=Math.max(0,Math.min(272,(event.clientY-box.top)*320/box.height-24));};
     canvas.addEventListener('pointerdown',event=>{canvas.setPointerCapture(event.pointerId);move(event);});canvas.addEventListener('pointermove',move);
@@ -204,3 +213,9 @@ function initRally() {
 // 離開視窗或切換分頁時暫停，避免回來時已經結束遊戲。
 window.addEventListener('blur',()=>Object.values(gameControllers).forEach(game=>game.pause()));
 document.addEventListener('visibilitychange',()=>{if(document.hidden)Object.values(gameControllers).forEach(game=>game.pause());});
+// 捲出畫面也停止遊戲計時與繪製，不只依賴導覽連結或分頁失焦。
+if(typeof IntersectionObserver!=='undefined'){
+    Object.entries({snake:'snake-canvas',rally:'volley-canvas'}).forEach(([game,id])=>{
+        const canvas=document.getElementById(id);if(canvas)new IntersectionObserver(entries=>{if(!entries[0].isIntersecting)gameControllers[game]?.pause();}).observe(canvas);
+    });
+}

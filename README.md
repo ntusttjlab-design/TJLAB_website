@@ -1,8 +1,8 @@
 # 多尺度模擬與熱力學實驗室 · NTUST
 
-林子仁老師研究團隊的靜態網站。現有資料收錄 19 篇期刊、18 筆研討會紀錄、16 筆教學資源連結（15 個不重複播放清單），支援繁中／英文切換、文獻搜尋與兩個休閒遊戲。
+林子仁老師研究團隊的靜態網站。現有資料收錄 30 篇期刊、34 筆研討會紀錄、16 筆教學資源連結（15 個不重複播放清單），支援繁中／英文切換、文獻搜尋與兩個元素遊戲。
 
-目前狀態：**1.4.0 科學模型與共用最高紀錄版，網站準備部署。** GAS 已授權並公開部署，真實貪食蛇成績寫入與試算表讀回已驗收；詳見 [部署紀錄](docs/DEPLOYMENT_LOG.md)。
+目前狀態：**2.0.0 本機候選版已完成自動檢查；正式站仍是 1.4.0。** 新版 GAS 與 GitHub Pages 尚待發布及線上驗收，詳見 [目前進度](docs/PROGRESS.md) 與 [部署紀錄](docs/DEPLOYMENT_LOG.md)。
 
 入口：[Google 協作平台](https://sites.google.com/view/tjlab/tjlab) · [GitHub Pages](https://ntusttjlab-design.github.io/TJLAB_website/)。
 
@@ -21,21 +21,25 @@ node scripts/preview.mjs
 ```text
 index.html                       產生的完整頁面，可直接開啟
 assets/
-  css/style.css                  淺色版面與手機樣式
+  css/style.css                  基礎版面與手機樣式
+  css/editorial.css              石墨黑、霧灰、米白的新版視覺
   js/main.js                     語言、搜尋、終端機、遊戲
   js/molecule.js                 捲動式 3D 材料視覺
+  js/material-scenes.js          分子、Si–O 網絡與 AB 石墨獨立模型
+  js/elements.js                 118 種元素名稱與原子序
   js/story.js                    GSAP 時間軸與動畫偏好
   vendor/gsap/                   固定版本動畫執行檔與來源紀錄
   images/                        保留原始圖檔；非所有圖檔都在使用
 content/
   site_template.html             網頁結構及中英文文案來源
   hero_story.html                首頁三段捲動敘事來源
-  publications.html              37 筆文獻原始卡片來源
+  publications.html              舊版卡片來源封存
   all_links_and_media.json        課程與媒體來源
   01_*.md … 05_*.md              舊站整理資料，供追溯
   publications_raw.txt           舊站論文擷取文字
 scripts/
   build_site.py                  以標準函式庫產生 index.html
+  build_publications.py          依官網快照產生 30／34 筆完整書目
   check_site.py                  內容數量、雙語與路徑檢查
   check_official_source.py       官網日期快照與重要資訊比對
   check_interactions.mjs          遊戲行為與紀錄保存檢查
@@ -48,7 +52,7 @@ raw_html/                        五個舊 Google Sites 頁面備份
 _site/                           發布產物，不納入 Git
 ```
 
-不要直接修改產生的 `index.html`；修改來源後重新產生，避免下次覆寫。研究方向、文獻翻譯與課程中文名稱目前在 `scripts/build_site.py` 的對應資料中維護。
+不要直接修改產生的 `index.html`；修改來源後重新產生，避免下次覆寫。研究方向與課程中文名稱在 `scripts/build_site.py` 維護；書目由 `scripts/build_publications.py` 保留官網原文產生。
 
 ## 維護與驗收
 

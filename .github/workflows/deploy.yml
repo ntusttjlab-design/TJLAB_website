@@ -42,11 +42,14 @@ jobs:
           node --check assets/js/dielectric.js
           node --check assets/js/molecular-model.js
           node --check assets/js/molecule-data.js
+          node --check assets/js/material-scenes.js
+          node --check assets/js/elements.js
           node --check assets/js/arcade-embed.js
           node scripts/build_arcade.mjs
           git diff --exit-code -- backend/google-apps-script/Arcade.html assets/js/molecule-data.js
           node scripts/check_interactions.mjs
           node scripts/check_leaderboard.mjs
+          node scripts/check_record_client.mjs
 
       - name: Prepare public files
         shell: pwsh

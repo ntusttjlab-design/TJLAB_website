@@ -43,8 +43,8 @@ for ref in page.refs:
         assert ref[1:] in page.ids, f'缺少錨點：{ref}'
     elif not urlsplit(ref).scheme:
         assert (ROOT / urlsplit(ref).path).is_file(), f'缺少本機檔案：{ref}'
-assert sum('journal' in category for category in page.categories) == 19
-assert sum('conference' in category for category in page.categories) == 18
+assert sum('journal' in category for category in page.categories) == 30
+assert sum('conference' in category for category in page.categories) == 34
 source = json.loads((ROOT / 'content/all_links_and_media.json').read_text(encoding='utf-8-sig'))
 assert set(page.playlists) == {course['Url'] for course in source['YouTubePlaylists']}
 assert len(page.playlists) == 16
@@ -56,10 +56,8 @@ for internal_note in ['期刊指標依原始資料保留', '依官網列出', '�
 assert '{{' not in html and '[[' not in html
 assert 'JACS (IF ' not in html, '公開頁不應顯示殘留期刊指標標籤'
 assert page.translations > 100
-source_pubs = (ROOT / 'content/publications.html').read_text(encoding='utf-8')
-original_titles = re.findall(r'<h4[^>]*>(.*?)</h4>', source_pubs, re.S)
-publication_html = html[html.index('<div id="publication-list">'):html.index('<p id="pub-empty"')]
-generated_titles = re.findall(r'<h4[^>]*>(.*?)</h4>', publication_html, re.S)
-clean = lambda values: [' '.join(unescape(value).split()) for value in values]
-assert clean(original_titles) == clean(generated_titles), '期刊標題與來源不一致'
-print(f'PASS：19 篇期刊、18 筆研討會、16 筆教學連結（15 個不重複清單）；{page.translations} 個雙語欄位；路徑與錨點完整；期刊標題保留。')
+from build_publications import render_publications
+expected = render_publications()
+assert expected in html, '書目與官網快照產生的完整原文不一致'
+assert html.count('class="pub-card"') == 64
+print('PASS：30篇期刊、34筆研討會、16筆課程、完整官網原文、雙語及路徑檢查。')

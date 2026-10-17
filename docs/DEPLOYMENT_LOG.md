@@ -4,6 +4,10 @@
 
 | 日期（台灣時間） | 版本／提交 | 狀態 | 證據與備註 |
 | --- | --- | --- | --- |
+| 2026-10-17 | GAS v5 / 網站 2.0.0 | GAS 已部署並通過雲端資料驗收 | 原部署網址保留，第 5 版於 23:43 更新。23:33 的一次性試算表分頁測試通過兩款各五名、排序、同分先到、日期及錯誤處理，結束後清除測試分頁。主站確認元素遊戲、共用榜單、語言同步、自動高度，以及新局 H→He、暫停保留當局元素。GitHub Pages 尚待本輪提交部署。 |
+| 2026-10-17 | 2.0.0 本機候選版 | 尚未部署 | 30／34 筆成果、三種獨立材料場景、元素遊戲與每款前五名已完成本機內容、語法與行為檢查。正式站及 GAS 仍是 1.4.0；本列不代表線上完成。 |
+| 2026-10-17 | Codex Connector 授權修復 | 寫入物件驗證成功 | 擁有者 ntusttjlab-design 安裝 ChatGPT Codex Connector，僅選 TJLAB_website 並授予程式碼及工作流程讀寫。連接器仍登入 zhichiangai；建立 blob 成功，SHA 9948fc5a1f6b14332597ec343855b7147ec7b5c3。未更新 main、未新增部署；修復後的完整提交發布流程留待下次實際更新驗證。 |
+| 2026-10-17 | 1.4.0 / dd2a571946028621f39a7d1c7dc0983c2bb4bf96 / main | GitHub Pages 部署成功 | 使用者透過 GitHub Desktop 推送；[Actions 39035342939](https://github.com/ntusttjlab-design/TJLAB_website/actions/runs/39035342939) completed / success。正式網站 HTTP 200，已確認載入 molecular-model.js、副教授英文職稱、arcade-embed.js 與已部署 GAS 網址。 |
 | 2026-10-17 | 1.4.0 / 發布副本已提交 | GitHub 連接器寫入受限 | 已連接帳號再次確認為 zhichiangai，儲存庫 push=true；建立 blob 與一般 Contents 更新均回傳 403 Resource not accessible by integration，沒有變更遠端。依使用者要求停止 Codex 瀏覽器登入；網站尚未上線新版。後續發布與驗收步驟見 RELEASE_HANDOFF.md。 |
 | 2026-10-17 | 1.4.0 / 本機提交 a6dd8ea，尚未推送 | 發布等待Git登入 | GitHub連接器建立blob回傳403 Resource not accessible by integration；改用獨立Git發布副本，已完成提交。非互動push回報無登入憑證，已開啟Git Credential Manager裝置登入，等待使用者確認。後續修正會更新本機提交。 |
 | 2026-10-17 | GAS v1 | 匿名入口驗收通過 | 不帶瀏覽器Cookie的HTTP請求回傳200，內容是userCodeAppPanel而非登入頁；真實4DP寫入紀錄已清空並讀回確認兩遊戲皆空白。 |
@@ -16,11 +20,11 @@
 
 ## 已確認的權限
 
-`zhichiangai` 對 `ntusttjlab-design/TJLAB_website` 已於本對話後續查詢確認 `pull=true`、`push=true`、`admin=false`。這不代表本機 Git CLI 已登入；CLI 認證尚未驗證。
+`zhichiangai` 對 `ntusttjlab-design/TJLAB_website` 已確認 `pull=true`、`push=true`、`admin=false`。擁有者完成 Codex Connector 安裝後，連接器建立 blob 已成功。Desktop 已成功推送；命令列 Git 的非互動 dry-run 仍因無可用憑證失敗，三者登入狀態不能混為一談。完整後續流程見 MAINTENANCE_GUIDE.md 第 8 節。
 
 ## 發布方式
 
-推送 main/master 或手動啟動 `.github/workflows/deploy.yml` 後：產生頁面 → 檢查內容及 JavaScript → 確認 index.html 與來源一致 → 打包 `_site` → GitHub Pages。尚未在 GitHub 執行本輪新增的檢查步驟。
+推送 main/master 或手動啟動 `.github/workflows/deploy.yml` 後：產生頁面 → 檢查內容及 JavaScript → 確認 index.html 與來源一致 → 打包 `_site` → GitHub Pages。1.4.0 已在上述 Actions 執行並成功；下列較早的受限紀錄保留作歷史，不代表目前仍受限。
 
 ## 每次部署需新增
 
