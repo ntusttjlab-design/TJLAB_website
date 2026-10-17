@@ -97,14 +97,14 @@ def activity_gallery(albums):
         assert isinstance(album, dict)
         title = activity_lang(album, 'title')
         date = album['date']
-        assert isinstance(date, str) and re.fullmatch(r'\\d{4}-\\d{2}-\\d{2}', date)
+        assert isinstance(date, str) and re.fullmatch(r'\d{4}-\d{2}-\d{2}', date)
         photos = album.get('photos', [])
         assert isinstance(photos, list) and photos, 'Only publish albums with verified photographs'
         images = []
         for photo in photos:
             assert isinstance(photo, dict)
             path = photo['src']
-            assert isinstance(path, str) and re.fullmatch(r'assets/images/lab-life/[a-zA-Z0-9_./-]+\\.(?:jpg|jpeg|png|webp)', path)
+            assert isinstance(path, str) and re.fullmatch(r'assets/images/lab-life/[a-zA-Z0-9_./-]+\.(?:jpg|jpeg|png|webp)', path)
             assert '..' not in path and (ROOT / path).is_file(), 'Activity image must be a local approved file'
             alt = activity_lang(photo, 'alt')
             caption = activity_lang(photo, 'caption')

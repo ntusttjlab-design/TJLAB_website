@@ -85,7 +85,12 @@ document.addEventListener('DOMContentLoaded', () => {
   test(document.querySelectorAll('.game-card').length === 2, 'game-cards');
   test(document.querySelectorAll('.pub-card').length === 0, 'no-publications');
   test(document.querySelector('a[href="./index.html"]') !== null, 'back-to-overview');
-  test(document.querySelector('a[href="./index.html#publications"]') !== null, 'academic-links');
+  test(document.querySelector('#student-resources') === null && document.querySelector('a[href="#student-resources"]') === null, 'resources-removed');
+  test(document.querySelector('#lab-life') !== null, 'activity-gallery');
+  test(document.querySelectorAll('.member-bridge').length === 4, 'four-chapter-bridges');
+  test(document.querySelector('#activity-empty') !== null && !document.querySelector('.activity-album'), 'gallery-empty-state');
+  test(document.querySelector('#activity-lightbox') !== null, 'gallery-dialog');
+  test(document.querySelector('a[href="#lab-life"]') !== null, 'activity-navigation');
   const lang = document.getElementById('language-toggle');
   lang.click();
   test(document.documentElement.lang === 'en', 'member-english');
@@ -96,6 +101,28 @@ document.addEventListener('DOMContentLoaded', () => {
   test(mobileMenu.getAttribute('aria-expanded') === 'true', 'menu-open');
   mobileMenu.click();
   test(mobileMenu.getAttribute('aria-expanded') === 'false', 'menu-close');
+  // Inject a test-only approved local thumbnail into the empty gallery to exercise the dialog.
+  const testGallery = document.getElementById('activity-gallery');
+  const testPhoto = document.createElement('button');
+  testPhoto.type = 'button';
+  testPhoto.className = 'activity-photo';
+  testPhoto.dataset.activityPhoto = '';
+  Object.assign(testPhoto.dataset, {
+    titleZh:'測試活動', titleEn:'Test activity',
+    altZh:'測試圖片', altEn:'Test image',
+    captionZh:'測試照片說明', captionEn:'Test caption'
+  });
+  const testImage = document.createElement('img');
+  testImage.src = './assets/images/pi-intro_img_1.png';
+  testPhoto.appendChild(testImage);
+  testGallery.appendChild(testPhoto);
+  testPhoto.click();
+  const lightbox = document.getElementById('activity-lightbox');
+  test(lightbox.open, 'activity-lightbox-open');
+  test(document.getElementById('activity-lightbox-caption').textContent === '測試照片說明', 'lightbox-caption');
+  document.getElementById('activity-lightbox-close').click();
+  test(!lightbox.open, 'activity-lightbox-close');
+  testPhoto.remove();
   document.getElementById('snake-start-btn').click();
   test(document.getElementById('snake-status').textContent.length > 0, 'snake-start');
   document.getElementById('volley-start-btn').click();

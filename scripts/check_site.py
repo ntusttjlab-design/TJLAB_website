@@ -113,11 +113,23 @@ for ref in members.refs:
         assert (ROOT / urlsplit(ref).path).is_file(), f'成員頁缺少本機檔案：{ref}'
 assert len(members.categories) == 0 and len(members.playlists) == 0
 assert members.translations >= 12, '成員頁需有基本雙語標示'
-assert all(id in members.ids for id in ('members', 'members-list', 'student-resources', 'arcade', 'snake-canvas', 'volley-canvas'))
+assert all(id in members.ids for id in ('members', 'members-list', 'lab-life', 'arcade', 'members-contact', 'snake-canvas', 'volley-canvas', 'activity-gallery', 'activity-lightbox'))
 assert members_html.count('class="primary-site-link') == 2
 assert members_html.count('class="game-card"') == 2
 assert members_html.count('class="member-category"') == 4
-assert 'href="./index.html#pi"' in members_html and 'href="./index.html#publications"' in members_html
+assert 'href="./index.html#pi"' in members_html and 'href="./index.html#publications"' not in members_html
+assert 'student-resources' not in members.ids and 'Public teaching & research resources' not in members_html
+assert 'id="lab-life"' in members_html and 'Lab Life & Activities' in members_html
+assert members_html.count('class="chapter-bridge member-bridge') == 4
+assert 'assets/js/chapter-transitions.js' in members_html and 'assets/js/member-motion.js' in members_html
+assert 'assets/js/chapter-transitions.js' in html
+assert 'assets/js/lab-life-gallery.js' in members_html
+activity_data = json.loads((ROOT / 'content/lab_activities.json').read_text(encoding='utf-8'))
+assert isinstance(activity_data.get('albums'), list)
+if not activity_data['albums']:
+    assert 'id="activity-empty"' in members_html and 'Activity photos will be added here' in members_html
+    assert 'class="activity-photo"' not in members_html
+assert 'href="./index.html"' in members_html
 assert 'href="./index.html"' in members_html
 assert 'href="./members.html"' in members_html
 assert 'window.labArcadeUrl' not in html
