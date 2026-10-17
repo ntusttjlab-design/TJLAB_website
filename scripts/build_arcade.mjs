@@ -1,9 +1,9 @@
-// 封裝既有遊戲到 Apps Script，維持同一份遊戲程式。
+// 從成員與學生頁封裝既有遊戲到 Apps Script，維持同一份遊戲程式。
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+const html=fs.readFileSync(path.join(root,'members.html'),'utf8');
 const begin=html.indexOf('<div class="games-grid">');
 const end=html.indexOf('</div></section>',begin);
 if(begin<0||end<0)throw Error('找不到遊戲區');
