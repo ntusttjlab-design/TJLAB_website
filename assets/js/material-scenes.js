@@ -1,12 +1,11 @@
 'use strict';
-// 三種結構獨立建模；玻璃只展示局部配位網絡，不冒充模擬軌跡。
+// 兩種結構獨立建模；玻璃只展示局部配位網絡，不冒充模擬軌跡。
 function createLabMaterials() {
     const sphere = new THREE.SphereGeometry(1, 14, 10);
     const cylinder = new THREE.CylinderGeometry(.055, .055, 1, 8);
     const materials = {
         Si: new THREE.MeshStandardMaterial({color:0xc7b8df, roughness:.3}),
         O: new THREE.MeshStandardMaterial({color:0xed785d, roughness:.38}),
-        C: new THREE.MeshStandardMaterial({color:0x99adb9, roughness:.3, metalness:.25}),
         bond: new THREE.MeshStandardMaterial({color:0x72838f, roughness:.45})
     };
     function mesh(atoms, bonds) {
@@ -46,21 +45,8 @@ function createLabMaterials() {
         newO.forEach(p=>{atoms.push(['O',...p.toArray()]);bonds.push([index,atoms.length-1]);ends.push({oxygen:atoms.length-1,parent:index});});
     }
     const glass=mesh(atoms,bonds);
-    const carbon=[],carbonBonds=[];
-    const d=1.42;
-    // 六角晶格的雙原子基底與 AB 堆疊；層間不畫共價鍵。
-    for(let layer=0;layer<3;layer++)for(let i=-3;i<=3;i++)for(let j=-3;j<=3;j++) {
-        const x=Math.sqrt(3)*d*(i+j/2),y=1.5*d*j;
-        for(const offset of [0,d])if(Math.hypot(x,y+offset)<7.6)carbon.push(['C',x,y+offset+(layer%2)*d,(layer-1)*3.35]);
-    }
-    for(let a=0;a<carbon.length;a++)for(let b=a+1;b<carbon.length;b++) {
-        if(carbon[a][3]!==carbon[b][3])continue;
-        if(Math.abs(Math.hypot(carbon[a][1]-carbon[b][1],carbon[a][2]-carbon[b][2])-d)<.01)carbonBonds.push([a,b]);
-    }
-    const graphite=mesh(carbon,carbonBonds);
-    graphite.rotation.x=-.65;
     const molecule=createLabMolecule();
-    const groups=[molecule,glass,graphite];
+    const groups=[molecule,glass];
     groups.forEach(group=>{
         const box=new THREE.Box3().setFromObject(group),center=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());
         group.children.forEach(child=>child.position.sub(center));
