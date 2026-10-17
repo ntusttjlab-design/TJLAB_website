@@ -20,6 +20,8 @@
 | 文獻呈現 | `scripts/build_publications.py`；保留官網原文，不另作書目翻譯 |
 | 課程網址／英文名稱 | `content/all_links_and_media.json` 的 YouTubePlaylists |
 | 課程中文名稱 | `scripts/build_site.py` 的 course_names，順序須與 JSON 一致 |
+| 舊站 8 支 Gallery、17 項 Tutorial 嵌入 | `content/media_embeds.json`，以 `raw_html/gallery.html` 與 `raw_html/tutorial-resources.html` 備份為準 |
+| 期刊歷史附註 | `scripts/build_publications.py`，只保留在可展開區塊 |
 | 配色與響應式 | `assets/css/editorial.css`（新版視覺）與 `assets/css/style.css`（基礎） |
 | 語言、搜尋、終端機、遊戲 | `assets/js/main.js` |
 | 3D 示意 | `assets/js/molecule.js`、`material-scenes.js`、`molecular-model.js` |
@@ -73,3 +75,9 @@
 - GitHub Desktop、命令列 Git Credential Manager、GitHub 連接器是不同的認證來源。Desktop 已成功推送；命令列 Git 的非互動 dry-run 仍因無可用憑證失敗。不要從 Git `user.name` 推定登入帳號，不匯出或複製 Desktop 權杖。
 - 優先沿用已授權連接器，不要求使用者重複登入或每次手動推送。GitHub Desktop 保留作備援；連接器授權不會自動讓本機 Git CLI 登入。
 - 設定入口的實際路徑：應用程式設定 → 整合 → 外掛程式 → GitHub → 使用的應用程式中的 GitHub。不要以開啟本機「完整存取權限」處理 GitHub 的 403。
+
+## 舊站嵌入資源復原（2026-10-18）
+
+Gallery 8 支影片與 Tutorial 14 支影片 + 3 個播放清單由舊站 HTML iframe 提取；與主持人頁原有 16 筆課程連結分別維護。原始 iframe 的 `aria-label` 不是保證已驗證的現行 YouTube 標題。請在上線預覽時測試外部嵌入。
+
+30 篇論文、34 筆研討會仍由官網快照產生；原始 Impact Factor/Rank 與作者貢獻附註放在可展開的歷史欄位，不視為現行指標。2014 Langmuir 與出版社 2013 年份衝突，遵照原文保留未改。
