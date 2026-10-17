@@ -1,44 +1,37 @@
 # 教學資源 (Tutorial Resources)
 
-本頁面彙整了林子仁老師實驗室所整理與推薦的量子化學計算、分子動力學模擬及相關教學資源。
+> 已依原版 Google Sites iframe 的影片 ID 與標籤重新校正（2026-10-18）。此前 Markdown 曾將部分 GaussView、Gaussian 影片誤標為 DFT、Materials Studio、分子動力學教學。此處以舊站嵌入標籤為準；影片目前是否可播放尚待瀏覽器確認。
+>
+> 正式網頁來源為 `content/media_embeds.json`，經由 `scripts/build_site.py` 產生；此 Markdown 是供人閱讀的索引，不是網站產生來源。
 
----
+## GaussView / Gaussian（8 支）
 
-## 1. 高斯計算與可視化 (GaussView & Gaussian Tutorial)
-- **GaussView 基本操作與計算設定**:
-  - [影片 1: GaussView 基礎建模 (Ksx2oKBTvEU)](https://www.youtube.com/watch?v=Ksx2oKBTvEU)
-  - [影片 2: 分子幾何最佳化設定 (dqKWfXsEcWs)](https://www.youtube.com/watch?v=dqKWfXsEcWs)
-  - [影片 3: 振動頻率與光譜分析 (7F2JMfOvjmw)](https://www.youtube.com/watch?v=7F2JMfOvjmw)
-  - [影片 4: 過渡態與能量路徑分析 (17QpHFoQKMM)](https://www.youtube.com/watch?v=17QpHFoQKMM)
+1. [Getting Started with GaussView 6](https://www.youtube.com/watch?v=Ksx2oKBTvEU) — GaussView 6 入門
+2. [GaussView 6 Tutorial 1: Building Molecules](https://www.youtube.com/watch?v=dqKWfXsEcWs) — GaussView 6：建立分子
+3. [Gaussian Calculation Setup Overview](https://www.youtube.com/watch?v=7F2JMfOvjmw) — Gaussian 計算設定總覽
+4. [GaussView 6 Tutorial 2: Running Jobs](https://www.youtube.com/watch?v=17QpHFoQKMM) — GaussView 6：執行計算
+5. [GaussView 6 Tutorial 3: Visualizing Results](https://www.youtube.com/watch?v=EeUQu0g8agE) — GaussView 6：結果視覺化
+6. [GaussView 6 Tutorial 5: Working with Spectra](https://www.youtube.com/watch?v=I8YYvuu5GaM) — GaussView 6：光譜分析
+7. [GaussView 6 Tutorial 4: 3-D Results Visualization](https://www.youtube.com/watch?v=t0kTVRXXi84) — GaussView 6：3D 結果視覺化
+8. [Gaussian Calculation Setup Defaults & Defining Schemes](https://www.youtube.com/watch?v=N11nlKMyrjk) — Gaussian 計算預設值與設定方案
 
----
+## 計算化學與量子化學（6 支）
 
-## 2. 理論化學與計算化學推薦教材 (Recommended Theoretical Chemistry Resources)
-- **David Sherrill 教授教學影片 (Georgia Tech)**:
-  - [Introduction to Computational Chemistry (EeUQu0g8agE)](https://www.youtube.com/watch?v=EeUQu0g8agE)
-  - [Hartree-Fock Theory & Basis Sets (I8YYvuu5GaM)](https://www.youtube.com/watch?v=I8YYvuu5GaM)
-  - [Density Functional Theory 導論 (t0kTVRXXi84)](https://www.youtube.com/watch?v=t0kTVRXXi84)
-- **南開大學 孫宏偉教授**:
-  - [量子化學計算課程講義與網頁](https://struchem.nankai.edu.cn/mmnew/mm.htm) (經典理論與上機教學)
+1. [Geometry Optimization in Computational Chemistry](https://www.youtube.com/watch?v=QuoRCyYrS9s) — 計算化學：幾何最佳化
+2. [Computing Thermodynamic Properties](https://www.youtube.com/watch?v=HronzRpN7Ws) — 熱力學性質計算
+3. [Practical Advice for Quantum Chemistry Computations](https://www.youtube.com/watch?v=mnWh2SFzk6g) — 量子化學計算實務建議
+4. [Introduction to Density Functional Theory (DFT)](https://www.youtube.com/watch?v=QGyfGCZT110) — 密度泛函理論（DFT）導論
+5. [Molecular Vibrations](https://www.youtube.com/watch?v=Ha5yWbxOqFk) — 分子振動
+6. [Excited Electronic States in Quantum Chemistry](https://www.youtube.com/watch?v=MlbKoXACAx8) — 量子化學：電子激發態
 
----
+## 原版播放清單（3 個）
 
-## 3. 分子動力學模擬 (Molecular Dynamics Simulation / MS Tutorial)
-- **MS_tutorial_2020 系列教學**:
-  - [影片 1: 分子動力學概念與力場選擇 (N11nlKMyrjk)](https://www.youtube.com/watch?v=N11nlKMyrjk)
-  - [影片 2: 初始盒構建與系綜設定 (QuoRCyYrS9s)](https://www.youtube.com/watch?v=QuoRCyYrS9s)
-  - [影片 3: 能量最小化與弛豫平衡 (HronzRpN7Ws)](https://www.youtube.com/watch?v=HronzRpN7Ws)
-  - [影片 4: 軌跡分析與徑向分佈函數 RDF (mnWh2SFzk6g)](https://www.youtube.com/watch?v=mnWh2SFzk6g)
-- **Basic of Molecular Dynamics & Materials Studio 基礎操作**:
-  - [Materials Studio 基礎建模教學 (QGyfGCZT110)](https://www.youtube.com/watch?v=QGyfGCZT110)
-  - [聚合物鏈與交聯網路構建 (Ha5yWbxOqFk)](https://www.youtube.com/watch?v=Ha5yWbxOqFk)
-  - [熱力學性質與傳輸係數計算 (MlbKoXACAx8)](https://www.youtube.com/watch?v=MlbKoXACAx8)
+1. [MS_tutorial_2020](https://www.youtube.com/playlist?list=PLwwTz0GVILdLh5bHAE2QOLPwSZRlaYzli) — Materials Studio 2020 教學播放清單
+2. [Quantum_chemistry](https://www.youtube.com/playlist?list=PLwwTz0GVILdKayxH5WDGoCQJSOL54L4U3) — 量子化學教學播放清單
+3. [Basics_of_Molecular_Danymics](https://www.youtube.com/playlist?list=PLwwTz0GVILdKyA4WmVfkQdNAWw01xLScR) — 分子動力學基礎播放清單
 
----
+## 額外教學資源
 
-## 4. 完整播放清單 (Complete YouTube Playlists)
-- [分子模擬與材料計算教學清單 1](https://www.youtube.com/playlist?list=PLwwTz0GVILdLh5bHAE2QOLPwSZRlaYzli)
-- [量子化學與光譜計算教學清單](https://www.youtube.com/playlist?list=PLwwTz0GVILdLH6pEcNwe9IVWFEu09N64l)
-- [分子動力學基礎與進階實作清單 2](https://www.youtube.com/playlist?list=PLwwTz0GVILdKyA4WmVfkQdNAWw01xLScR)
-- [工程數學與微分方程解題系列](https://www.youtube.com/user/sdd3390)
-> 2026-10-17 官網核對：量子化學與光譜導論目前與 MATLAB 指向相同播放清單，依官網保留。
+- [南開大學孫宏偉教授量子化學課程](https://struchem.nankai.edu.cn/mmnew/mm.htm)
+
+**注意：** 舊 PI Introduction 的「量子化學與光譜」播放清單 `PLwwTz0GVILdLH6pEcNwe9IVWFEu09N64l` 與 Tutorial Resources 的 `Quantum_chemistry` 播放清單 `PLwwTz0GVILdKayxH5WDGoCQJSOL54L4U3` 為兩個不同來源，均保留。
