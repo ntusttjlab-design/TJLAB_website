@@ -104,6 +104,17 @@ document.addEventListener('DOMContentLoaded', () => {
   test(document.getElementById('members-list').getBoundingClientRect().top >= innerHeight-15,'second-screen-below-fold');
   test(document.querySelectorAll('.cinematic-next').length===1 && document.querySelectorAll('.network-node').length===6,'cinematic-team-model');
   test(!!window.ScrollTrigger?.getById('members-cinematic-first') && window.ScrollTrigger.getById('members-cinematic-first').vars.pin===true,'hero-pin-trigger');
+  const firstTransition=window.ScrollTrigger?.getById('members-cinematic-first');
+  const sceneAnimation=firstTransition?.animation;
+  test(!!sceneAnimation,'cinematic-scene-timeline');
+  if(sceneAnimation){
+    const initial=sceneAnimation.progress();
+    sceneAnimation.progress(.72).pause();
+    const reveal=getComputedStyle(document.querySelector('.cinematic-next')).clipPath;
+    test(reveal.includes('circle(') && !reveal.includes('circle(0%'),'cinematic-mask-progress');
+    test(parseFloat(getComputedStyle(document.querySelector('.cinematic-hero-copy')).opacity)<.95,'first-scene-copy-exits');
+    sceneAnimation.progress(initial).pause();
+  }
   test(getComputedStyle(document.querySelector('.cinematic-next')).clipPath.includes('circle('),'mask-reveal-enabled');
   test(document.body.dataset.memberFlow==='active','member-motion-active');
   test((window.ScrollTrigger?.getAll()||[]).filter(t=>(t.vars?.id||'').startsWith('member-flow-')).length===4,'four-subtle-reveals');
