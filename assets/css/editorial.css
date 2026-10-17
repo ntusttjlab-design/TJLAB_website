@@ -288,3 +288,17 @@ body[data-story-motion="reduced"] .bridge-curtain{display:none}
  .cinematic-next{clip-path:circle(0% at 72% 50%)!important}
  .cinematic-hero-copy,.cinematic-hero-visual,.cinematic-scroll-cue{opacity:1!important;transform:none!important}
 }
+
+/* Small laptops and landscape tablets: full first scene without clipped controls. */
+@media(min-width:801px) and (max-width:1200px){
+ .members-page .cinematic-members-hero{padding-top:22px;padding-bottom:35px}
+ .cinematic-hero-inner{grid-template-columns:1fr;gap:0}
+ .cinematic-hero-copy{max-width:min(730px,75%);z-index:5}
+ .cinematic-hero-copy h1{font-size:clamp(3.1rem,5vw,4.6rem);line-height:1.08;margin:0 0 16px}
+ .cinematic-hero-copy .members-lead{font-size:.92rem;line-height:1.68;max-width:620px}
+ .cinematic-members-hero .members-hero-actions{margin-top:17px;gap:7px}
+ .cinematic-members-hero .members-hero-actions a,
+ .cinematic-members-hero .members-hero-actions button{padding:9px 12px;min-height:40px}
+ .cinematic-hero-visual{position:absolute;right:-4%;top:5%;width:48%;height:85%;max-height:85%;opacity:.5;z-index:1;pointer-events:none}
+ .cinematic-next-copy h2{font-size:clamp(3.3rem,6.4vw,6rem)}
+}
