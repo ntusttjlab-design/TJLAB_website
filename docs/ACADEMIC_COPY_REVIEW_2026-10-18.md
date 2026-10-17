@@ -41,3 +41,11 @@
 
 - `raw_html/homepage.html`、`raw_html/pi-intro.html`、`raw_html/tutorial-resources.html`
 - `content/hero_story.html`、`content/dielectric_demo.html`、`content/site_template.html`
+
+## 2026-10-18 使用者確認的第二輪修改
+
+- 三段式首頁縮減為兩段，移除石墨視覺和第三個章節按鈕。
+- PI、七大研究方向、論文等學術資料優先呈現，介電互動移到開放課程與老師教學清單之後。
+- 主持人自述英文完整沿用舊版首頁原文；中文模式忠實翻譯。現職副教授及實驗室房號不更動。
+- 學位與機構的原始英文名稱不翻譯，論文 30、研討會 34 全保留原文；不另設審稿服務的獨立宣傳區塊。
+- 仍只提交審查分支，未合併 main。

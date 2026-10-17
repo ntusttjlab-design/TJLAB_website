@@ -88,5 +88,14 @@ assert 'Quantum chemistry' in html and 'Non-equilibrium MD' in html
 assert 'CP2K' not in html and 'scikit-learn' not in html, '未核實之軟體清單不應顯示於公開頁'
 assert 'not a quantitative dielectric response' in html
 assert len(re.findall(r'class="research-card"', html)) == 7
+assert len(re.findall(r'data-step="[01]"', html)) == 2 and 'data-step="2"' not in html
+assert len(re.findall(r'data-scene="[01]"', html)) == 2 and 'data-scene="2"' not in html
+assert 'GRAPHITE / AB STACKING' not in html and 'Layered carbon' not in html
+assert 'Research introduction (original wording)' in html
+assert 'I am fascinated by and study fundamental physical chemistry problems' in html
+assert 'PhD in Polymer Engineering' in html and 'Associate Professor' in html
+assert 'Journal reviewing' not in html and '期刊審稿服務' not in html
+assert html.index('id="pi"') < html.index('id="research"') < html.index('id="publications"') < html.index('id="tutorials"') < html.index('id="dielectric"')
+assert len(re.findall(r'class="chapter-bridge', html)) == 7
 assert len(page.categories) == 64
 print('PASS：30篇期刊、34筆研討會、16筆課程、3筆老師教學播放清單、Gallery保留來源不公開、完整官網原文、雙語及路徑檢查。')
