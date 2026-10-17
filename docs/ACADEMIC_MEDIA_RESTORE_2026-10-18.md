@@ -29,3 +29,11 @@
 - 完整 17 筆舊來源仍留在 JSON/HTML 備份；原有 16 筆 Open Courses 及 Gallery 8 支不變。
 - 老師頻道由官方舊站指出：`https://www.youtube.com/user/sdd3390`；清單內容的逐支上傳者未獨立驗證，不能以此宣稱每支都由老師上傳。
 - 最新自動驗收：公開 Tutorial 3 個、原課程 16 筆、Gallery 8 支；舊 Tutorial 原始來源仍 17 筆。
+
+## 2026-10-18 最新使用者決策：隱藏 Gallery；保留程式互動
+
+- 新版不需要公開「研究模擬影片（Gallery）」章節，已移除網站導航與八支 YouTube 影片卡片。
+- 原 Google Sites 的 8 筆 Gallery 影片來源完整保存在 `raw_html/gallery.html`、`content/media_embeds.json` 和 `content/05_gallery.md`，以便歷史追溯。
+- **3D 科學動畫及介電互動不是 YouTube**，維持原本 JavaScript/Three.js 示意及控制功能，不因移除 Gallery 而改動。
+- 教學區仍顯示 3 個老師舊站播放清單、Open Courses 原有 16 筆連結，論文 30 篇、研討會 34 筆原文保留。
+- 舊版歷史段落記錄先前進度；本節為最新決策及目前發布規則。

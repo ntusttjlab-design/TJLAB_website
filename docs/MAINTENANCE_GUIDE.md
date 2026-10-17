@@ -85,3 +85,9 @@ Gallery 8 支影片與 Tutorial 14 支影片 + 3 個播放清單由舊站 HTML i
 ## Computational Tutorials 公開來源限制
 
 `content/media_embeds.json` 保留 17 個舊 Tutorial 項目。僅 `publish_teacher_only=true` 的 3 個老師舊站播放清單對外顯示；14 支其他頻道教學影片只保留原始備份，不應因重建而再次發布。程式與測試都必須使用這個公開白名單；原有 16 個課程入口及 Gallery 8 支影片不受影響。
+
+## Gallery 公開展示政策（2026-10-18 最新決策）
+
+已依使用者指示從 `content/site_template.html`、產生的 `index.html` 與導覽列移除 `#gallery` 區塊；`scripts/build_site.py` 不再產生 `GALLERY_EMBEDS`。`scripts/check_site.py`、`scripts/check_browser_smoke.py` 會阻止 Gallery 意外復活。原本 8 支 YouTube 影片只保留在 `raw_html/gallery.html`、`content/media_embeds.json` 及 `content/05_gallery.md` 供追溯。
+
+**不可一併移除：** 原本的 3D 分子動畫（`assets/js/molecule.js`、`assets/js/story.js` 等）與介電互動（`assets/js/dielectric.js`），兩者都是程式實作，不是 YouTube 影片。3 個老師教學清單與 16 筆開放課程也要保留。

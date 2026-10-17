@@ -58,10 +58,15 @@ assert len(teacher_tutorials) == 3
 assert all(item['kind'] == 'playlist' and item['group'] == 'playlists' for item in teacher_tutorials)
 assert all(not item.get('publish_teacher_only') for item in media['tutorials'] if item['kind'] == 'video')
 assert sorted(page.embeds) == sorted(
-    [('gallery', item['embed_url']) for item in media['gallery']] +
     [('tutorial', item['embed_url']) for item in teacher_tutorials]
 )
-assert 'tutorial-resources' in page.ids and 'gallery' in page.ids
+assert 'tutorial-resources' in page.ids and 'gallery' not in page.ids
+assert not any(kind == 'gallery' for kind, _ in page.embeds), 'Gallery must remain archival only'
+assert 'href="#gallery"' not in html
+assert 'Research video gallery' not in html and '研究模擬影片' not in html
+# Keep original eight video records for historical traceability, not publication.
+assert len({item['youtube_id'] for item in media['gallery']}) == 8
+assert (ROOT / 'raw_html/gallery.html').is_file()
 assert 'E1-241-2' in html and 'Associate Professor' in html
 assert html.count('class="pub-original-notes"') >= 27
 assert html.count('Impact Factor:') == 27
@@ -77,4 +82,4 @@ from build_publications import render_publications
 expected = render_publications()
 assert expected in html, '書目與官網快照產生的完整原文不一致'
 assert len(page.categories) == 64
-print('PASS：30篇期刊、34筆研討會、16筆課程、3筆老師教學播放清單、8筆Gallery、完整官網原文、雙語及路徑檢查。')
+print('PASS：30篇期刊、34筆研討會、16筆課程、3筆老師教學播放清單、Gallery保留來源不公開、完整官網原文、雙語及路徑檢查。')
