@@ -13,7 +13,7 @@ calls.shift().success({records:board});
 context.window.labRecord({game:'snake',score:70,duration_ms:10000});assert.equal(get('record-dialog').open,false,'榜單滿額時同分後到不得詢問暱稱');
 context.window.labRecord({game:'snake',score:71,duration_ms:10000});assert.equal(get('record-dialog').open,true);
 get('record-name').value='新玩家';get('record-form').handlers.submit({preventDefault(){}});
-const submission=calls.shift();assert.equal(submission.method,'submit');assert.equal(submission.payload.nickname,'新玩家');assert.equal(submission.payload.score,71);
+const submission=calls.shift();assert.equal(submission.method,'submit');assert.equal(submission.payload.nickname,'新玩家');assert.equal(submission.payload.score,71);assert.equal(submission.payload.rules_version,'snake-elements-v1','提交必須明確攜帶遊戲規則版本');
 submission.success({saved:true,records:board});assert.equal(get('record-dialog').open,false);assert.match(get('record-status').textContent,/前五名/);
 get('record-retry').handlers.click();calls.shift().failure();assert.match(get('record-status').textContent,/遊戲仍可繼續/);assert.equal(get('record-submit').disabled,false);
 get('record-retry').handlers.click();for(const fn of [...timers.values()])fn();assert.match(get('record-status').textContent,/逾時/);

@@ -2,7 +2,7 @@
 
 林子仁老師研究團隊的靜態網站。現有資料收錄 30 篇期刊、34 筆研討會紀錄、16 筆教學資源連結（15 個不重複播放清單），支援繁中／英文切換、文獻搜尋與兩個元素遊戲。
 
-目前狀態：**2.0.0 已於 2026-10-18 正式發布。** [GitHub Actions 39056862332](https://github.com/ntusttjlab-design/TJLAB_website/actions/runs/39056862332) 成功；GAS 第 5 版已部署，指定試算表的前五名實際讀寫與排序測試通過，正式網站及 Google 協作平台入口已確認。詳見 [驗收對照](docs/ACCEPTANCE_2.0.md) 與 [部署紀錄](docs/DEPLOYMENT_LOG.md)。
+目前版本：**2.1.0**。跨章節轉場、研究文案與學術排版已修正；GAS 第 6 版與兩款公開遊戲實際雲端回合已驗收，舊表保留。網站發布結果見 [部署紀錄](docs/DEPLOYMENT_LOG.md)，15 項需求證據見 [2.1 驗收對照](docs/ACCEPTANCE_2.1.md)。
 
 入口：[Google 協作平台](https://sites.google.com/view/tjlab/tjlab) · [GitHub Pages](https://ntusttjlab-design.github.io/TJLAB_website/)。
 

@@ -1,5 +1,13 @@
 # 網站維護手冊
 
+## 2.1.0 維護注意事項
+
+章節交界在 content/site_template.html 的 data-chapter-transition，樣式 editorial.css，動畫 story.js；調整來源後重建，不直接改 index.html。新增 bridge 時同時考慮手機與減少動態，不要讓長文清單逐筆等待。
+
+現行 GAS 第 6 版使用 MSMTJL_Leaderboard A1:F11，舊 MSMTJL_Records 唯讀。請以 LEADERBOARD_SETUP.md 為準，舊文件的單冠軍清空或舊表寫入操作已停用。前後端 rules_version 必須一致；更新既有部署以保留 URL。
+
+雲端實際蛇／球回合已驗證，詳見 ACCEPTANCE_2.1.md。發布時以最新 main 為父提交，避免使用 .local-backups/publish-checkout 的舊 HEAD 覆蓋其他修改；優先使用已授權 GitHub 連接器。
+
 ## 1. 修改入口
 
 先閱讀根目錄 README。`index.html` 是產物，請修改來源後重新產生。

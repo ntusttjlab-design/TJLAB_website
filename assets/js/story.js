@@ -1,5 +1,5 @@
 'use strict';
-// 首頁材料與章節進場共用動態偏好，保留原生捲動。
+// 動態偏好同時控制材料鏡頭、章節背景揭露與內容交接。
 document.addEventListener('DOMContentLoaded',()=>{
  if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined')return;
  gsap.registerPlugin(ScrollTrigger);
@@ -7,37 +7,45 @@ document.addEventListener('DOMContentLoaded',()=>{
  const panels=[...section.querySelectorAll('.story-copy')],chapters=[...section.querySelectorAll('[data-scene]')];
  const labels=[...section.querySelectorAll('[data-model-label]')],media=gsap.matchMedia();
  const button=document.getElementById('story-motion-toggle');
- let mode='system',current=0;
+ let mode='system';
  try{mode=localStorage.getItem('msmtjl_motion')||'system';}catch{}
  function show(progress){
-   current=Math.round(progress);stage.dataset.material=String(current);
+   const current=Math.min(2,Math.floor(progress));stage.dataset.material=String(current);
    panels.forEach((panel,i)=>{panel.style.opacity=i===current?'1':'0';panel.style.visibility=i===current?'visible':'hidden';panel.inert=i!==current;});
    chapters.forEach((item,i)=>{item.classList.toggle('active',i===current);item.setAttribute('aria-pressed',String(i===current));});
    labels.forEach((label,i)=>label.hidden=i!==current);window.labHero?.setProgress(progress);
  }
+ function label(){const en=document.documentElement.lang==='en',reduced=document.body.dataset.storyMotion==='reduced';button.textContent=reduced?(en?'Play motion':'播放動態'):(en?'Reduce motion':'減少動態');}
  function configure(){
    media.revert();
    media.add({desktop:'(min-width:801px)',mobile:'(max-width:800px)',reduce:'(prefers-reduced-motion: reduce)'},ctx=>{
-     const reduced=mode==='reduced'||mode!=='full'&&(ctx.conditions.reduce||!ctx.conditions.desktop);
+     const reduced=mode==='reduced'||mode!=='full'&&ctx.conditions.reduce;
      document.body.dataset.storyMotion=reduced?'reduced':'full';
-     button.setAttribute('aria-pressed',String(!reduced));label();show(0);
+     button.setAttribute('aria-pressed',String(!reduced));label();show(.15);
      if(reduced)return;
-     const model={p:0};
-     gsap.to(model,{p:2,ease:'none',scrollTrigger:{id:'molecular-story',trigger:section,start:()=> 'top top+='+document.querySelector('.site-header').offsetHeight,end:()=>'+='+innerHeight*(ctx.conditions.desktop?2.5:1.8),pin:'.story-stage',scrub:.5,invalidateOnRefresh:true},onUpdate:()=>show(model.p)});
-     // 只動畫章節標題與主視覺，不替每篇長書目建立時間軸。
+     const model={p:.15};
+     gsap.to(model,{p:2.85,ease:'none',scrollTrigger:{id:'molecular-story',trigger:section,start:()=> 'top top+='+document.querySelector('.site-header').offsetHeight,end:()=>'+='+innerHeight*(ctx.conditions.desktop?2.7:1.6),pin:'.story-stage',scrub:.45,invalidateOnRefresh:true},onUpdate:()=>show(model.p)});
+     // 短轉場由前章底色揭露後章底色，材料圖形穿過兩個章節的交界。
+     document.querySelectorAll('[data-chapter-transition]').forEach((bridge,index)=>{
+       const timeline=gsap.timeline({scrollTrigger:{id:'chapter-'+bridge.dataset.chapterTransition,trigger:bridge,start:'top bottom',end:'bottom 25%',scrub:ctx.conditions.desktop?.65:.25}});
+       timeline.fromTo(bridge.querySelector('.bridge-curtain'),{scaleY:1},{scaleY:0,transformOrigin:'top',ease:'none',duration:1},0)
+         .fromTo(bridge.querySelector('.bridge-art'),{xPercent:ctx.conditions.desktop?-12:-4,y:22,opacity:.04},{xPercent:ctx.conditions.desktop?8:4,y:-8,opacity:.42,ease:'none',duration:1},0)
+         .fromTo(bridge.querySelector('.bridge-index'),{y:35,opacity:.03},{y:-10,opacity:.18,ease:'none',duration:1},0)
+         .fromTo(bridge.querySelector('.bridge-line'),{scaleX:0},{scaleX:1,transformOrigin:'left',ease:'none',duration:1},0);
+     });
      document.querySelectorAll('#dielectric,#research,#pi,#publications,#tutorials,#arcade,#join').forEach(node=>{
-       const targets=node.querySelectorAll('.section-heading,.dielectric-copy,.pi-photo,.join-grid>div:first-child');
-       if(targets.length)gsap.fromTo(targets,{y:36,opacity:.25},{y:0,opacity:1,duration:.75,ease:'power2.out',scrollTrigger:{trigger:node,start:'top 88%',toggleActions:'play none none reverse'}});
        node.classList.add('chapter-section');
+       const title=node.querySelectorAll('.section-heading,.dielectric-copy,.pi-photo,.join-grid>div:first-child');
+       const body=node.querySelector('.research-grid,.bio-columns,#publication-list,.course-grid,.games-grid,.dielectric-panel,.join-notes');
+       if(title.length)gsap.fromTo(title,{y:30,opacity:.5},{y:0,opacity:1,duration:.7,ease:'power2.out',scrollTrigger:{trigger:node,start:'top 87%',toggleActions:'play none none reverse'}});
+       if(body)gsap.fromTo(body,{y:24},{y:0,ease:'none',scrollTrigger:{trigger:node,start:'top 90%',end:'top 20%',scrub:.4}});
      });
    });
    ScrollTrigger.refresh();
  }
- function label(){const en=document.documentElement.lang==='en',reduced=document.body.dataset.storyMotion==='reduced';button.textContent=reduced?(en?'Play motion':'播放動態'):(en?'Reduce motion':'減少動態');}
  button.addEventListener('click',()=>{mode=document.body.dataset.storyMotion==='full'?'reduced':'full';try{localStorage.setItem('msmtjl_motion',mode);}catch{}configure();});
- chapters.forEach((chapter,i)=>chapter.addEventListener('click',()=>{const trigger=ScrollTrigger.getById('molecular-story');if(trigger)window.scrollTo({top:trigger.start+(trigger.end-trigger.start)*i/2,behavior:'smooth'});else show(i);}));
+ chapters.forEach((chapter,i)=>chapter.addEventListener('click',()=>{const trigger=ScrollTrigger.getById('molecular-story');if(trigger)window.scrollTo({top:trigger.start+(trigger.end-trigger.start)*((i+.4-.15)/2.7),behavior:'smooth'});else show(i+.4);}));
  let refreshTimer;function refresh(){clearTimeout(refreshTimer);refreshTimer=setTimeout(()=>ScrollTrigger.refresh(),120);}
- document.addEventListener('languagechange',()=>{label();refresh();});
- document.addEventListener('publicationschange',refresh);
+ document.addEventListener('languagechange',()=>{label();refresh();});document.addEventListener('publicationschange',refresh);
  window.addEventListener('load',refresh,{once:true});document.fonts?.ready.then(refresh);configure();
 });

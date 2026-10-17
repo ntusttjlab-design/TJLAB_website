@@ -52,6 +52,7 @@ def render_publications():
             # 只移除指標及重複貢獻註記，學術書目其餘原文保留。
             text = re.sub(r'\s*\((?:Impact Factor|Second |Third |Co-Corresponding).*?\)', '', text)
             quote = re.search(r'["“”](.*?)["“”]', text)
+            service = kind == 'conference' and not quote
             title = quote.group(1).strip() if quote else text
             prefix = text[:quote.start()].strip(' ,') if quote else ''
             suffix = text[quote.end():].strip(' ,') if quote else ''
@@ -66,9 +67,16 @@ def render_publications():
             if any(word in lower for word in ['polyimide', 'polymer', '高分子']): categories += ' polyimide'
             if any(word in lower for word in ['density functional', 'dft', 'first-principle', 'ab initio']): categories += ' dft'
             if any(word in lower for word in ['energy', 'solar', 'battery', 'photocatal', '光電']): categories += ' energy'
+            if service:
+                role = re.match(r'^(Poster reviewer|Session Chair)\b(.*)$', text)
+                if role:
+                    title = role.group(1)
+                    prefix = role.group(2).strip()
+                    suffix = ''
             if kind == 'journal':
                 detail = f'<p class="pub-authors">{escape(prefix)}</p><p class="pub-meta">{escape(suffix)}</p>'
             else:
                 detail = (f'<p class="pub-presenter">{escape(person)}</p>' if person else '') + f'<p class="pub-meta">{escape(prefix)}{(" · " + escape(suffix)) if suffix else ""}</p>'
-            output.append(f'<article class="pub-card" data-category="{categories}"><span class="pub-year">{year}</span><div class="pub-entry"><h4>{escape(title)}</h4>{detail}</div></article>')
+            extra = ' pub-service' if service else ''
+            output.append(f'<article class="pub-card{extra}" data-category="{categories}"><span class="pub-year">{year}</span><div class="pub-entry"><h4>{escape(title)}</h4>{detail}</div></article>')
     return ''.join(output)

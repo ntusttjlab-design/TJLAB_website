@@ -59,5 +59,5 @@ assert page.translations > 100
 from build_publications import render_publications
 expected = render_publications()
 assert expected in html, '書目與官網快照產生的完整原文不一致'
-assert html.count('class="pub-card"') == 64
+assert len(page.categories) == 64
 print('PASS：30篇期刊、34筆研討會、16筆課程、完整官網原文、雙語及路徑檢查。')
