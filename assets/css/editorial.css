@@ -302,3 +302,14 @@ body[data-story-motion="reduced"] .bridge-curtain{display:none}
  .cinematic-hero-visual{position:absolute;right:-7%;top:5%;width:42%;height:85%;max-height:85%;opacity:.32;z-index:1;pointer-events:none}
  .cinematic-next-copy h2{font-size:clamp(3.3rem,6.4vw,6rem)}
 }
+
+/* The first cinematic scene must fit exactly between the sticky header and
+   viewport bottom on wide desktops too (including headless/browser chrome).
+   Text and art fit this box; overflow must not expose the next section. */
+@media(min-width:801px){
+ .members-page .cinematic-members-hero{
+  height:calc(var(--member-viewport-height,100svh) - var(--member-header-height,80px));
+  min-height:0;
+  max-height:calc(var(--member-viewport-height,100svh) - var(--member-header-height,80px));
+ }
+}
