@@ -1,16 +1,20 @@
-﻿# 實驗室剪影與活動相簿 (Gallery)
+# 研究模擬影片 (Gallery)
 
-> **當前狀態**: 原始 Google Sites 網站上本分頁為空白骨架（尚未上傳實體照片）。  
-> **規劃定位**: 作為吸引新成員加入與展示實驗室文化的重要門面，建議展示下列內容：
+> 原版 Google Sites Gallery 並非空白：保存的 HTML 確有 8 個 YouTube 影片 iframe。影片名稱使用原始 iframe 標籤，並非目前 YouTube 最新顯示名稱。
+>
+> 正式網頁來源為 `content/media_embeds.json`，由 `scripts/build_site.py` 產生。
 
-## 建議收錄主題 (Recommended Photo Themes)
-1. **成員與學術生活 (Academic Life)**:
-   - 學生參加台灣化工年會 (TwIChE)、高分子年會、T2CoMSA、國際研討會現場報告與獲獎海報合影。
-2. **研究室日常與計算硬體 (Lab Life & Workstation)**:
-   - 高效能計算伺服器叢集 (GPU/CPU Server Cluster) 機櫃或工作站實況。
-   - 雙螢幕/多螢幕 Coding、分子 3D 視覺化旋轉操作的日常寫真。
-3. **實驗室休閒與團建 (Social & Team Events)**:
-   - 迎新、謝師宴、聚餐、慶祝論文被刊登的吃喝玩樂照片。
-   - 畢業生大合照與學長姐發展祝福。
-4. **炫酷的模擬動態圖 (Cool Simulation Renders / GIFs)**:
-   - 聚合物拉伸破壞、水團簇碰撞、電子雲密度分佈等動態渲染圖。
+1. [poly sol vap film](https://www.youtube.com/watch?v=27-cUJIVkTs) — ID: `27-cUJIVkTs`
+2. [amorphous cook](https://www.youtube.com/watch?v=4ixA9rhGxwU) — ID: `4ixA9rhGxwU`
+3. [mem water 1](https://www.youtube.com/watch?v=BwbCtJZxFgk) — ID: `BwbCtJZxFgk`
+4. [nemd example 04](https://www.youtube.com/watch?v=uSj7lyDDFaM) — ID: `uSj7lyDDFaM`
+5. [NEMD example 02](https://www.youtube.com/watch?v=kO_39ikDl00) — ID: `kO_39ikDl00`
+6. [nemd example 03](https://www.youtube.com/watch?v=i13VZKxA-J4) — ID: `i13VZKxA-J4`
+7. [NEMD example 01](https://www.youtube.com/watch?v=PenFHW4f6F8) — ID: `PenFHW4f6F8`
+8. [Untitled  Feb 24, 2020 5 49 PM](https://www.youtube.com/watch?v=m9d9XsvZjWM) — ID: `m9d9XsvZjWM`
+
+來源：https://sites.google.com/view/msmtjl/homepage/gallery
+
+待驗證：是否仍可公開播放、是否允許在其他網頁嵌入，以及原始名稱是否應改為影片目前的正式標題。
+
+活動及師生相簿不在此次原站影片復原範圍內；日後須有確定的照片與公開授權才新增。
