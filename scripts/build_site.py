@@ -50,11 +50,38 @@ groups = [
     ('高中理化', 'School science', range(15, 16)),
 ]
 course_html = [f'<section class="course-group"><h3>{bilingual(zh,en)}</h3><div class="course-items">{"".join(course_html[i] for i in indices)}</div></section>' for zh,en,indices in groups]
+# Gallery 8 and independent tutorial resources 17: do not merge with the PI's 16 playlists.
+media = json.loads((ROOT / 'content/media_embeds.json').read_text(encoding='utf-8'))
+assert len(media['gallery']) == 8 and len(media['tutorials']) == 17
+assert len([x for x in media['tutorials'] if x.get('publish_teacher_only')]) == 3
+def render_embeds(items, collection):
+    cards = []
+    for item in items:
+        if item['kind'] == 'video':
+            preview = (
+                f'<img src="https://i.ytimg.com/vi/{escape(item["youtube_id"], quote=True)}/hqdefault.jpg" '
+                f'alt="" loading="lazy" decoding="async">'
+            )
+        else:
+            preview = f'<span class="media-playlist-label">{bilingual("YouTube 播放清單", "YouTube playlist")}</span>'
+        cards.append(
+            f'<article class="media-card"><div class="media-player"><button class="media-launch" '
+            f'type="button" data-collection="{collection}" '
+            f'data-embed-url="{escape(item["embed_url"], quote=True)}" '
+            f'data-video-title="{escape(item["title_en"], quote=True)}" '
+            f'aria-label="{escape(item["title_zh"], quote=True)}">{preview}'
+            f'<span class="media-play-icon" aria-hidden="true">▶</span></button></div>'
+            f'<div class="media-caption"><h4>{bilingual(item["title_zh"], item["title_en"])}</h4>'
+            f'<a href="{escape(item["watch_url"], quote=True)}" target="_blank" rel="noopener noreferrer">'
+            f'{bilingual("在 YouTube 開啟", "Open on YouTube")} ↗</a></div></article>'
+        )
+    return ''.join(cards)
+
 html = (ROOT / 'content/site_template.html').read_text(encoding='utf-8')
 html = html.replace('{{HERO}}', (ROOT / 'content/hero_story.html').read_text(encoding='utf-8'))
 html = html.replace('{{DIELECTRIC}}', (ROOT / 'content/dielectric_demo.html').read_text(encoding='utf-8'))
 html = re.sub(r'\[\[(.*?)\|\|(.*?)\]\]', lambda match: bilingual(*match.groups()), html)
-for key, value in {'JOURNAL_COUNT': str(pubs.journals), 'COURSE_COUNT': str(len(courses)), 'COURSE_UNIQUE_COUNT': str(len({course['Id'] for course in courses})), 'RESEARCH': research_html, 'PUBLICATIONS': ''.join(pubs.output), 'COURSES': ''.join(course_html)}.items():
+for key, value in {'JOURNAL_COUNT': str(pubs.journals), 'COURSE_COUNT': str(len(courses)), 'COURSE_UNIQUE_COUNT': str(len({course['Id'] for course in courses})), 'RESEARCH': research_html, 'PUBLICATIONS': ''.join(pubs.output), 'COURSES': ''.join(course_html), 'TUTORIAL_TEACHER': render_embeds([x for x in media['tutorials'] if x.get('publish_teacher_only')], 'tutorial'), 'GALLERY_EMBEDS': render_embeds(media['gallery'], 'gallery')}.items():
     html = html.replace('{{' + key + '}}', value)
 assert '{{' not in html
 (ROOT / 'index.html').write_text(html, encoding='utf-8')

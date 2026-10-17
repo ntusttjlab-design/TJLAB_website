@@ -1,44 +1,19 @@
-# 教學資源 (Tutorial Resources)
+# 計算模擬教學資源（Computational Tutorials）
 
-本頁面彙整了林子仁老師實驗室所整理與推薦的量子化學計算、分子動力學模擬及相關教學資源。
+> 2026-10-18 使用者要求本區只保留老師自己的 YouTube 教學來源。公開網站僅展示以下 3 份原站播放清單，不展示其他頻道的 14 支教學影片。
+> 原始 17 筆 iframe 資料仍保存在 `content/media_embeds.json` 與 `raw_html/tutorial-resources.html` 供追溯，並不表示全部會對外發布。
 
----
+## 網站公開展示：老師舊站 3 個播放清單
 
-## 1. 高斯計算與可視化 (GaussView & Gaussian Tutorial)
-- **GaussView 基本操作與計算設定**:
-  - [影片 1: GaussView 基礎建模 (Ksx2oKBTvEU)](https://www.youtube.com/watch?v=Ksx2oKBTvEU)
-  - [影片 2: 分子幾何最佳化設定 (dqKWfXsEcWs)](https://www.youtube.com/watch?v=dqKWfXsEcWs)
-  - [影片 3: 振動頻率與光譜分析 (7F2JMfOvjmw)](https://www.youtube.com/watch?v=7F2JMfOvjmw)
-  - [影片 4: 過渡態與能量路徑分析 (17QpHFoQKMM)](https://www.youtube.com/watch?v=17QpHFoQKMM)
+1. [MS_tutorial_2020](https://www.youtube.com/playlist?list=PLwwTz0GVILdLh5bHAE2QOLPwSZRlaYzli) — Materials Studio 2020 教學播放清單
+2. [Quantum_chemistry](https://www.youtube.com/playlist?list=PLwwTz0GVILdKayxH5WDGoCQJSOL54L4U3) — 量子化學教學播放清單
+3. [Basics_of_Molecular_Danymics](https://www.youtube.com/playlist?list=PLwwTz0GVILdKyA4WmVfkQdNAWw01xLScR) — 分子動力學基礎播放清單
 
----
+老師的 YouTube 頻道：https://www.youtube.com/user/sdd3390
 
-## 2. 理論化學與計算化學推薦教材 (Recommended Theoretical Chemistry Resources)
-- **David Sherrill 教授教學影片 (Georgia Tech)**:
-  - [Introduction to Computational Chemistry (EeUQu0g8agE)](https://www.youtube.com/watch?v=EeUQu0g8agE)
-  - [Hartree-Fock Theory & Basis Sets (I8YYvuu5GaM)](https://www.youtube.com/watch?v=I8YYvuu5GaM)
-  - [Density Functional Theory 導論 (t0kTVRXXi84)](https://www.youtube.com/watch?v=t0kTVRXXi84)
-- **南開大學 孫宏偉教授**:
-  - [量子化學計算課程講義與網頁](https://struchem.nankai.edu.cn/mmnew/mm.htm) (經典理論與上機教學)
+## 和開放課程的區別
 
----
-
-## 3. 分子動力學模擬 (Molecular Dynamics Simulation / MS Tutorial)
-- **MS_tutorial_2020 系列教學**:
-  - [影片 1: 分子動力學概念與力場選擇 (N11nlKMyrjk)](https://www.youtube.com/watch?v=N11nlKMyrjk)
-  - [影片 2: 初始盒構建與系綜設定 (QuoRCyYrS9s)](https://www.youtube.com/watch?v=QuoRCyYrS9s)
-  - [影片 3: 能量最小化與弛豫平衡 (HronzRpN7Ws)](https://www.youtube.com/watch?v=HronzRpN7Ws)
-  - [影片 4: 軌跡分析與徑向分佈函數 RDF (mnWh2SFzk6g)](https://www.youtube.com/watch?v=mnWh2SFzk6g)
-- **Basic of Molecular Dynamics & Materials Studio 基礎操作**:
-  - [Materials Studio 基礎建模教學 (QGyfGCZT110)](https://www.youtube.com/watch?v=QGyfGCZT110)
-  - [聚合物鏈與交聯網路構建 (Ha5yWbxOqFk)](https://www.youtube.com/watch?v=Ha5yWbxOqFk)
-  - [熱力學性質與傳輸係數計算 (MlbKoXACAx8)](https://www.youtube.com/watch?v=MlbKoXACAx8)
-
----
-
-## 4. 完整播放清單 (Complete YouTube Playlists)
-- [分子模擬與材料計算教學清單 1](https://www.youtube.com/playlist?list=PLwwTz0GVILdLh5bHAE2QOLPwSZRlaYzli)
-- [量子化學與光譜計算教學清單](https://www.youtube.com/playlist?list=PLwwTz0GVILdLH6pEcNwe9IVWFEu09N64l)
-- [分子動力學基礎與進階實作清單 2](https://www.youtube.com/playlist?list=PLwwTz0GVILdKyA4WmVfkQdNAWw01xLScR)
-- [工程數學與微分方程解題系列](https://www.youtube.com/user/sdd3390)
-> 2026-10-17 官網核對：量子化學與光譜導論目前與 MATLAB 指向相同播放清單，依官網保留。
+- Open Courses 原有 16 筆連結完整保留。
+- Materials Studio 與 Molecular Dynamics 清單也出現在老師原有課程資料。
+- Quantum Chemistry 清單保留舊 Tutorial 頁嵌入的老師教學清單來源，沒有誤用原 PI 頁重複的 MATLAB/Quantum 連結。
+- 不能單靠播放清單來源推定每支影片的實際上傳者；如果日後發現不屬於老師作品，應從公開清單移除。

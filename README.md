@@ -1,6 +1,6 @@
 # 多尺度模擬與熱力學實驗室 · NTUST
 
-林子仁老師研究團隊的靜態網站。現有資料收錄 30 篇期刊、34 筆研討會紀錄、16 筆教學資源連結（15 個不重複播放清單），支援繁中／英文切換、文獻搜尋與兩個元素遊戲。
+林子仁老師研究團隊的靜態網站。現有資料收錄 30 篇期刊、34 筆研討會紀錄、16 筆講授課程連結（15 個不重複清單）、獨立 Tutorial Resources 公開展示 3 個老師教學播放清單（原站另 14 支外部影片只備份不發布）及 Gallery 8 支影片，支援繁中／英文切換、文獻搜尋與兩個元素遊戲。
 
 目前版本：**2.1.0 已正式發布**。跨章節轉場、研究文案與學術排版已修正；GAS 第 6 版與兩款公開遊戲實際雲端回合已驗收，舊表保留。網站發布結果見 [部署紀錄](docs/DEPLOYMENT_LOG.md)，15 項需求證據見 [2.1 驗收對照](docs/ACCEPTANCE_2.1.md)。
 
@@ -34,12 +34,13 @@ content/
   site_template.html             網頁結構及中英文文案來源
   hero_story.html                首頁三段捲動敘事來源
   publications.html              舊版卡片來源封存
-  all_links_and_media.json        課程與媒體來源
+  all_links_and_media.json        原 PI 頁面的課程播放清單
+  media_embeds.json              舊站 Gallery 8 支影片及 Tutorial 17 個原始項目（其中僅 3 個老師清單對外發布）
   01_*.md … 05_*.md              舊站整理資料，供追溯
   publications_raw.txt           舊站論文擷取文字
 scripts/
   build_site.py                  以標準函式庫產生 index.html
-  build_publications.py          依官網快照產生 30／34 筆完整書目
+  build_publications.py          依官網快照產生 30／34 筆書目及原站歷史附註
   check_site.py                  內容數量、雙語與路徑檢查
   check_official_source.py       官網日期快照與重要資訊比對
   check_interactions.mjs          遊戲行為與紀錄保存檢查
@@ -85,3 +86,7 @@ node scripts/check_interactions.mjs
 官網重要資訊已於 2026-10-17 重新核對，詳見 [核對紀錄](docs/OFFICIAL_CONTENT_CHECK_2026-10-17.md)。
 
 動畫與學生視角請見 [設計原則](docs/DESIGN_GUIDE.md)。共用榜單已完成 Apps Script 公開部署及貪食蛇寫入驗收，請見 [排行榜設定](docs/LEADERBOARD_SETUP.md)。
+
+## 舊站學術資料與影片復原（獨立分支；尚未正式發布）
+
+本分支僅公開展示 3 個老師原站 YouTube 教學清單；其他 14 支外部教學影片保留原站備份但不發布，Gallery 8 支影片繼續展示，維持原有 PI 課程 16 筆連結。30 篇期刊及 34 筆研討會標題、順序與年份依原站快照保留，原始期刊指標及作者貢獻說明放到可展開的歷史附註，不視為最新值。現職為副教授；研究室房號由使用者確認為 E1-241-2。資料和待驗證事項見 `docs/ACADEMIC_MEDIA_RESTORE_2026-10-18.md`。
