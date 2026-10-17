@@ -17,3 +17,10 @@ yarn-error.log*
 
 # Node modules (if ever used)
 node_modules/
+
+# 本機備份、部署產物與執行暫存不納入版本控制。
+.local-backups/
+_site/
+__pycache__/
+*.pyc
+.audit_*

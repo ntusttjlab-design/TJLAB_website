@@ -1,9 +1,9 @@
-﻿# 主持人介紹 (Principal Investigator Introduction)
+# 主持人介紹 (Principal Investigator Introduction)
 
-![PI Photo / Meme Avatar](../assets/images/pi-intro_img_1.png)
+> 2026-10-17 依官網重新核對。原圖為舊站圖片，並非經確認的老師正式照片；新版使用姓名縮寫圖形。官網僅列畢業年份，故不保留未經證實的入學年份。
 
-## 林子敬 (Tzu-Jen Lin) 博士
-- **職稱**: 助理教授 (Assistant Professor)
+## 林子仁 (Tzu-Jen Lin) 博士
+- **職稱**: 副教授 (Associate Professor)
 - **機構**: 國立臺灣科技大學 材料科學與工程系 (Department of Materials Science and Engineering, NTUST)
 - **研究室**: 工程一館 101-2 室 (Office: 101-2, Engineering Building 1)
 - **地址**: 106 台北市大安區基隆路四段 43 號
@@ -14,11 +14,11 @@
 
 ## 學歷 (Education)
 - **美國阿克倫大學 (University of Akron, USA)**  
-  高分子工程博士 (Ph.D. in Polymer Engineering), 2008 – 2013
+  高分子工程博士 (Ph.D. in Polymer Engineering), 2013
 - **英國曼徹斯特大學 (University of Manchester, UK)**  
-  化學哲學碩士 (M.Phil. in Chemistry), 2006 – 2008
+  化學哲學碩士 (M.Phil. in Chemistry), 2008
 - **國立成功大學 (National Cheng Kung University, Taiwan)**  
-  化學工程學系學士 (B.Sc. in Chemical Engineering), 2000 – 2004
+  化學工程學系學士 (B.Sc. in Chemical Engineering), 2004
 
 ---
 
@@ -69,3 +69,5 @@
 ### 7. 其他開課
 - 材料力學 (Mechanics of Materials)
 - 普通物理 (General Physics I)
+
+> 現職副教授依使用者於 2026-10-17 提供的最新資訊更新；原官網快照仍為助理教授。升等年月未提供，歷史經歷不回溯改寫。

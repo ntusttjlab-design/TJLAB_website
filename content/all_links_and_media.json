@@ -1,158 +1,162 @@
-﻿{
-    "PI":  {
-               "Facebook":  "Tzu-Jen Lin",
-               "AvatarImage":  "assets/images/pi-intro_img_1.png",
-               "Email":  "tjlin@mail.ntust.edu.tw",
-               "Lab":  "Room E1-241-2, Engineering Building 1",
-               "Name":  "林子敬 (Tzu-Jen Lin)",
-               "Address":  "No.43, Sec. 4, Keelung Rd., Da\u0027an Dist., Taipei City 106, Taiwan",
-               "Office":  "Room E1-101-2, Engineering Building 1",
-               "Title":  "Assistant Professor",
-               "YouTube":  "https://www.youtube.com/user/sdd3390",
-               "Department":  "Department of Materials Science and Engineering, National Taiwan University of Science and Technology"
-           },
-    "ExternalEducationalLinks":  [
-                                     {
-                                         "Name":  "南開大學孫宏偉教授: 量子化學計算課程",
-                                         "Url":  "https://struchem.nankai.edu.cn/mmnew/mm.htm"
-                                     }
-                                 ],
-    "Images":  [
-                   {
-                       "Description":  "Multi-scale modeling spectrum from molecule to polymer and ML",
-                       "File":  "homepage_img_1.png",
-                       "Category":  "diagram"
-                   },
-                   {
-                       "Description":  "Package logos: LAMMPS, Linux, GROMACS, Bash, Gaussian 16, Materials Studio",
-                       "File":  "homepage_img_2.png",
-                       "Category":  "software_logos"
-                   },
-                   {
-                       "Description":  "CP2K logo formed by orange atoms",
-                       "File":  "homepage_img_3.png",
-                       "Category":  "software_logos"
-                   },
-                   {
-                       "Description":  "xTB (Extended Tight-Binding) logo",
-                       "File":  "homepage_img_4.png",
-                       "Category":  "software_logos"
-                   },
-                   {
-                       "Description":  "CASTEP logo",
-                       "File":  "homepage_img_5.png",
-                       "Category":  "software_logos"
-                   },
-                   {
-                       "Description":  "scikit-learn logo",
-                       "File":  "homepage_img_6.png",
-                       "Category":  "software_logos"
-                   },
-                   {
-                       "Description":  "RDKit Open-Source Cheminformatics logo",
-                       "File":  "homepage_img_7.png",
-                       "Category":  "software_logos"
-                   },
-                   {
-                       "Description":  "NumPy logo",
-                       "File":  "homepage_img_8.png",
-                       "Category":  "software_logos"
-                   },
-                   {
-                       "Description":  "PI photo / meme avatar (Kim Jong Un speaking)",
-                       "File":  "pi-intro_img_1.png",
-                       "Category":  "avatar"
-                   }
-               ],
-    "LabName":  "Multi-Scale Modeling and Thermodynamics LAB @ NTUST",
-    "OriginalGoogleSite":  {
-                               "Tutorials":  "https://sites.google.com/view/msmtjl/homepage/tutorial-resources",
-                               "Gallery":  "https://sites.google.com/view/msmtjl/homepage/gallery",
-                               "Root":  "https://sites.google.com/view/msmtjl",
-                               "Homepage":  "https://sites.google.com/view/msmtjl/homepage",
-                               "Publications":  "https://sites.google.com/view/msmtjl/homepage/publication-and-presentation",
-                               "PIIntro":  "https://sites.google.com/view/msmtjl/homepage/pi-intro"
-                           },
-    "YouTubePlaylists":  [
-                             {
-                                 "Title":  "Basic Calculus Clips",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdLNc78HzhOCFw_r5EK4rdUs",
-                                 "Id":  "PLwwTz0GVILdLNc78HzhOCFw_r5EK4rdUs"
-                             },
-                             {
-                                 "Title":  "First Order ODE Clips",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdKxEJei6gcbGobHsNuHff3a",
-                                 "Id":  "PLwwTz0GVILdKxEJei6gcbGobHsNuHff3a"
-                             },
-                             {
-                                 "Title":  "Second Order ODE Clips",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdKX2_TfuMbMDBG3xqC5FdYv",
-                                 "Id":  "PLwwTz0GVILdKX2_TfuMbMDBG3xqC5FdYv"
-                             },
-                             {
-                                 "Title":  "Laplace Transform Clips",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdJTOA9OSJVKCMBoZzYxdLeZ",
-                                 "Id":  "PLwwTz0GVILdJTOA9OSJVKCMBoZzYxdLeZ"
-                             },
-                             {
-                                 "Title":  "Numerical ODE Clips",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdKOQfgLo1DJMZ8o00rDNzGM",
-                                 "Id":  "PLwwTz0GVILdKOQfgLo1DJMZ8o00rDNzGM"
-                             },
-                             {
-                                 "Title":  "Mass and Energy Balance Clips",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdLCniQNHpMHLeLelFNZHhBn",
-                                 "Id":  "PLwwTz0GVILdLCniQNHpMHLeLelFNZHhBn"
-                             },
-                             {
-                                 "Title":  "Practice 1 Clips",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdKTsl3BXSK2wRVAtI6Vgng7",
-                                 "Id":  "PLwwTz0GVILdKTsl3BXSK2wRVAtI6Vgng7"
-                             },
-                             {
-                                 "Title":  "Practice 2 Clips",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdIPiUX-XjRg6i2-SBfin4bB",
-                                 "Id":  "PLwwTz0GVILdIPiUX-XjRg6i2-SBfin4bB"
-                             },
-                             {
-                                 "Title":  "Practice 3 Clips",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdLW5sVThSgb0dQDGPSegRiM",
-                                 "Id":  "PLwwTz0GVILdLW5sVThSgb0dQDGPSegRiM"
-                             },
-                             {
-                                 "Title":  "Practice 4 Clips",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdKcHu9m-a8OMeOGdNWvF2O1",
-                                 "Id":  "PLwwTz0GVILdKcHu9m-a8OMeOGdNWvF2O1"
-                             },
-                             {
-                                 "Title":  "MATLAB Clips",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdLH6pEcNwe9IVWFEu09N64l",
-                                 "Id":  "PLwwTz0GVILdLH6pEcNwe9IVWFEu09N64l"
-                             },
-                             {
-                                 "Title":  "Linux Clips",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdIBx-8pWmmWdRJiJnYvo_g8",
-                                 "Id":  "PLwwTz0GVILdIBx-8pWmmWdRJiJnYvo_g8"
-                             },
-                             {
-                                 "Title":  "Material \u0026 Molecular Simulation 1",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdLh5bHAE2QOLPwSZRlaYzli",
-                                 "Id":  "PLwwTz0GVILdLh5bHAE2QOLPwSZRlaYzli"
-                             },
-                             {
-                                 "Title":  "Material \u0026 Molecular Simulation 2",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdKyA4WmVfkQdNAWw01xLScR",
-                                 "Id":  "PLwwTz0GVILdKyA4WmVfkQdNAWw01xLScR"
-                             },
-                             {
-                                 "Title":  "Quantum Chemistry \u0026 Spectra",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdKayxH5WDGoCQJSOL54L4U3",
-                                 "Id":  "PLwwTz0GVILdKayxH5WDGoCQJSOL54L4U3"
-                             },
-                             {
-                                 "Title":  "High School Chemistry and Physics",
-                                 "Url":  "https://www.youtube.com/playlist?list=PLwwTz0GVILdIjsSG-ZFcgk-ON2nb-Ddo8",
-                                 "Id":  "PLwwTz0GVILdIjsSG-ZFcgk-ON2nb-Ddo8"
-                             }
-                         ]
+{
+  "PI": {
+    "Facebook": "Tzu-Jen Lin",
+    "AvatarImage": "assets/images/pi-intro_img_1.png",
+    "Email": "tjlin@mail.ntust.edu.tw",
+    "Lab": "Room E1-241-2, Engineering Building 1",
+    "Name": "林子仁 (Tzu-Jen Lin)",
+    "Address": "No.43, Sec. 4, Keelung Rd., Da'an Dist., Taipei City 106, Taiwan",
+    "Office": "Room E1-101-2, Engineering Building 1",
+    "Title": "Associate Professor",
+    "YouTube": "https://www.youtube.com/user/sdd3390",
+    "Department": "Department of Materials Science and Engineering, National Taiwan University of Science and Technology"
+  },
+  "ExternalEducationalLinks": [
+    {
+      "Name": "南開大學孫宏偉教授: 量子化學計算課程",
+      "Url": "https://struchem.nankai.edu.cn/mmnew/mm.htm"
+    }
+  ],
+  "Images": [
+    {
+      "Description": "Multi-scale modeling spectrum from molecule to polymer and ML",
+      "File": "homepage_img_1.png",
+      "Category": "diagram"
+    },
+    {
+      "Description": "Package logos: LAMMPS, Linux, GROMACS, Bash, Gaussian 16, Materials Studio",
+      "File": "homepage_img_2.png",
+      "Category": "software_logos"
+    },
+    {
+      "Description": "CP2K logo formed by orange atoms",
+      "File": "homepage_img_3.png",
+      "Category": "software_logos"
+    },
+    {
+      "Description": "xTB (Extended Tight-Binding) logo",
+      "File": "homepage_img_4.png",
+      "Category": "software_logos"
+    },
+    {
+      "Description": "CASTEP logo",
+      "File": "homepage_img_5.png",
+      "Category": "software_logos"
+    },
+    {
+      "Description": "scikit-learn logo",
+      "File": "homepage_img_6.png",
+      "Category": "software_logos"
+    },
+    {
+      "Description": "RDKit Open-Source Cheminformatics logo",
+      "File": "homepage_img_7.png",
+      "Category": "software_logos"
+    },
+    {
+      "Description": "NumPy logo",
+      "File": "homepage_img_8.png",
+      "Category": "software_logos"
+    },
+    {
+      "Description": "PI photo / meme avatar (Kim Jong Un speaking)",
+      "File": "pi-intro_img_1.png",
+      "Category": "avatar"
+    }
+  ],
+  "LabName": "Multi-Scale Modeling and Thermodynamics LAB @ NTUST",
+  "OriginalGoogleSite": {
+    "Tutorials": "https://sites.google.com/view/msmtjl/homepage/tutorial-resources",
+    "Gallery": "https://sites.google.com/view/msmtjl/homepage/gallery",
+    "Root": "https://sites.google.com/view/msmtjl",
+    "Homepage": "https://sites.google.com/view/msmtjl/homepage",
+    "Publications": "https://sites.google.com/view/msmtjl/homepage/publication-and-presentation",
+    "PIIntro": "https://sites.google.com/view/msmtjl/homepage/pi-intro"
+  },
+  "YouTubePlaylists": [
+    {
+      "Title": "Basic Calculus Clips",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdLNc78HzhOCFw_r5EK4rdUs",
+      "Id": "PLwwTz0GVILdLNc78HzhOCFw_r5EK4rdUs"
+    },
+    {
+      "Title": "First Order ODE Clips",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdKxEJei6gcbGobHsNuHff3a",
+      "Id": "PLwwTz0GVILdKxEJei6gcbGobHsNuHff3a"
+    },
+    {
+      "Title": "Second Order ODE Clips",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdKX2_TfuMbMDBG3xqC5FdYv",
+      "Id": "PLwwTz0GVILdKX2_TfuMbMDBG3xqC5FdYv"
+    },
+    {
+      "Title": "Laplace Transform Clips",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdJTOA9OSJVKCMBoZzYxdLeZ",
+      "Id": "PLwwTz0GVILdJTOA9OSJVKCMBoZzYxdLeZ"
+    },
+    {
+      "Title": "Numerical ODE Clips",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdKOQfgLo1DJMZ8o00rDNzGM",
+      "Id": "PLwwTz0GVILdKOQfgLo1DJMZ8o00rDNzGM"
+    },
+    {
+      "Title": "Mass and Energy Balance Clips",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdLCniQNHpMHLeLelFNZHhBn",
+      "Id": "PLwwTz0GVILdLCniQNHpMHLeLelFNZHhBn"
+    },
+    {
+      "Title": "Practice 1 Clips",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdKTsl3BXSK2wRVAtI6Vgng7",
+      "Id": "PLwwTz0GVILdKTsl3BXSK2wRVAtI6Vgng7"
+    },
+    {
+      "Title": "Practice 2 Clips",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdIPiUX-XjRg6i2-SBfin4bB",
+      "Id": "PLwwTz0GVILdIPiUX-XjRg6i2-SBfin4bB"
+    },
+    {
+      "Title": "Practice 3 Clips",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdLW5sVThSgb0dQDGPSegRiM",
+      "Id": "PLwwTz0GVILdLW5sVThSgb0dQDGPSegRiM"
+    },
+    {
+      "Title": "Practice 4 Clips",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdKcHu9m-a8OMeOGdNWvF2O1",
+      "Id": "PLwwTz0GVILdKcHu9m-a8OMeOGdNWvF2O1"
+    },
+    {
+      "Title": "MATLAB Clips",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdLH6pEcNwe9IVWFEu09N64l",
+      "Id": "PLwwTz0GVILdLH6pEcNwe9IVWFEu09N64l"
+    },
+    {
+      "Title": "Linux Clips",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdIBx-8pWmmWdRJiJnYvo_g8",
+      "Id": "PLwwTz0GVILdIBx-8pWmmWdRJiJnYvo_g8"
+    },
+    {
+      "Title": "Material & Molecular Simulation 1",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdLh5bHAE2QOLPwSZRlaYzli",
+      "Id": "PLwwTz0GVILdLh5bHAE2QOLPwSZRlaYzli"
+    },
+    {
+      "Title": "Material & Molecular Simulation 2",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdKyA4WmVfkQdNAWw01xLScR",
+      "Id": "PLwwTz0GVILdKyA4WmVfkQdNAWw01xLScR"
+    },
+    {
+      "Title": "Quantum Chemistry & Spectra",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdLH6pEcNwe9IVWFEu09N64l",
+      "Id": "PLwwTz0GVILdLH6pEcNwe9IVWFEu09N64l",
+      "SourceNoteZh": "官網目前連至與 MATLAB 相同的播放清單。",
+      "SourceNoteEn": "The official page currently links to the same playlist as MATLAB."
+    },
+    {
+      "Title": "High School Chemistry and Physics",
+      "Url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdIjsSG-ZFcgk-ON2nb-Ddo8",
+      "Id": "PLwwTz0GVILdIjsSG-ZFcgk-ON2nb-Ddo8"
+    }
+  ],
+  "VerifiedSource": "https://sites.google.com/view/msmtjl/homepage/pi-intro",
+  "VerifiedDate": "2026-10-17"
 }

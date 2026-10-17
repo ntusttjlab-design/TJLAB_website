@@ -1,65 +1,83 @@
-# 台科大材料系 多尺度模擬與熱力學實驗室 (Multi-Scale Modeling LAB @ NTUST)
-> 本專案為林子敬教授實驗室官方新版網站原始碼與資源庫，支援純靜態開箱即用與 GitHub Pages 全自動部署。
+# 多尺度模擬與熱力學實驗室 · NTUST
 
----
+林子仁老師研究團隊的靜態網站。現有資料收錄 19 篇期刊、18 筆研討會紀錄、16 筆教學資源連結（15 個不重複播放清單），支援繁中／英文切換、文獻搜尋與兩個休閒遊戲。
 
-## ⚡ 快速預覽 (Quick Preview)
+目前狀態：**1.4.0 科學模型與共用最高紀錄版，網站準備部署。** GAS 已授權並公開部署，真實貪食蛇成績寫入與試算表讀回已驗收；詳見 [部署紀錄](docs/DEPLOYMENT_LOG.md)。
 
-本專案採用**零依賴架構 (Zero-Build Vanilla)**，本機不需安裝 Node.js 或任何繁瑣環境：
-* **直接點開**：在檔案總管中雙擊 [`index.html`](./index.html)，即可在任何瀏覽器中體驗完整的 3D 旋轉分子模型、Linux 終端機彩蛋與論文篩選系統。
+入口：[Google 協作平台](https://sites.google.com/view/tjlab/tjlab) · [GitHub Pages](https://ntusttjlab-design.github.io/TJLAB_website/)。
 
----
+## 預覽
 
-## 📂 完整專案結構 (Project Structure)
+直接開啟 `index.html` 即可使用核心內容。需使用本機伺服器時，在專案目錄執行：
 
-```text
-e:/tjlab_website/
-├── index.html                               # 網站核心單頁入口 (支援響應式、3D WebGL、終端機)
-├── README.md                                # 專案導覽說明（本檔案）
-├── CHANGELOG.md                             # 網站更新紀錄 (遵循語意化版本與 Keep a Changelog)
-├── .gitignore                               # Git 忽略設定
-│
-├── .github/
-│   └── workflows/
-│       └── deploy.yml                       # GitHub Pages 自動化 CI/CD 部署設定檔
-│
-├── assets/                                  # 核心前端資產
-│   ├── css/
-│   │   └── style.css                        # 玻璃擬態、光暈文字、霓虹按鈕與終端機動效樣式
-│   ├── js/
-│   │   └── main.js                          # Three.js 3D 分子震盪、Linux 終端機解譯、即時搜尋過濾
-│   └── images/                              # 實驗室圖片庫 (9 張原始圖檔已標準化小寫命名)
-│       ├── homepage_img_1.png               # 多尺度模擬光譜圖 (1 Å ~ 50 nm)
-│       ├── homepage_img_2.png               # 軟體群 (LAMMPS, GROMACS, Gaussian, Materials Studio)
-│       ├── homepage_img_3.png ~ img_8.png   # CP2K, xTB, CASTEP, scikit-learn, RDKit, NumPy
-│       └── pi-intro_img_1.png               # PI 迷因頭像 (金正恩演說彩蛋)
-│
-├── content/                                 # 結構化內容與資料庫備份
-│   ├── 01_homepage.md                       # 首頁研究主軸與工具備份
-│   ├── 02_pi_intro.md                       # 主持人學經歷與開課影片備份
-│   ├── 03_publications_and_presentations.md  # 完整 19 篇期刊與歷年研討會紀錄
-│   ├── 04_tutorial_resources.md             # 量子化學與分子動力學講義整理
-│   ├── 05_gallery.md                        # 相簿未來規劃指引
-│   └── all_links_and_media.json             # 所有 YouTube 播放清單與媒體連結對應表
-│
-├── docs/                                    # 開發與維護手冊
-│   └── MAINTENANCE_GUIDE.md                 # 網站維護 SOP (如何新增 Paper、成員、照片與除錯)
-│
-└── raw_html/                                # 原始 Google Sites 5 個頁面之 UTF-8 HTML 原始碼備份
+```powershell
+node scripts/preview.mjs
 ```
 
----
+開啟 http://127.0.0.1:4173 。按 Ctrl+C 停止。無需安裝 npm 套件。3D 示意使用外部 Three.js；無法載入或不支援 WebGL 時會顯示靜態示意，不影響其他內容。
 
-## 🛠️ 維護與更新指引 (Maintenance Guides)
+## 目錄與編輯入口
 
-實驗室新進成員或管理者進行更新時，請參考以下文件：
-* **[網站更新紀錄 (CHANGELOG.md)](./CHANGELOG.md)**：檢視目前版本歷程與待開發計畫。
-* **[網站維護手冊 (docs/MAINTENANCE_GUIDE.md)](./docs/MAINTENANCE_GUIDE.md)**：包含「如何新增論文」、「如何更新開課影片」、「如何綁定學校網址」等標準 SOP。
+```text
+index.html                       產生的完整頁面，可直接開啟
+assets/
+  css/style.css                  淺色版面與手機樣式
+  js/main.js                     語言、搜尋、終端機、遊戲
+  js/molecule.js                 捲動式 3D 材料視覺
+  js/story.js                    GSAP 時間軸與動畫偏好
+  vendor/gsap/                   固定版本動畫執行檔與來源紀錄
+  images/                        保留原始圖檔；非所有圖檔都在使用
+content/
+  site_template.html             網頁結構及中英文文案來源
+  hero_story.html                首頁三段捲動敘事來源
+  publications.html              37 筆文獻原始卡片來源
+  all_links_and_media.json        課程與媒體來源
+  01_*.md … 05_*.md              舊站整理資料，供追溯
+  publications_raw.txt           舊站論文擷取文字
+scripts/
+  build_site.py                  以標準函式庫產生 index.html
+  check_site.py                  內容數量、雙語與路徑檢查
+  check_official_source.py       官網日期快照與重要資訊比對
+  check_interactions.mjs          遊戲行為與紀錄保存檢查
+  preview.mjs                    僅提供網頁與 assets 的本機伺服器
+  package.ps1                    整理發布檔案至 _site
+docs/                            待辦、進度、部署、維護與檢查紀錄
+raw_html/                        五個舊 Google Sites 頁面備份
+.github/workflows/deploy.yml      驗證並部署 GitHub Pages
+.local-backups/                  本機改版前快照，不納入 Git
+_site/                           發布產物，不納入 Git
+```
 
----
+不要直接修改產生的 `index.html`；修改來源後重新產生，避免下次覆寫。研究方向、文獻翻譯與課程中文名稱目前在 `scripts/build_site.py` 的對應資料中維護。
 
-## 🌐 專案與部屬網址 (Project & Live URLs)
-* **GitHub 倉庫**: [https://github.com/ntusttjlab-design/TJLAB_website](https://github.com/ntusttjlab-design/TJLAB_website)
-* **GitHub Pages 上線網址**: [https://ntusttjlab-design.github.io/TJLAB_website/](https://ntusttjlab-design.github.io/TJLAB_website/)
-* **原始 Google Sites 舊站**: [https://sites.google.com/view/msmtjl/homepage](https://sites.google.com/view/msmtjl/homepage)
-* **林子敬老師 YouTube 教學頻道**: [https://www.youtube.com/user/sdd3390](https://www.youtube.com/user/sdd3390)
+## 維護與驗收
+
+依本機規則，Python 從 **Windows 主機端提升權限的 PowerShell** 呼叫 Ubuntu，使用既有環境；不安裝套件：
+
+```powershell
+wsl.exe -d Ubuntu bash -lc '/home/ubuntu/miniconda3/envs/codex_conda_base/bin/python /mnt/e/tjlab_website/scripts/build_site.py'
+wsl.exe -d Ubuntu bash -lc '/home/ubuntu/miniconda3/envs/codex_conda_base/bin/python /mnt/e/tjlab_website/scripts/check_site.py'
+node --check assets/js/main.js
+node --check assets/js/molecule.js
+node scripts/check_interactions.mjs
+```
+
+## 工作紀錄
+
+- [待辦與驗收條件](docs/TODO.md)
+- [目前進度與測試結果](docs/PROGRESS.md)
+- [部署紀錄](docs/DEPLOYMENT_LOG.md)
+- [維護手冊](docs/MAINTENANCE_GUIDE.md)
+- [版本更新紀錄](CHANGELOG.md)
+- [初次接續檢查快照](docs/PROJECT_STATUS_2026-10-17.md)
+
+## 專案連結
+
+- GitHub：https://github.com/ntusttjlab-design/TJLAB_website
+- 線上網站：https://ntusttjlab-design.github.io/TJLAB_website/
+- 舊站：https://sites.google.com/view/msmtjl/homepage
+- YouTube：https://www.youtube.com/user/sdd3390
+
+官網重要資訊已於 2026-10-17 重新核對，詳見 [核對紀錄](docs/OFFICIAL_CONTENT_CHECK_2026-10-17.md)。
+
+動畫與學生視角請見 [設計原則](docs/DESIGN_GUIDE.md)。共用榜單仍待 Apps Script 部署，請見 [排行榜設定](docs/LEADERBOARD_SETUP.md)。

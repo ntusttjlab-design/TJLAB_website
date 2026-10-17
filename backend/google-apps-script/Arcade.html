@@ -1,0 +1,132 @@
+<!doctype html><html lang="<?= initialLanguage ?>"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>
+*{box-sizing:border-box}body{margin:0;font:14px/1.65 system-ui,"Microsoft JhengHei",sans-serif;background:#f6f8f5;color:#19332f}button,input{font:inherit}button{cursor:pointer;min-height:44px}button:focus-visible,input:focus-visible,canvas:focus-visible{outline:3px solid #a66025;outline-offset:3px}header{display:flex;justify-content:space-between;gap:12px;align-items:center}h2{font-size:22px}h3{margin:0;font-size:17px}p{color:#526660}button,.button,input{border:1px solid #cbd9cc;border-radius:8px;background:white;padding:8px 12px;color:#19332f}.primary{background:#17654e;color:white}#record-list{font-size:13px}#record-list p{margin:5px 0}.games-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0}.game-card{border:1px solid #d9e3dc;border-radius:18px;padding:18px;background:white;min-width:0}.game-heading{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between}.game-card canvas{width:100%;height:auto;display:block;touch-action:none;border-radius:10px}.game-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.direction-controls{display:flex;gap:4px}.direction-controls button{padding:6px 12px}.game-card p{font-size:12px;min-height:40px}dialog{max-width:360px;width:calc(100% - 32px);border:1px solid #d9e3dc;border-radius:16px;padding:24px}dialog::backdrop{background:#19332f66}dialog input{width:100%;margin:10px 0}dialog form>div{display:flex;gap:10px}#record-status{font-size:12px}#record-retry{font-size:12px}#record-language{font-size:12px}@media(max-width:700px){.games-grid{grid-template-columns:1fr}.game-card{padding:14px}}
+</style></head><body><header><h2 data-zh="共用最高紀錄" data-en="Shared records">共用最高紀錄</h2><button id="record-language">EN</button></header><div id="record-list"></div><p id="record-status" role="status" aria-live="polite">讀取最高紀錄…</p><button id="record-retry" data-zh="重新讀取紀錄" data-en="Refresh records">重新讀取紀錄</button><div class="games-grid">
+      <article class="game-card" id="snake-game"><div class="game-heading"><h3><span data-zh="分子貪食蛇" data-en="Molecular snake">分子貪食蛇</span></h3><span>DP <strong id="snake-dp-score">3</strong> · BEST <strong id="snake-high-score">0</strong></span></div><p><span data-zh="收集原子，讓分子鏈變長。方向鍵／WASD 或下方按鈕操作。" data-en="Collect atoms to grow your chain. Use arrows / WASD or the buttons below.">收集原子，讓分子鏈變長。方向鍵／WASD 或下方按鈕操作。</span></p><canvas id="snake-canvas" width="480" height="320" tabindex="0" aria-label="Molecular snake game"></canvas><div class="game-actions"><button id="snake-start-btn" class="button primary"><span data-zh="開始新局" data-en="New game">開始新局</span></button><button id="snake-pause-btn" class="button" aria-pressed="false"><span data-zh="暫停／繼續" data-en="Pause / resume">暫停／繼續</span></button><div class="direction-controls" role="group" aria-label="Snake direction"><button data-direction="up" aria-label="Up">↑</button><button data-direction="left" aria-label="Left">←</button><button data-direction="down" aria-label="Down">↓</button><button data-direction="right" aria-label="Right">→</button></div></div><p id="snake-status" role="status" aria-live="polite"></p></article>
+      <article class="game-card" id="volley-game"><div class="game-heading"><h3><span data-zh="經典彈跳球" data-en="Classic paddle rally">經典彈跳球</span></h3><span>YOU <strong id="volley-score-p1">0</strong> : <strong id="volley-score-ai">0</strong> AI</span></div><p><span data-zh="先得 5 分獲勝。以滑鼠、手指拖曳，或 W／S 控制左側球拍。" data-en="First to 5 wins. Move the left paddle with your mouse, touch or W / S.">先得 5 分獲勝。以滑鼠、手指拖曳，或 W／S 控制左側球拍。</span></p><canvas id="volley-canvas" width="480" height="320" tabindex="0" aria-label="Paddle rally game"></canvas><div class="game-actions"><button id="volley-start-btn" class="button primary"><span data-zh="開始新局" data-en="New game">開始新局</span></button><button id="volley-pause-btn" class="button" aria-pressed="false"><span data-zh="暫停／繼續" data-en="Pause / resume">暫停／繼續</span></button></div><p id="volley-status" role="status" aria-live="polite"></p></article>
+    </div><dialog id="record-dialog"><form id="record-form"><h2 data-zh="挑戰最高紀錄！" data-en="A new record contender!">挑戰最高紀錄！</h2><label for="record-name" data-zh="顯示在公開紀錄上的暱稱" data-en="Nickname shown on the public record">顯示在公開紀錄上的暱稱</label><input id="record-name" maxlength="20" autocomplete="nickname" required><p id="record-form-status" role="status"></p><div><button id="record-submit" class="primary" type="submit" data-zh="送出紀錄" data-en="Submit record">送出紀錄</button><button id="record-cancel" type="button" data-zh="略過" data-en="Skip">略過</button></div></form></dialog><script>
+'use strict';
+let language=document.documentElement.lang==='en'?'en':'zh-TW';
+const gameControllers={};
+const localized=(zh,en)=>language==='en'?en:zh;
+const storage={get(key,fallback){try{return localStorage.getItem(key)??fallback;}catch{return fallback;}},set(key,value){try{localStorage.setItem(key,value);return true;}catch{return false;}}};
+function activateGame(name){Object.entries(gameControllers).forEach(([key,game])=>{if(key!==name)game.pause();});}
+function setLanguage(){document.documentElement.lang=language;document.querySelectorAll('[data-zh][data-en]').forEach(node=>{node.textContent=language==='en'?node.dataset.en:node.dataset.zh;});document.getElementById('record-language').textContent=language==='en'?'繁中':'EN';document.dispatchEvent(new Event('languagechange'));}
+function initSnake() {
+    const canvas = document.getElementById('snake-canvas');
+    const ctx = canvas.getContext('2d');
+    const status = document.getElementById('snake-status');
+    const pauseButton = document.getElementById('snake-pause-btn');
+    const step = 16, cols = 30, rows = 20;
+    let snake, food, direction, nextDirection, changed = false, phase = 'idle', timer, activeMs = 0;
+    let best = Math.max(0, Number(storage.get('msmtjl_snake_high', '0')) || 0);
+    let canSave = true;
+    const directions = {up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}};
+    function reset() { activeMs = 0; snake = [{x:10,y:10},{x:9,y:10},{x:8,y:10}]; direction = nextDirection = directions.right; changed = false; spawn(); }
+    function spawn() {
+        const empty = [];
+        for (let y=0;y<rows;y++) for(let x=0;x<cols;x++) if (!snake.some(part => part.x===x && part.y===y)) empty.push({x,y});
+        food = empty.length ? empty[Math.floor(Math.random()*empty.length)] : null;
+    }
+    function announce() {
+        document.getElementById('snake-dp-score').textContent = snake.length;
+        document.getElementById('snake-high-score').textContent = best;
+        pauseButton.setAttribute('aria-pressed', String(phase === 'paused'));
+        const messages = {idle:['按開始新局，或先看看其他研究內容。','Press New game when you are ready.'],running:['收集原子，挑戰自己的紀錄！','Collect atoms and beat your record!'],paused:['已暫停。','Paused.'],over:['本局結束，按開始新局再試一次。','Game over. Press New game to try again.'],won:['已填滿所有格子！','You filled the board!']};
+        status.textContent = localized(...messages[phase]) + (canSave ? '' : localized(' 瀏覽器不允許儲存紀錄。', ' This browser cannot save the record.'));
+    }
+    function draw() {
+        ctx.fillStyle='#eff4ed';ctx.fillRect(0,0,480,320);
+        ctx.strokeStyle='#dde7da';ctx.lineWidth=.5;
+        for(let x=0;x<=480;x+=step){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,320);ctx.stroke();}
+        for(let y=0;y<=320;y+=step){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(480,y);ctx.stroke();}
+        snake.forEach((part,index)=>{ctx.fillStyle=index===0?'#17654e':'#619d88';ctx.beginPath();ctx.arc(part.x*step+8,part.y*step+8,6,0,Math.PI*2);ctx.fill();});
+        if(food){ctx.fillStyle='#b36337';ctx.beginPath();ctx.arc(food.x*step+8,food.y*step+8,6,0,Math.PI*2);ctx.fill();}
+        if(phase!=='running' && phase!=='idle'){ctx.fillStyle='rgba(246,248,245,.82)';ctx.fillRect(0,0,480,320);ctx.fillStyle='#19332f';ctx.font='bold 22px sans-serif';ctx.textAlign='center';ctx.fillText(phase==='paused'?'PAUSED':phase==='won'?'BOARD COMPLETE':'GAME OVER',240,165);}
+    }
+    function schedule() { clearInterval(timer); timer = setInterval(tick, Math.max(65, 140-(snake.length-3)*2)); }
+    function tick() {
+        if(phase!=='running')return;
+        activeMs += Math.max(65,140-(snake.length-3)*2);direction=nextDirection;changed=false;
+        const head={x:snake[0].x+direction.x,y:snake[0].y+direction.y};
+        const eating=food && head.x===food.x && head.y===food.y;
+        // 未進食時尾端會離開原格，允許蛇頭走進該位置。
+        const body=eating?snake:snake.slice(0,-1);
+        if(head.x<0||head.x>=cols||head.y<0||head.y>=rows||body.some(part=>part.x===head.x&&part.y===head.y)){phase='over';clearInterval(timer);announce();draw();window.labRecord?.({game:'snake',score:snake.length,duration_ms:activeMs});return;}
+        snake.unshift(head);
+        if(eating){if(snake.length>best){best=snake.length;canSave=storage.set('msmtjl_snake_high',String(best));}spawn();if(!food){phase='won';clearInterval(timer);window.labRecord?.({game:'snake',score:snake.length,duration_ms:activeMs});}else schedule();}else snake.pop();
+        announce();draw();
+    }
+    function turn(name){const next=directions[name];if(phase==='running'&&!changed&&next&&(next.x!==-direction.x||next.y!==-direction.y)){nextDirection=next;changed=true;}}
+    function pause(){if(phase==='running'){phase='paused';clearInterval(timer);announce();draw();}}
+    gameControllers.snake={pause};
+    document.getElementById('snake-start-btn').addEventListener('click',()=>{activateGame('snake');reset();phase='running';schedule();canvas.focus({preventScroll:true});announce();draw();});
+    pauseButton.addEventListener('click',()=>{if(phase==='running')pause();else if(phase==='paused'){activateGame('snake');phase='running';schedule();canvas.focus({preventScroll:true});announce();draw();}});
+    document.querySelectorAll('[data-direction]').forEach(button=>button.addEventListener('click',()=>turn(button.dataset.direction)));
+    window.addEventListener('keydown',event=>{if(phase!=='running'||event.target.closest('input,textarea,[contenteditable]'))return;const keys={ArrowUp:'up',w:'up',ArrowDown:'down',s:'down',ArrowLeft:'left',a:'left',ArrowRight:'right',d:'right'};const name=keys[event.key]||keys[event.key.toLowerCase()];if(name){event.preventDefault();turn(name);}});
+    document.addEventListener('languagechange',announce);
+    reset();announce();draw();
+}
+
+function initRally() {
+    const canvas=document.getElementById('volley-canvas'),ctx=canvas.getContext('2d');
+    const status=document.getElementById('volley-status'),pauseButton=document.getElementById('volley-pause-btn');
+    let phase='idle',paddle=136,ai=136,ball,p1=0,p2=0,frame,lastTime=0,activeMs=0;
+    const held=new Set();
+    function resetBall(){ball={x:240,y:160,vx:(Math.random()>.5?1:-1)*210,vy:(Math.random()-.5)*180};}
+    function announce(){document.getElementById('volley-score-p1').textContent=p1;document.getElementById('volley-score-ai').textContent=p2;pauseButton.setAttribute('aria-pressed',String(phase==='paused'));status.textContent=phase==='over'?localized(p1===5?'你贏了！再來一場？':'AI 獲勝，再試一次吧。',p1===5?'You won! Another round?':'AI won. Give it another try.'):phase==='paused'?localized('已暫停。','Paused.'):localized('滑鼠、觸控或 W／S 控制球拍。','Use your mouse, touch or W / S to move.');}
+    function draw(){ctx.fillStyle='#eff4ed';ctx.fillRect(0,0,480,320);ctx.strokeStyle='#bfd1bd';ctx.setLineDash([5,5]);ctx.beginPath();ctx.moveTo(240,0);ctx.lineTo(240,320);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#17654e';ctx.fillRect(12,paddle,8,48);ctx.fillStyle='#6c8872';ctx.fillRect(460,ai,8,48);ctx.beginPath();ctx.arc(ball.x,ball.y,6,0,Math.PI*2);ctx.fillStyle='#b36337';ctx.fill();if(phase==='paused'||phase==='over'){ctx.fillStyle='rgba(246,248,245,.85)';ctx.fillRect(0,0,480,320);ctx.fillStyle='#19332f';ctx.font='bold 22px sans-serif';ctx.textAlign='center';ctx.fillText(phase==='paused'?'PAUSED':p1===5?'YOU WIN':'AI WINS',240,165);}}
+    function update(time){if(phase!=='running')return;const dt=Math.min((time-lastTime)/1000,.035);lastTime=time;activeMs+=dt*1000;if(held.has('w')||held.has('arrowup'))paddle-=270*dt;if(held.has('s')||held.has('arrowdown'))paddle+=270*dt;paddle=Math.max(0,Math.min(272,paddle));ai+=Math.max(-165*dt,Math.min(165*dt,ball.y-24-ai));ai=Math.max(0,Math.min(272,ai));ball.x+=ball.vx*dt;ball.y+=ball.vy*dt;if(ball.y<6){ball.y=6;ball.vy=Math.abs(ball.vy);}if(ball.y>314){ball.y=314;ball.vy=-Math.abs(ball.vy);}if(ball.vx<0&&ball.x<=26&&ball.x>=12&&ball.y>=paddle-6&&ball.y<=paddle+54){ball.x=26;ball.vx=Math.min(430,Math.abs(ball.vx)*1.06);ball.vy=(ball.y-paddle-24)*8;}if(ball.vx>0&&ball.x>=454&&ball.x<=468&&ball.y>=ai-6&&ball.y<=ai+54){ball.x=454;ball.vx=-Math.min(430,Math.abs(ball.vx)*1.06);ball.vy=(ball.y-ai-24)*8;}if(ball.x<0||ball.x>480){if(ball.x<0)p2++;else p1++;resetBall();if(p1===5||p2===5){phase='over';if(p1===5)window.labRecord?.({game:'rally',score:5,duration_ms:Math.round(activeMs)});}announce();}draw();if(phase==='running')frame=requestAnimationFrame(update);}
+    function resume(){activateGame('rally');phase='running';lastTime=performance.now();cancelAnimationFrame(frame);frame=requestAnimationFrame(update);announce();canvas.focus({preventScroll:true});}
+    function pause(){if(phase==='running'){phase='paused';held.clear();cancelAnimationFrame(frame);announce();draw();}}
+    gameControllers.rally={pause};
+    document.getElementById('volley-start-btn').addEventListener('click',()=>{activeMs=0;p1=p2=0;paddle=ai=136;resetBall();resume();});
+    pauseButton.addEventListener('click',()=>{if(phase==='running')pause();else if(phase==='paused')resume();});
+    const move=event=>{if(phase!=='running')return;const box=canvas.getBoundingClientRect();paddle=Math.max(0,Math.min(272,(event.clientY-box.top)*320/box.height-24));};
+    canvas.addEventListener('pointerdown',event=>{canvas.setPointerCapture(event.pointerId);move(event);});canvas.addEventListener('pointermove',move);
+    window.addEventListener('keydown',event=>{if(phase!=='running'||event.target.closest('input,textarea,[contenteditable]'))return;const key=event.key.toLowerCase();if(['w','s','arrowup','arrowdown'].includes(key)){held.add(key);event.preventDefault();}});
+    window.addEventListener('keyup',event=>held.delete(event.key.toLowerCase()));
+    document.addEventListener('languagechange',announce);
+    resetBall();announce();draw();
+}
+
+// 離開視窗或切換分頁時暫停，避免回來時已經結束遊戲。
+window.addEventListener('blur',()=>Object.values(gameControllers).forEach(game=>game.pause()));
+document.addEventListener('visibilitychange',()=>{if(document.hidden)Object.values(gameControllers).forEach(game=>game.pause());});
+
+initSnake();initRally();
+document.getElementById('record-language').addEventListener('click',()=>{language=language==='en'?'zh-TW':'en';setLanguage();});
+// 與遊戲在同一個 Apps Script 頁面，直接使用官方通道。
+let records=[],recordReady=false,pendingRecord=null,request=0;
+const recordStatus=document.getElementById('record-status');
+const recordDialog=document.getElementById('record-dialog');
+function renderRecords(){
+ document.getElementById('record-list').replaceChildren();
+ ['snake','rally'].forEach(game=>{const winner=records.find(row=>row.game===game),line=document.createElement('p');line.textContent=localized(game==='snake'?'分子貪食蛇':'彈跳球最快獲勝',game==='snake'?'Molecular snake':'Fastest rally win')+' · '+(winner?winner.nickname+' · '+(game==='snake'?winner.score+' DP':(winner.duration_ms/1000).toFixed(2)+' s')+' · '+new Date(winner.date).toLocaleString(language==='en'?'en-GB':'zh-TW',{timeZone:'Asia/Taipei',hour12:false}):localized('尚無紀錄','No record yet'));document.getElementById('record-list').append(line);});
+}
+function recordCall(method,payload,success){
+ const ticket=++request;const timer=setTimeout(()=>{if(ticket===request){request++;recordStatus.textContent=localized('共用紀錄連線逾時，可稍後重試。','Records timed out. Please retry.');document.getElementById('record-submit').disabled=false;}},15000);
+ const runner=google.script.run.withSuccessHandler(result=>{if(ticket!==request)return;clearTimeout(timer);success(result);}).withFailureHandler(()=>{if(ticket!==request)return;clearTimeout(timer);recordStatus.textContent=localized('共用紀錄暫時無法讀寫，遊戲仍可繼續。','Shared records are unavailable. You can still play.');document.getElementById('record-submit').disabled=false;});
+ if(method==='read')runner.recordsRead();else runner.recordSubmit(payload);
+}
+function loadRecords(){recordCall('read',null,result=>{records=result.records;recordReady=true;renderRecords();recordStatus.textContent=localized('貪食蛇比最高 DP；彈跳球比獲勝局遊戲時間。紀錄時間為台灣時間。','Highest snake DP; shortest winning rally game time. Dates shown in Taiwan time.');});}
+window.labRecord=payload=>{
+ if(!recordReady||recordDialog.open)return;
+ const best=records.find(row=>row.game===payload.game);
+ if(payload.game==='snake'&&(payload.score<4||best&&payload.score<=best.score)||payload.game==='rally'&&(payload.duration_ms<5000||best&&payload.duration_ms>=best.duration_ms))return;
+ Object.values(gameControllers).forEach(game=>game.pause());pendingRecord=payload;
+ document.getElementById('record-name').value=storage.get('msmtjl_nickname','');document.getElementById('record-submit').disabled=false;document.getElementById('record-form-status').textContent='';recordDialog.showModal();
+};
+document.getElementById('record-cancel').addEventListener('click',()=>recordDialog.close());
+document.getElementById('record-form').addEventListener('submit',event=>{
+ event.preventDefault();if(!pendingRecord)return;
+ const nickname=document.getElementById('record-name').value.trim();
+ if(!/^[A-Za-z0-9\u3400-\u9fff][A-Za-z0-9\u3400-\u9fff ._-]{0,19}$/.test(nickname)){document.getElementById('record-form-status').textContent=localized('請填1至20字的中英文字或數字。','Use 1–20 letters or numbers.');return;}
+ document.getElementById('record-submit').disabled=true;
+ recordCall('submit',{...pendingRecord,nickname},result=>{records=result.records;storage.set('msmtjl_nickname',nickname);renderRecords();recordStatus.textContent=result.saved?localized('最高紀錄已儲存！','New record saved!'):localized('已有更佳或相同紀錄，已顯示最新冠軍。','An equal or better record exists. Showing the latest champion.');pendingRecord=null;recordDialog.close();});
+});
+document.getElementById('record-retry').addEventListener('click',loadRecords);
+document.addEventListener('languagechange',renderRecords);
+loadRecords();
+
+setLanguage();
+</script></body></html>

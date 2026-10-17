@@ -1,6 +1,6 @@
-﻿# Multi-Scale Modeling and Thermodynamics LAB @ NTUST (國立臺灣科技大學 多尺度模擬與熱力學實驗室)
+# Multi-Scale Modeling and Thermodynamics LAB @ NTUST (國立臺灣科技大學 多尺度模擬與熱力學實驗室)
 
-> **實驗室主持人**: 林子敬 (Tzu-Jen Lin) 助理教授  
+> **實驗室主持人**: 林子仁 (Tzu-Jen Lin) 副教授  
 > **所屬系所**: 國立臺灣科技大學 材料科學與工程系 (Department of Materials Science and Engineering, NTUST)  
 > **辦公室**: 工程一館 E1-101-2  
 > **實驗室**: 工程一館 E1-241-2  
@@ -11,7 +11,7 @@
 
 ## 實驗室簡介 (Introduction)
 Hello World! 歡迎來到國立臺灣科技大學材料科學與工程系「多尺度模擬與熱力學實驗室 (Multi-Scale Modeling and Thermodynamics LAB)」。  
-主持人林子敬老師致力於透過**量子化學 (Quantum Chemistry)**、**第一原理計算 (First-principles / DFT)**、以及**平衡與非平衡分子動力學 (Equilibrium and Non-equilibrium Molecular Dynamics)** 計算，研究從分子尺度到 50 奈米尺度 (50-nanometer scale) 的基礎物理化學關鍵問題。
+主持人林子仁老師致力於透過**量子化學 (Quantum Chemistry)**、**第一原理計算 (First-principles / DFT)**、以及**平衡與非平衡分子動力學 (Equilibrium and Non-equilibrium Molecular Dynamics)** 計算，研究從分子尺度到 50 奈米尺度 (50-nanometer scale) 的基礎物理化學關鍵問題。
 
 ![Multi-Scale Modeling Spectrum](../assets/images/homepage_img_1.png)
 *多尺度模擬光譜：從分子 (1 Å, 1 fs) 到原子團簇 (Cluster)、固體/液體 (10~50 Å, 1~20 ns)、高分子 (Polymer, 10 nm, 100 ns) 與機器學習 (Machine Learning)*

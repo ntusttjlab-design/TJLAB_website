@@ -1,6 +1,6 @@
-﻿# 教學資源 (Tutorial Resources)
+# 教學資源 (Tutorial Resources)
 
-本頁面彙整了林子敬老師實驗室所整理與推薦的量子化學計算、分子動力學模擬及相關教學資源。
+本頁面彙整了林子仁老師實驗室所整理與推薦的量子化學計算、分子動力學模擬及相關教學資源。
 
 ---
 
@@ -38,6 +38,7 @@
 
 ## 4. 完整播放清單 (Complete YouTube Playlists)
 - [分子模擬與材料計算教學清單 1](https://www.youtube.com/playlist?list=PLwwTz0GVILdLh5bHAE2QOLPwSZRlaYzli)
-- [量子化學與光譜計算教學清單](https://www.youtube.com/playlist?list=PLwwTz0GVILdKayxH5WDGoCQJSOL54L4U3)
+- [量子化學與光譜計算教學清單](https://www.youtube.com/playlist?list=PLwwTz0GVILdLH6pEcNwe9IVWFEu09N64l)
 - [分子動力學基礎與進階實作清單 2](https://www.youtube.com/playlist?list=PLwwTz0GVILdKyA4WmVfkQdNAWw01xLScR)
 - [工程數學與微分方程解題系列](https://www.youtube.com/user/sdd3390)
+> 2026-10-17 官網核對：量子化學與光譜導論目前與 MATLAB 指向相同播放清單，依官網保留。

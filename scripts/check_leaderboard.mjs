@@ -1,0 +1,28 @@
+// 本機替身檢查固定資料範圍與最高紀錄更新，完全不寫入真實試算表。
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+const table=[['game_id','nickname','score','duration_ms','recorded_at','rules_version'],['snake','','','','','snake-v2'],['rally','','','','','rally-v2']];
+let locked=false,flushes=0;
+const sheet={getRange(row,col,rows,cols){assert.equal(col,1);assert.ok(row>=2&&row+rows<=4);assert.equal(cols,6);return {getValues:()=>table.slice(row-1,row-1+rows).map(value=>[...value]),setValues(values){assert.ok(locked);values.forEach((value,i)=>{table[row-1+i]=[...value];});}};}};
+const context=vm.createContext({console,Date,JSON,CacheService:{getScriptCache:()=>({get:()=>null,put(){},remove(){}})},LockService:{getScriptLock:()=>({waitLock(){assert.equal(locked,false);locked=true;},releaseLock(){locked=false;}})},SpreadsheetApp:{openById(id){assert.equal(id,'1DyZMK0cQe0eMIpvAofCX-JpzEL4nQxKDzsjSVEcpiUw');return {getSheetByName(name){assert.equal(name,'MSMTJL_Records');return sheet;}};},flush(){flushes++;}}});
+vm.runInContext(fs.readFileSync(new URL('../backend/google-apps-script/Code.gs',import.meta.url),'utf8'),context);
+assert.equal(context.recordsRead().records.length,0);
+const submit=(game,score,duration_ms,nickname='測試玩家')=>context.recordSubmit({game,score,duration_ms,nickname});
+assert.equal(submit('snake',8,8000).saved,true);
+assert.equal(submit('snake',7,9000).saved,false);
+assert.equal(submit('snake',8,7000).saved,false);
+assert.equal(submit('snake',9,9000).saved,true);
+assert.equal(submit('rally',5,40000).saved,true);
+assert.equal(submit('rally',5,45000).saved,false);
+assert.equal(submit('rally',5,35000).saved,true);
+assert.throws(()=>submit('snake',9,9000,'=IMPORTXML'));
+assert.throws(()=>submit('snake',600,1000));
+assert.throws(()=>submit('rally',4,35000));
+assert.throws(()=>submit('unknown',5,35000));
+assert.equal(context.recordsRead().records.length,2);
+assert.equal(table.length,3);
+assert.equal(locked,false);
+assert.equal(flushes,4);
+assert.deepEqual(Object.keys(context.recordsRead().records[0]).sort(),['date','duration_ms','game','nickname','score']);
+console.log('PASS：固定試算表及兩筆紀錄、分數／時間比較、同分保留、輸入拒絕、鎖與公開欄位。');

@@ -1,6 +1,7 @@
 name: Deploy to GitHub Pages
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -28,11 +29,34 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      - name: Validate generated website
+        run: |
+          python3 scripts/build_site.py
+          python3 scripts/build_molecule.py
+          python3 scripts/check_site.py
+          python3 scripts/check_official_source.py
+          git diff --exit-code -- index.html
+          node --check assets/js/main.js
+          node --check assets/js/molecule.js
+          node --check assets/js/story.js
+          node --check assets/js/dielectric.js
+          node --check assets/js/molecular-model.js
+          node --check assets/js/molecule-data.js
+          node --check assets/js/arcade-embed.js
+          node scripts/build_arcade.mjs
+          git diff --exit-code -- backend/google-apps-script/Arcade.html assets/js/molecule-data.js
+          node scripts/check_interactions.mjs
+          node scripts/check_leaderboard.mjs
+
+      - name: Prepare public files
+        shell: pwsh
+        run: ./scripts/package.ps1
+
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository root
-          path: '.'
+          # 僅發布網站，不發布來源備份、文件或本機資料。
+          path: '_site'
 
       - name: Deploy to GitHub Pages
         id: deployment
