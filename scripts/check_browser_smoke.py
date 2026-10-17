@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const fail = (ok, label) => { if (!ok) errors.push(label); };
   fail(document.querySelectorAll('.pub-card').length === 64, 'publications');
   fail(document.querySelectorAll('.course-card').length === 16, 'courses');
-  fail(document.querySelectorAll('.media-launch[data-collection="tutorial"]').length === 17, 'tutorials');
+  fail(document.querySelectorAll('.media-launch[data-collection="tutorial"]').length === 3, 'tutorials');
   fail(document.querySelectorAll('.media-launch[data-collection="gallery"]').length === 8, 'gallery');
   fail(document.querySelectorAll('.media-player iframe').length === 0, 'players-before-activation');
   const toggle = document.getElementById('language-toggle');

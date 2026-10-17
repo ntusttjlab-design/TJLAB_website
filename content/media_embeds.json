@@ -4,7 +4,7 @@
     "raw_html/tutorial-resources.html"
   ],
   "checked": "2026-10-18",
-  "note": "Labels from archived Google Sites iframe; current YouTube embeddability not verified.",
+  "note": "Archived 17 original tutorial embeds. Public Computational Tutorials displays only 3 original-site teaching playlists; 14 third-party tutorial videos remain archival only, per user instruction on 2026-10-18.",
   "gallery": [
     {
       "kind": "video",
@@ -87,7 +87,8 @@
       "embed_url": "https://www.youtube.com/embed/Ksx2oKBTvEU",
       "watch_url": "https://www.youtube.com/watch?v=Ksx2oKBTvEU",
       "title_zh": "GaussView 6 入門",
-      "group": "gaussian"
+      "group": "gaussian",
+      "publish_teacher_only": false
     },
     {
       "kind": "video",
@@ -96,7 +97,8 @@
       "embed_url": "https://www.youtube.com/embed/dqKWfXsEcWs",
       "watch_url": "https://www.youtube.com/watch?v=dqKWfXsEcWs",
       "title_zh": "GaussView 6：建立分子",
-      "group": "gaussian"
+      "group": "gaussian",
+      "publish_teacher_only": false
     },
     {
       "kind": "video",
@@ -105,7 +107,8 @@
       "embed_url": "https://www.youtube.com/embed/7F2JMfOvjmw",
       "watch_url": "https://www.youtube.com/watch?v=7F2JMfOvjmw",
       "title_zh": "Gaussian 計算設定總覽",
-      "group": "gaussian"
+      "group": "gaussian",
+      "publish_teacher_only": false
     },
     {
       "kind": "video",
@@ -114,7 +117,8 @@
       "embed_url": "https://www.youtube.com/embed/17QpHFoQKMM",
       "watch_url": "https://www.youtube.com/watch?v=17QpHFoQKMM",
       "title_zh": "GaussView 6：執行計算",
-      "group": "gaussian"
+      "group": "gaussian",
+      "publish_teacher_only": false
     },
     {
       "kind": "video",
@@ -123,7 +127,8 @@
       "embed_url": "https://www.youtube.com/embed/EeUQu0g8agE",
       "watch_url": "https://www.youtube.com/watch?v=EeUQu0g8agE",
       "title_zh": "GaussView 6：結果視覺化",
-      "group": "gaussian"
+      "group": "gaussian",
+      "publish_teacher_only": false
     },
     {
       "kind": "video",
@@ -132,7 +137,8 @@
       "embed_url": "https://www.youtube.com/embed/I8YYvuu5GaM",
       "watch_url": "https://www.youtube.com/watch?v=I8YYvuu5GaM",
       "title_zh": "GaussView 6：光譜分析",
-      "group": "gaussian"
+      "group": "gaussian",
+      "publish_teacher_only": false
     },
     {
       "kind": "video",
@@ -141,7 +147,8 @@
       "embed_url": "https://www.youtube.com/embed/t0kTVRXXi84",
       "watch_url": "https://www.youtube.com/watch?v=t0kTVRXXi84",
       "title_zh": "GaussView 6：3D 結果視覺化",
-      "group": "gaussian"
+      "group": "gaussian",
+      "publish_teacher_only": false
     },
     {
       "kind": "video",
@@ -150,7 +157,8 @@
       "embed_url": "https://www.youtube.com/embed/N11nlKMyrjk",
       "watch_url": "https://www.youtube.com/watch?v=N11nlKMyrjk",
       "title_zh": "Gaussian 計算預設值與設定方案",
-      "group": "gaussian"
+      "group": "gaussian",
+      "publish_teacher_only": false
     },
     {
       "kind": "video",
@@ -159,7 +167,8 @@
       "embed_url": "https://www.youtube.com/embed/QuoRCyYrS9s",
       "watch_url": "https://www.youtube.com/watch?v=QuoRCyYrS9s",
       "title_zh": "計算化學：幾何最佳化",
-      "group": "quantum"
+      "group": "quantum",
+      "publish_teacher_only": false
     },
     {
       "kind": "video",
@@ -168,7 +177,8 @@
       "embed_url": "https://www.youtube.com/embed/HronzRpN7Ws",
       "watch_url": "https://www.youtube.com/watch?v=HronzRpN7Ws",
       "title_zh": "熱力學性質計算",
-      "group": "quantum"
+      "group": "quantum",
+      "publish_teacher_only": false
     },
     {
       "kind": "video",
@@ -177,7 +187,8 @@
       "embed_url": "https://www.youtube.com/embed/mnWh2SFzk6g",
       "watch_url": "https://www.youtube.com/watch?v=mnWh2SFzk6g",
       "title_zh": "量子化學計算實務建議",
-      "group": "quantum"
+      "group": "quantum",
+      "publish_teacher_only": false
     },
     {
       "kind": "video",
@@ -186,7 +197,8 @@
       "embed_url": "https://www.youtube.com/embed/QGyfGCZT110",
       "watch_url": "https://www.youtube.com/watch?v=QGyfGCZT110",
       "title_zh": "密度泛函理論（DFT）導論",
-      "group": "quantum"
+      "group": "quantum",
+      "publish_teacher_only": false
     },
     {
       "kind": "video",
@@ -195,7 +207,8 @@
       "embed_url": "https://www.youtube.com/embed/Ha5yWbxOqFk",
       "watch_url": "https://www.youtube.com/watch?v=Ha5yWbxOqFk",
       "title_zh": "分子振動",
-      "group": "quantum"
+      "group": "quantum",
+      "publish_teacher_only": false
     },
     {
       "kind": "video",
@@ -204,7 +217,8 @@
       "embed_url": "https://www.youtube.com/embed/MlbKoXACAx8",
       "watch_url": "https://www.youtube.com/watch?v=MlbKoXACAx8",
       "title_zh": "量子化學：電子激發態",
-      "group": "quantum"
+      "group": "quantum",
+      "publish_teacher_only": false
     },
     {
       "kind": "playlist",
@@ -213,7 +227,8 @@
       "embed_url": "https://www.youtube.com/embed/videoseries?list=PLwwTz0GVILdLh5bHAE2QOLPwSZRlaYzli",
       "watch_url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdLh5bHAE2QOLPwSZRlaYzli",
       "title_zh": "Materials Studio 2020 教學播放清單",
-      "group": "playlists"
+      "group": "playlists",
+      "publish_teacher_only": true
     },
     {
       "kind": "playlist",
@@ -222,7 +237,8 @@
       "embed_url": "https://www.youtube.com/embed/videoseries?list=PLwwTz0GVILdKayxH5WDGoCQJSOL54L4U3",
       "watch_url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdKayxH5WDGoCQJSOL54L4U3",
       "title_zh": "量子化學教學播放清單",
-      "group": "playlists"
+      "group": "playlists",
+      "publish_teacher_only": true
     },
     {
       "kind": "playlist",
@@ -231,7 +247,8 @@
       "embed_url": "https://www.youtube.com/embed/videoseries?list=PLwwTz0GVILdKyA4WmVfkQdNAWw01xLScR",
       "watch_url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdKyA4WmVfkQdNAWw01xLScR",
       "title_zh": "分子動力學基礎播放清單",
-      "group": "playlists"
+      "group": "playlists",
+      "publish_teacher_only": true
     }
   ]
 }

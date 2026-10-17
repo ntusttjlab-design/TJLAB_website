@@ -81,3 +81,7 @@
 Gallery 8 支影片與 Tutorial 14 支影片 + 3 個播放清單由舊站 HTML iframe 提取；與主持人頁原有 16 筆課程連結分別維護。原始 iframe 的 `aria-label` 不是保證已驗證的現行 YouTube 標題。請在上線預覽時測試外部嵌入。
 
 30 篇論文、34 筆研討會仍由官網快照產生；原始 Impact Factor/Rank 與作者貢獻附註放在可展開的歷史欄位，不視為現行指標。2014 Langmuir 與出版社 2013 年份衝突，遵照原文保留未改。
+
+## Computational Tutorials 公開來源限制
+
+`content/media_embeds.json` 保留 17 個舊 Tutorial 項目。僅 `publish_teacher_only=true` 的 3 個老師舊站播放清單對外顯示；14 支其他頻道教學影片只保留原始備份，不應因重建而再次發布。程式與測試都必須使用這個公開白名單；原有 16 個課程入口及 Gallery 8 支影片不受影響。

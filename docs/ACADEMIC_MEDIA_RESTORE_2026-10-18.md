@@ -22,3 +22,10 @@
 - `raw_html/tutorial-resources.html`
 - `raw_html/snapshots/2026-10-17/publication-and-presentation.html`
 - `content/media_embeds.json`
+
+## 2026-10-18 使用者最新要求：公開教學僅顯示老師 YouTube
+
+- 公開的 Computational Tutorials 僅展示 3 個原站老師 YouTube 播放清單（Materials Studio、Quantum Chemistry、Molecular Dynamics）；其餘 14 支其他頻道的單支教學影片不展示。
+- 完整 17 筆舊來源仍留在 JSON/HTML 備份；原有 16 筆 Open Courses 及 Gallery 8 支不變。
+- 老師頻道由官方舊站指出：`https://www.youtube.com/user/sdd3390`；清單內容的逐支上傳者未獨立驗證，不能以此宣稱每支都由老師上傳。
+- 最新自動驗收：公開 Tutorial 3 個、原課程 16 筆、Gallery 8 支；舊 Tutorial 原始來源仍 17 筆。

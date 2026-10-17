@@ -53,9 +53,13 @@ assert len(page.playlists) == 16
 assert len(set(page.playlists)) == 15
 media = json.loads((ROOT / 'content/media_embeds.json').read_text(encoding='utf-8'))
 assert len(media['gallery']) == 8 and len(media['tutorials']) == 17
+teacher_tutorials = [item for item in media['tutorials'] if item.get('publish_teacher_only')]
+assert len(teacher_tutorials) == 3
+assert all(item['kind'] == 'playlist' and item['group'] == 'playlists' for item in teacher_tutorials)
+assert all(not item.get('publish_teacher_only') for item in media['tutorials'] if item['kind'] == 'video')
 assert sorted(page.embeds) == sorted(
     [('gallery', item['embed_url']) for item in media['gallery']] +
-    [('tutorial', item['embed_url']) for item in media['tutorials']]
+    [('tutorial', item['embed_url']) for item in teacher_tutorials]
 )
 assert 'tutorial-resources' in page.ids and 'gallery' in page.ids
 assert 'E1-241-2' in html and 'Associate Professor' in html
@@ -73,4 +77,4 @@ from build_publications import render_publications
 expected = render_publications()
 assert expected in html, '書目與官網快照產生的完整原文不一致'
 assert len(page.categories) == 64
-print('PASS：30篇期刊、34筆研討會、16筆課程、17筆教學影片或清單、8筆Gallery、完整官網原文、雙語及路徑檢查。')
+print('PASS：30篇期刊、34筆研討會、16筆課程、3筆老師教學播放清單、8筆Gallery、完整官網原文、雙語及路徑檢查。')
