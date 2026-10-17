@@ -35,7 +35,7 @@ jobs:
           python3 scripts/build_molecule.py
           python3 scripts/check_site.py
           python3 scripts/check_official_source.py
-          git diff --exit-code -- index.html
+          git diff --exit-code -- index.html members.html
           node --check assets/js/main.js
           node --check assets/js/molecule.js
           node --check assets/js/story.js

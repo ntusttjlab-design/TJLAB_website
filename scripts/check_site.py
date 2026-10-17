@@ -96,6 +96,32 @@ assert 'I am fascinated by and study fundamental physical chemistry problems' in
 assert 'PhD in Polymer Engineering' in html and 'Associate Professor' in html
 assert 'Journal reviewing' not in html and '期刊審稿服務' not in html
 assert html.index('id="pi"') < html.index('id="research"') < html.index('id="publications"') < html.index('id="tutorials"') < html.index('id="dielectric"')
-assert len(re.findall(r'class="chapter-bridge', html)) == 7
+assert len(re.findall(r'class="chapter-bridge', html)) == 6
 assert len(page.categories) == 64
+assert 'arcade' not in page.ids and 'snake-canvas' not in page.ids
+assert 'href="./members.html"' in html and 'href="./index.html"' in html
+assert html.count('class="primary-site-link') == 2
+members_html = (ROOT / 'members.html').read_text(encoding='utf-8')
+members = Page()
+members.feed(members_html)
+assert not members.errors, members.errors
+assert not [key for key, count in Counter(members.ids).items() if count > 1]
+for ref in members.refs:
+    if ref.startswith('#'):
+        assert ref[1:] in members.ids, f'成員頁缺少錨點：{ref}'
+    elif not urlsplit(ref).scheme:
+        assert (ROOT / urlsplit(ref).path).is_file(), f'成員頁缺少本機檔案：{ref}'
+assert len(members.categories) == 0 and len(members.playlists) == 0
+assert members.translations > 20
+assert all(id in members.ids for id in ('members', 'members-list', 'student-resources', 'arcade', 'snake-canvas', 'volley-canvas'))
+assert members_html.count('class="primary-site-link') == 2
+assert members_html.count('class="game-card"') == 2
+assert members_html.count('class="member-category"') == 4
+assert 'href="./index.html#pi"' in members_html and 'href="./index.html#publications"' in members_html
+assert 'href="./index.html"' in members_html
+assert 'href="./members.html"' in members_html
+assert 'window.labArcadeUrl' not in html
+assert 'assets/js/arcade-config.js' in members_html and 'assets/js/arcade-embed.js' in members_html
+assert 'data-step="2"' not in html and 'GRAPHITE / AB STACKING' not in html
+
 print('PASS：30篇期刊、34筆研討會、16筆課程、3筆老師教學播放清單、Gallery保留來源不公開、完整官網原文、雙語及路徑檢查。')

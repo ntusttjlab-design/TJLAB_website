@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
  setTimeout(() => {
   const errors = [];
   const fail = (ok, label) => { if (!ok) errors.push(label); };
+  fail(document.querySelectorAll('.game-card').length === 0, 'games-removed-from-overview');
+  fail(document.querySelector('a[href="./members.html"]') !== null, 'members-link');
   fail(document.querySelectorAll('.pub-card').length === 64, 'publications');
   fail(document.querySelectorAll('.story-copy').length === 2 && document.querySelectorAll('[data-scene]').length === 2, 'two-scene-hero');
   fail(!document.querySelector('[data-model-label="2"]'), 'no-graphite');
@@ -72,5 +74,61 @@ try:
             issues = document[loc:loc+220] if loc >= 0 else "missing smoke status"
             raise AssertionError(f"{width}px smoke failed; {issues}; exit={proc.returncode}; stderr={proc.stderr[-700:]}")
         print(f"PASS browser {width}px: resources, navigation, language and click-to-play")
+    members_markup = (ROOT / "members.html").read_text(encoding="utf-8")
+    members_script = """
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+ setTimeout(() => {
+  const failures = [];
+  const test = (good, label) => { if (!good) failures.push(label); };
+  test(document.querySelectorAll('.member-category').length === 4, 'member-categories');
+  test(document.querySelectorAll('.game-card').length === 2, 'game-cards');
+  test(document.querySelectorAll('.pub-card').length === 0, 'no-publications');
+  test(document.querySelector('a[href="./index.html"]') !== null, 'back-to-overview');
+  test(document.querySelector('a[href="./index.html#publications"]') !== null, 'academic-links');
+  const lang = document.getElementById('language-toggle');
+  lang.click();
+  test(document.documentElement.lang === 'en', 'member-english');
+  lang.click();
+  test(document.documentElement.lang === 'zh-TW', 'member-chinese');
+  const mobileMenu = document.getElementById('mobile-menu-btn');
+  mobileMenu.click();
+  test(mobileMenu.getAttribute('aria-expanded') === 'true', 'menu-open');
+  mobileMenu.click();
+  test(mobileMenu.getAttribute('aria-expanded') === 'false', 'menu-close');
+  document.getElementById('snake-start-btn').click();
+  test(document.getElementById('snake-status').textContent.length > 0, 'snake-start');
+  document.getElementById('volley-start-btn').click();
+  test(document.getElementById('volley-status').textContent.length > 0, 'paddle-start');
+  document.getElementById('snake-pause-btn').click();
+  test(document.documentElement.scrollWidth <= innerWidth + 5, 'horizontal-overflow');
+  document.body.dataset.smokeStatus = failures.length ? 'fail' : 'pass';
+  document.body.dataset.smokeIssues = failures.join(',');
+ }, 900);
+});
+</script>
+"""
+    member_tmp = ROOT / "_member_browser_smoke.html"
+    members_markup = re.sub(r'<script defer src="https://[^"]+"[^>]*></script>', '', members_markup)
+    member_tmp.write_text(members_markup.replace("</body>", members_script + "</body>"), encoding="utf-8")
+    try:
+        for width in (390, 1024, 1440):
+            proc = subprocess.run(
+                [CHROME, "--headless=new", "--no-sandbox", "--disable-gpu",
+                 "--disable-dev-shm-usage", "--hide-scrollbars",
+                 "--disable-background-networking", "--host-resolver-rules=MAP * ~NOTFOUND",
+                 "--blink-settings=imagesEnabled=false", "--virtual-time-budget=1800",
+                 f"--window-size={width},900", "--dump-dom", member_tmp.as_uri()],
+                cwd=ROOT, capture_output=True, text=True, timeout=30
+            )
+            document = proc.stdout
+            if 'data-smoke-status="pass"' not in document:
+                marker = "data-smoke-issues="
+                loc = document.find(marker)
+                issues = document[loc:loc+230] if loc >= 0 else "missing smoke status"
+                raise AssertionError(f"members {width}px smoke failed; {issues}; exit={proc.returncode}; stderr={proc.stderr[-700:]}")
+            print(f"PASS members {width}px: navigation, i18n, games and responsive layout")
+    finally:
+        member_tmp.unlink(missing_ok=True)
 finally:
     tmp.unlink(missing_ok=True)

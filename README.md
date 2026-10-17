@@ -19,20 +19,23 @@ node scripts/preview.mjs
 ## 目錄與編輯入口
 
 ```text
-index.html                       產生的完整頁面，可直接開啟
+index.html                       公開研究室介紹頁，由 Python 產生
+members.html                     成員及學生專區，由 Python 產生
+content/members_template.html     成員頁中英文版型來源
+content/arcade_section.html      兩款遊戲與排行榜版型來源
 assets/
   css/style.css                  基礎版面與手機樣式
   css/editorial.css              石墨黑、霧灰、米白的新版視覺
   js/main.js                     語言、搜尋、終端機、遊戲
   js/molecule.js                 捲動式 3D 材料視覺
-  js/material-scenes.js          分子、Si–O 網絡與 AB 石墨獨立模型
+  js/material-scenes.js          分子、Si–O 玻璃網絡兩個場景
   js/elements.js                 118 種元素名稱與原子序
   js/story.js                    GSAP 時間軸與動畫偏好
   vendor/gsap/                   固定版本動畫執行檔與來源紀錄
   images/                        保留原始圖檔；非所有圖檔都在使用
 content/
   site_template.html             網頁結構及中英文文案來源
-  hero_story.html                首頁三段捲動敘事來源
+  hero_story.html                首頁兩段捲動敘事來源
   publications.html              舊版卡片來源封存
   all_links_and_media.json        原 PI 頁面的課程播放清單
   media_embeds.json              舊站 Gallery 8 支影片及 Tutorial 17 個原始項目（其中僅 3 個老師清單對外發布）
@@ -90,3 +93,7 @@ node scripts/check_interactions.mjs
 ## 舊站學術資料及影片備份原則（2026-10-18）
 
 本分支僅公開展示 3 個老師原站 YouTube 教學清單；其他 14 支外部教學影片保留原站備份但不發布，Gallery 8 支影片只保存來源、不公開展示，維持原有 PI 課程 16 筆連結。30 篇期刊及 34 筆研討會標題、順序與年份依原站快照保留，原始期刊指標及作者貢獻說明放到可展開的歷史附註，不視為最新值。現職為副教授；研究室房號由使用者確認為 E1-241-2。資料和待驗證事項見 `docs/ACADEMIC_MEDIA_RESTORE_2026-10-18.md`。
+
+## PR #3：雙入口網站（審查分支，尚未正式發布）
+
+新增研究室介紹與成員／學生兩個獨立頁面。研究室介紹保留 PI 原文、30 篇期刊、34 筆研討會、16 筆課程和 3 個老師教學清單；成員／學生頁提供主持人連結、博士／碩士／大學部／歷屆成員分類（資料待確認）、公開資源、兩款元素遊戲及原有 GAS 排行榜。此變更僅位於 `academic-neutral-copy-20261018` 分支，尚未合併 `main`。本機預覽路徑為 `/index.html`、`/members.html`。
