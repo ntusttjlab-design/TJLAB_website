@@ -291,7 +291,7 @@ body[data-story-motion="reduced"] .bridge-curtain{display:none}
 
 /* Small laptops and landscape tablets: full first scene without clipped controls. */
 @media(min-width:801px) and (max-width:1200px){
- .members-page .cinematic-members-hero{padding-top:22px;padding-bottom:35px}
+ .members-page .cinematic-members-hero{padding-top:22px;padding-bottom:35px;height:calc(var(--member-viewport-height,100svh) - var(--member-header-height,80px));min-height:0;max-height:calc(var(--member-viewport-height,100svh) - var(--member-header-height,80px))}
  .cinematic-hero-inner{grid-template-columns:1fr;gap:0}
  .cinematic-hero-copy{max-width:min(830px,95%);z-index:5}
  .cinematic-hero-copy h1{font-size:clamp(3.1rem,5vw,4.6rem);line-height:1.08;margin:0 0 16px}
