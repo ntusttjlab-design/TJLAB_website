@@ -1,6 +1,6 @@
 # 2.0.0 驗收對照
 
-更新：2026-10-18（台灣時間）。程式發布提交：`3015d879a562e73d08361c0751a042aa02db1df3`。
+更新：2026-10-18（台灣時間）。功能發布提交：`3015d879a562e73d08361c0751a042aa02db1df3`；材料標籤視覺收尾：`43670953457cc0c9aec03ebb9c1d84a2c2d11336`。
 
 本表對照使用者原始十五項範圍；歷史版本未勾選事項不代表本輪仍未完成。
 
@@ -28,4 +28,4 @@
 
 GAS 編輯器驗收截圖保留本機；不將包含編輯器資訊的截圖上傳 GitHub。正式網站截圖亦可在本機 `docs/screenshots/` 查閱。
 
-正式入口：[GitHub Pages](https://ntusttjlab-design.github.io/TJLAB_website/) · [Google 協作平台](https://sites.google.com/view/tjlab/tjlab) · [成功部署的 Actions](https://github.com/ntusttjlab-design/TJLAB_website/actions/runs/39056434377)。
+正式入口：[GitHub Pages](https://ntusttjlab-design.github.io/TJLAB_website/) · [Google 協作平台](https://sites.google.com/view/tjlab/tjlab) · [成功部署的 Actions](https://github.com/ntusttjlab-design/TJLAB_website/actions/runs/39056862332)。
