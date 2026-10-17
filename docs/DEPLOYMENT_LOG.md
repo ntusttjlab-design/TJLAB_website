@@ -4,6 +4,7 @@
 
 | 日期（台灣時間） | 版本／提交 | 狀態 | 證據與備註 |
 | --- | --- | --- | --- |
+| 2026-10-17 | 1.4.0 / 發布副本已提交 | GitHub 連接器寫入受限 | 已連接帳號再次確認為 zhichiangai，儲存庫 push=true；建立 blob 與一般 Contents 更新均回傳 403 Resource not accessible by integration，沒有變更遠端。依使用者要求停止 Codex 瀏覽器登入；網站尚未上線新版。後續發布與驗收步驟見 RELEASE_HANDOFF.md。 |
 | 2026-10-17 | 1.4.0 / 本機提交 a6dd8ea，尚未推送 | 發布等待Git登入 | GitHub連接器建立blob回傳403 Resource not accessible by integration；改用獨立Git發布副本，已完成提交。非互動push回報無登入憑證，已開啟Git Credential Manager裝置登入，等待使用者確認。後續修正會更新本機提交。 |
 | 2026-10-17 | GAS v1 | 匿名入口驗收通過 | 不帶瀏覽器Cookie的HTTP請求回傳200，內容是userCodeAppPanel而非登入頁；真實4DP寫入紀錄已清空並讀回確認兩遊戲皆空白。 |
 | 2026-10-17 | GAS v1 / 網站1.4.0準備發布 | GAS已部署，網站待推送 | 使用者明確確認匿名公開與研究室身分執行，自行完成Google授權；真實4 DP提交與試算表讀回通過，測試紀錄已清空。 |

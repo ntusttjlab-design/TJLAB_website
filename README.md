@@ -80,4 +80,4 @@ node scripts/check_interactions.mjs
 
 官網重要資訊已於 2026-10-17 重新核對，詳見 [核對紀錄](docs/OFFICIAL_CONTENT_CHECK_2026-10-17.md)。
 
-動畫與學生視角請見 [設計原則](docs/DESIGN_GUIDE.md)。共用榜單仍待 Apps Script 部署，請見 [排行榜設定](docs/LEADERBOARD_SETUP.md)。
+動畫與學生視角請見 [設計原則](docs/DESIGN_GUIDE.md)。共用榜單已完成 Apps Script 公開部署及貪食蛇寫入驗收，請見 [排行榜設定](docs/LEADERBOARD_SETUP.md)。
