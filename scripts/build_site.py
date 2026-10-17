@@ -88,7 +88,7 @@ assert '{{' not in html
 member_template = (ROOT / 'content/members_template.html').read_text(encoding='utf-8')
 arcade_source = (ROOT / 'content/arcade_section.html').read_text(encoding='utf-8')
 member_html = member_template.replace('{{ARCADE}}', arcade_source)
-member_html = re.sub(r'\\[\\[(.*?)\\|\\|(.*?)\\]\\]', lambda match: bilingual(*match.groups()), member_html)
+member_html = re.sub(r'\[\[(.*?)\|\|(.*?)\]\]', lambda match: bilingual(*match.groups()), member_html)
 assert '{{' not in member_html
 (ROOT / 'members.html').write_text(member_html, encoding='utf-8')
 
