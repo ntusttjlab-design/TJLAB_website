@@ -119,7 +119,7 @@ assert members_html.count('class="game-card"') == 2
 assert members_html.count('class="member-category"') == 4
 assert 'href="./index.html#pi"' in members_html and 'href="./index.html#publications"' not in members_html
 assert 'student-resources' not in members.ids and 'Public teaching & research resources' not in members_html
-assert 'id="lab-life"' in members_html and 'Lab Life & Activities' in members_html
+assert 'id="lab-life"' in members_html and '研究室生活與活動' in members_html
 assert members_html.count('class="chapter-bridge member-bridge') == 4
 assert 'assets/js/chapter-transitions.js' in members_html and 'assets/js/member-motion.js' in members_html
 assert 'assets/js/chapter-transitions.js' in html
