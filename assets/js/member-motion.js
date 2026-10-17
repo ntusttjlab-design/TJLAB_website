@@ -3,7 +3,7 @@
 // CSS does all cross-section color blends, GSAP only adds subtle on-content reveals.
 document.addEventListener('DOMContentLoaded',()=>{
  if(!document.body.classList.contains('members-page'))return;
- const sections=[...document.querySelectorAll('[data-member-flow]')];
+ const sections=[...document.querySelectorAll('main > section[data-member-flow]')];
  const contentSections=sections.filter(section=>section.dataset.memberFlow!=='intro');
  const button=document.getElementById('members-motion-toggle');
  const preference=window.matchMedia('(prefers-reduced-motion: reduce)');

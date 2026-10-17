@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
   test(document.querySelector('#student-resources') === null && document.querySelector('a[href="#student-resources"]') === null, 'resources-removed');
   test(document.querySelector('#lab-life') !== null, 'activity-gallery');
   test(document.querySelectorAll('.member-bridge,.member-transition-copy').length===0,'no-separate-slides');
-  const flow=[...document.querySelectorAll('[data-member-flow]')];
+  const flow=[...document.querySelectorAll('main > section[data-member-flow]')];
   test(flow.map(s=>s.id).join(',')==='members,members-list,lab-life,arcade,members-contact','natural-five-section-order');
   test(flow.slice(1).every((node,i)=>flow[i].nextElementSibling===node),'direct-neighbor-sections');
   test(document.body.dataset.memberFlow==='active','member-motion-active');
