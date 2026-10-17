@@ -121,6 +121,10 @@ assert 'href="./index.html#pi"' in members_html and 'href="./index.html#publicat
 assert 'student-resources' not in members.ids and 'Public teaching & research resources' not in members_html
 assert 'id="lab-life"' in members_html and '研究室生活與活動' in members_html
 assert members_html.count('class="chapter-bridge member-bridge') == 4
+assert members_html.count('class="member-transition-copy"') == 4
+assert 'id="members-motion-toggle"' in members_html
+assert 'assets/js/chapter-transitions.js?v=2.4.0' in members_html
+assert 'editorial.css?v=2.4.0' in members_html
 assert 'assets/js/chapter-transitions.js' in members_html and 'assets/js/member-motion.js' in members_html
 assert 'assets/js/chapter-transitions.js' in html
 assert 'assets/js/lab-life-gallery.js' in members_html

@@ -88,6 +88,16 @@ document.addEventListener('DOMContentLoaded', () => {
   test(document.querySelector('#student-resources') === null && document.querySelector('a[href="#student-resources"]') === null, 'resources-removed');
   test(document.querySelector('#lab-life') !== null, 'activity-gallery');
   test(document.querySelectorAll('.member-bridge').length === 4, 'four-chapter-bridges');
+  test(document.querySelectorAll('.member-transition-copy').length === 4, 'large-transition-titles');
+  test(document.body.dataset.memberTransitions === 'active', 'motion-initialized');
+  test((window.ScrollTrigger?.getAll()||[]).filter(trigger=>(trigger.vars?.id||'').startsWith('member-transition-')).length===4, 'four-live-transitions');
+  test(parseFloat(getComputedStyle(document.querySelector('.member-bridge')).height) >= 290, 'substantial-transition-height');
+  const motion = document.getElementById('members-motion-toggle');
+  test(motion && motion.getAttribute('aria-pressed')==='true', 'motion-toggle');
+  motion?.click();
+  test(document.body.dataset.memberTransitions === 'reduced', 'disable-motion');
+  motion?.click();
+  test(document.body.dataset.memberTransitions === 'active', 'enable-motion');
   test(document.querySelector('#activity-empty') !== null && !document.querySelector('.activity-album'), 'gallery-empty-state');
   test(document.querySelector('#activity-lightbox') !== null, 'gallery-dialog');
   test(document.querySelector('a[href="#lab-life"]') !== null, 'activity-navigation');
