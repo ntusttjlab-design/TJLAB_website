@@ -50,6 +50,7 @@ def render_publications():
     for kind, entries in [('journal', journals), ('conference', talks)]:
         for text in entries:
             # 只移除指標及重複貢獻註記，學術書目其餘原文保留。
+            original_notes = re.findall(r'\((?:Impact Factor|Second |Third |Co-Corresponding)[^)]*\)', text)
             text = re.sub(r'\s*\((?:Impact Factor|Second |Third |Co-Corresponding).*?\)', '', text)
             quote = re.search(r'["“”](.*?)["“”]', text)
             service = kind == 'conference' and not quote
@@ -77,6 +78,9 @@ def render_publications():
                 detail = f'<p class="pub-authors">{escape(prefix)}</p><p class="pub-meta">{escape(suffix)}</p>'
             else:
                 detail = (f'<p class="pub-presenter">{escape(person)}</p>' if person else '') + f'<p class="pub-meta">{escape(prefix)}{(" · " + escape(suffix)) if suffix else ""}</p>'
+            if original_notes:
+                label = '<span data-zh="原站歷史附註" data-en="Original-site historical notes">原站歷史附註</span>'
+                detail += f'<details class="pub-original-notes"><summary>{label}</summary><p>{" ".join(escape(n) for n in original_notes)}</p></details>'
             extra = ' pub-service' if service else ''
             output.append(f'<article class="pub-card{extra}" data-category="{categories}"><span class="pub-year">{year}</span><div class="pub-entry"><h4>{escape(title)}</h4>{detail}</div></article>')
     return ''.join(output)
