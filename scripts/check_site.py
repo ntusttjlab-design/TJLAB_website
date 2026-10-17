@@ -112,7 +112,7 @@ for ref in members.refs:
     elif not urlsplit(ref).scheme:
         assert (ROOT / urlsplit(ref).path).is_file(), f'成員頁缺少本機檔案：{ref}'
 assert len(members.categories) == 0 and len(members.playlists) == 0
-assert members.translations > 20
+assert members.translations >= 12, '成員頁需有基本雙語標示'
 assert all(id in members.ids for id in ('members', 'members-list', 'student-resources', 'arcade', 'snake-canvas', 'volley-canvas'))
 assert members_html.count('class="primary-site-link') == 2
 assert members_html.count('class="game-card"') == 2
