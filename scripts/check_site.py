@@ -81,5 +81,12 @@ assert page.translations > 100
 from build_publications import render_publications
 expected = render_publications()
 assert expected in html, '書目與官網快照產生的完整原文不一致'
+assert 'href="#join"' in html and 'Contact information' in html and '聯絡資訊' in html
+assert 'JOIN THE LAB' not in html and 'Join the lab' not in html and '加入研究室' not in html
+assert 'What you can learn here' not in html and '你可以在這裡練習' not in html
+assert 'Quantum chemistry' in html and 'Non-equilibrium MD' in html
+assert 'CP2K' not in html and 'scikit-learn' not in html, '未核實之軟體清單不應顯示於公開頁'
+assert 'not a quantitative dielectric response' in html
+assert len(re.findall(r'class="research-card"', html)) == 7
 assert len(page.categories) == 64
 print('PASS：30篇期刊、34筆研討會、16筆課程、3筆老師教學播放清單、Gallery保留來源不公開、完整官網原文、雙語及路徑檢查。')
