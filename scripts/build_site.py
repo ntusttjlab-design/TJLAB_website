@@ -85,4 +85,11 @@ for key, value in {'JOURNAL_COUNT': str(pubs.journals), 'COURSE_COUNT': str(len(
     html = html.replace('{{' + key + '}}', value)
 assert '{{' not in html
 (ROOT / 'index.html').write_text(html, encoding='utf-8')
+member_template = (ROOT / 'content/members_template.html').read_text(encoding='utf-8')
+arcade_source = (ROOT / 'content/arcade_section.html').read_text(encoding='utf-8')
+member_html = member_template.replace('{{ARCADE}}', arcade_source)
+member_html = re.sub(r'\\[\\[(.*?)\\|\\|(.*?)\\]\\]', lambda match: bilingual(*match.groups()), member_html)
+assert '{{' not in member_html
+(ROOT / 'members.html').write_text(member_html, encoding='utf-8')
+
 print(f'已產生 index.html：{pubs.journals} 篇期刊、{pubs.conferences} 筆研討會、{len(courses)} 筆教學連結。')

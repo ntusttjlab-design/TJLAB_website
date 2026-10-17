@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded',()=>{
     if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(window.labArcadeUrl||''))return;
     const grid=document.querySelector('.games-grid');
+    if(!grid)return;
     const frame=document.createElement('iframe');
     let gameWindow,gameOrigin;
     function language(){gameWindow?.postMessage({type:'msmtjl-language',lang:document.documentElement.lang},gameOrigin);}

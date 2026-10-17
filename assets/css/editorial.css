@@ -75,3 +75,43 @@ body[data-story-motion="reduced"] .bridge-curtain{display:none}
 .pi-statement{font-size:.89rem;line-height:1.9;overflow-wrap:anywhere;max-width:710px}
 .pi-grid .pi-statement-block p{max-width:710px}
 @media(max-width:800px){.pi-statement-block{margin:18px 0 20px;padding:16px}.pi-statement{font-size:.83rem;line-height:1.8}}
+
+/* Independent academic and student/member entrances. */
+.site-header nav a.primary-site-link{font-size:.84rem;letter-spacing:.005em;padding:9px 15px;border-radius:999px;text-decoration:none;border:1px solid transparent}
+.site-header nav a.primary-site-link.active{border-color:#a9c0b5;background:#e5ede8;color:#184938}
+.site-header nav a.primary-site-link:not(.active):hover{background:#f0f3ef}
+.section-shortcuts{display:flex;align-items:center;gap:12px 20px;flex-wrap:wrap;padding-top:20px!important;padding-bottom:20px!important;border-bottom:1px solid #dce3db}
+.section-shortcuts a{color:#46645b;font-size:.77rem;text-decoration:underline;text-decoration-color:#afc5b9;text-underline-offset:4px}
+.section-shortcuts .shortcut-label{color:#76867d;font-size:.65rem;letter-spacing:.04em;margin-right:5px}
+.members-page{background:#faf9f6}
+.members-hero{padding:100px max(7vw,calc((100vw - 1180px)/2)) 90px;background:#e9eeeb;border-bottom:1px solid #d3ddd5}
+.members-hero .eyebrow{color:#48776b}
+.members-hero h1{font-size:clamp(2.5rem,5vw,4.5rem);font-weight:550;letter-spacing:-.045em;line-height:1.15;margin:20px 0}
+.members-hero .members-lead{font-size:clamp(.95rem,1.3vw,1.08rem);line-height:1.9;max-width:750px;color:#51625a}
+.members-hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+.members-hero-actions a{border:1px solid #a8bdb2;border-radius:9px;padding:12px 16px;color:#235947;font-size:.85rem}
+.members-page .member-area{max-width:1260px}
+.member-section-heading{margin-bottom:28px}
+.member-section-heading h2{font-size:clamp(1.9rem,3vw,2.65rem);font-weight:550;margin:10px 0}
+.member-section-heading p{font-size:.86rem;color:#5c6c64;line-height:1.8;max-width:760px}
+.member-pi-card{display:flex;align-items:center;gap:26px;border:1px solid #d4ded7;padding:26px;background:#fff;border-radius:14px;max-width:850px;margin-bottom:30px}
+.member-pi-card img{width:124px;height:100px;object-fit:cover;border-radius:8px}
+.member-pi-card h3{margin:5px 0}
+.member-pi-card p{font-size:.82rem;color:#53675b;margin:8px 0}
+.member-categories{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.member-category{border:1px solid #dbe3dc;padding:28px;background:#fff;border-radius:12px}
+.member-category h3{margin:0 0 12px;font-size:1.06rem;font-weight:600}
+.member-category p{margin:0;color:#5d6f65;line-height:1.8;font-size:.85rem}
+.members-page .student-resource-zone{background:#f1f2ee}
+.student-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:28px}
+.student-resource-link{border:1px solid #d8e1d8;padding:24px;background:#fff;border-radius:12px;display:block}
+.student-resource-link h3{font-size:1.02rem;font-weight:600;margin:0 0 9px}
+.student-resource-link p{font-size:.81rem;color:#677a6d;line-height:1.7;margin:0}
+.student-resource-link:hover{border-color:#789986}
+.members-page #arcade{max-width:none}
+.member-note{padding-top:28px;padding-bottom:55px}
+.member-note p{font-size:.84rem;line-height:1.8;color:#617169}
+.members-footer{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.members-footer p{font-size:.79rem}
+@media(max-width:800px){.site-header nav a.primary-site-link{font-size:.8rem;padding:8px 12px}.section-shortcuts{gap:12px;padding-top:18px!important;padding-bottom:18px!important}.members-hero{padding:70px 7%}.member-categories,.student-links{grid-template-columns:1fr}.member-pi-card{align-items:flex-start}.members-footer{align-items:flex-start}}
+@media(max-width:480px){.members-hero{padding:55px 6%}.member-pi-card{flex-direction:column;padding:19px}.member-pi-card img{width:160px;height:auto}.member-category{padding:22px}.members-hero-actions{flex-direction:column}.members-hero-actions a{text-align:center}}
