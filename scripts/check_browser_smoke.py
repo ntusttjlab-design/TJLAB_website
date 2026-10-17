@@ -1,6 +1,7 @@
 """Run a dependency-free Chrome headless smoke check in GitHub Actions."""
 from pathlib import Path
 import shutil
+import re
 import subprocess
 import sys
 
@@ -42,6 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
 """
 assert "</body>" in markup
 tmp = ROOT / "_browser_smoke.html"
+# Isolate browser functional checks from external CDN / YouTube availability.
+# The real site remains unchanged; only this ephemeral test copy omits network scripts.
+markup = re.sub(r'<script defer src="https://[^"]+"[^>]*></script>', '', markup)
 tmp.write_text(markup.replace("</body>", script + "</body>"), encoding="utf-8")
 try:
     for width in (390, 1024, 1440):
@@ -49,10 +53,11 @@ try:
             [
                 CHROME, "--headless=new", "--no-sandbox", "--disable-gpu",
                 "--disable-dev-shm-usage", "--hide-scrollbars",
-                "--disable-background-networking", "--virtual-time-budget=2500",
+                "--disable-background-networking", "--host-resolver-rules=MAP * ~NOTFOUND",
+                "--blink-settings=imagesEnabled=false", "--virtual-time-budget=1800",
                 f"--window-size={width},900", "--dump-dom", tmp.as_uri()
             ],
-            cwd=ROOT, capture_output=True, text=True, timeout=60
+            cwd=ROOT, capture_output=True, text=True, timeout=30
         )
         document = proc.stdout
         if 'data-smoke-status="pass"' not in document:
