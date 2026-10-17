@@ -28,8 +28,8 @@ class Page(HTMLParser):
             self.translations += 1
         if 'pub-card' in values.get('class', '').split():
             self.categories.append(values['data-category'].split())
-        if tag == 'iframe' and 'data-collection' in values:
-            self.embeds.append((values['data-collection'], values['src']))
+        if tag == 'button' and 'media-launch' in values.get('class', '').split():
+            self.embeds.append((values['data-collection'], values['data-embed-url']))
         if 'course-card' in values.get('class', '').split():
             self.playlists.append(values['href'])
         if values.get('target') == '_blank' and 'noopener' not in values.get('rel', ''):

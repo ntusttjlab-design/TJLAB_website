@@ -56,15 +56,23 @@ assert len(media['gallery']) == 8 and len(media['tutorials']) == 17
 def render_embeds(items, collection):
     cards = []
     for item in items:
+        if item['kind'] == 'video':
+            preview = (
+                f'<img src="https://i.ytimg.com/vi/{escape(item["youtube_id"], quote=True)}/hqdefault.jpg" '
+                f'alt="" loading="lazy" decoding="async">'
+            )
+        else:
+            preview = f'<span class="media-playlist-label">{bilingual("YouTube 播放清單", "YouTube playlist")}</span>'
         cards.append(
-            f'<article class="media-card"><div class="media-player"><iframe data-collection="{collection}" '
-            f'src="{escape(item["embed_url"], quote=True)}" title="{escape(item["title_en"], quote=True)}" '
-            f'loading="lazy" referrerpolicy="strict-origin-when-cross-origin" '
-            f'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" '
-            f'allowfullscreen></iframe></div><div class="media-caption"><h4>'
-            f'{bilingual(item["title_zh"], item["title_en"])}</h4><a href="{escape(item["watch_url"], quote=True)}" '
-            f'target="_blank" rel="noopener noreferrer">{bilingual("在 YouTube 開啟", "Open on YouTube")} ↗'
-            f'</a></div></article>'
+            f'<article class="media-card"><div class="media-player"><button class="media-launch" '
+            f'type="button" data-collection="{collection}" '
+            f'data-embed-url="{escape(item["embed_url"], quote=True)}" '
+            f'data-video-title="{escape(item["title_en"], quote=True)}" '
+            f'aria-label="{escape(item["title_zh"], quote=True)}">{preview}'
+            f'<span class="media-play-icon" aria-hidden="true">▶</span></button></div>'
+            f'<div class="media-caption"><h4>{bilingual(item["title_zh"], item["title_en"])}</h4>'
+            f'<a href="{escape(item["watch_url"], quote=True)}" target="_blank" rel="noopener noreferrer">'
+            f'{bilingual("在 YouTube 開啟", "Open on YouTube")} ↗</a></div></article>'
         )
     return ''.join(cards)
 
