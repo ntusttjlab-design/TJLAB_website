@@ -63,3 +63,9 @@
 - 相簿來源為 `content/lab_activities.json`。目前 `albums: []`，僅顯示實際空狀態；請先將取得公開同意的 JPG/PNG/WebP 放入 `assets/images/lab-life/`，再新增含 `date` (YYYY-MM-DD)、`title.zh/en`、`photos[].src`、`photos[].alt.zh/en`、`photos[].caption.zh/en` 的相簿紀錄。路徑必須是該資料夾實際存在的相對路徑，不能使用外部圖片或虛構人物。
 - 相片按鈕由 `assets/js/lab-life-gallery.js` 管理原生 dialog：可用左右鍵、上一張／下一張、Esc 關閉；資料為雙語，保留鍵盤焦點。未提供照片時不建立假相簿。
 - 以上修改僅提交 PR #3，使用者正式驗收前不要合併 main。
+
+## PR #3 加強成員頁滾動過場（待視覺確認）
+
+- 原 125–220px 的細小低透明度過場強化為桌面 420–760px、手機約 290–470px 的場景交接，四個過場為人物、照片、元素、聯絡，放大 SVG 與標題，維持研究室原始色系。
+- 加入「減少動態／播放動態」切換，尊重 prefers-reduced-motion 並保留無動畫時的靜態視覺。
+- 此設計只在 PR #3，正式網站 main 不變。
