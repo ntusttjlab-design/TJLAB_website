@@ -19,8 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
   fail(document.querySelectorAll('.pub-card').length === 64, 'publications');
   fail(document.querySelectorAll('.course-card').length === 16, 'courses');
   fail(document.querySelectorAll('.media-launch[data-collection="tutorial"]').length === 3, 'tutorials');
-  fail(document.querySelectorAll('.media-launch[data-collection="gallery"]').length === 8, 'gallery');
+  fail(document.querySelectorAll('.media-launch[data-collection="gallery"]').length === 0, 'gallery-hidden');
   fail(document.querySelectorAll('.media-player iframe').length === 0, 'players-before-activation');
+  fail(!document.querySelector('#gallery') && !document.querySelector('a[href="#gallery"]'), 'gallery-nav-or-section');
   const toggle = document.getElementById('language-toggle');
   toggle.click();
   fail(document.documentElement.lang === 'en', 'English-translation');
