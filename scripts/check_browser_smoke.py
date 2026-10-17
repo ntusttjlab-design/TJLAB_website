@@ -91,6 +91,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const flow=[...document.querySelectorAll('main > section[data-member-flow]')];
   test(flow.map(s=>s.id).join(',')==='members,members-list,lab-life,arcade,members-contact','natural-five-section-order');
   test(flow.slice(1).every((node,i)=>flow[i].nextElementSibling===node),'direct-neighbor-sections');
+  const header=document.querySelector('.site-header');
+  const hero=document.querySelector('.cinematic-members-hero');
+  const height=hero.getBoundingClientRect().height;
+  const availableHeight=innerHeight-header.getBoundingClientRect().height;
+  test(height >= availableHeight-6 && height <= availableHeight+120,'first-viewport-only');
+  test(document.getElementById('members-list').getBoundingClientRect().top >= innerHeight-15,'second-screen-below-fold');
+  test(document.querySelectorAll('.cinematic-next').length===1 && document.querySelectorAll('.network-node').length===6,'cinematic-team-model');
+  test(!!window.ScrollTrigger?.getById('members-cinematic-first') && window.ScrollTrigger.getById('members-cinematic-first').vars.pin===true,'hero-pin-trigger');
+  test(getComputedStyle(document.querySelector('.cinematic-next')).clipPath.includes('circle('),'mask-reveal-enabled');
   test(document.body.dataset.memberFlow==='active','member-motion-active');
   test((window.ScrollTrigger?.getAll()||[]).filter(t=>(t.vars?.id||'').startsWith('member-flow-')).length===4,'four-subtle-reveals');
   test(['members-list','lab-life','arcade','members-contact'].every(id=>getComputedStyle(document.getElementById(id)).backgroundImage.includes('linear-gradient')),'adjacent-color-gradients');
@@ -99,8 +108,10 @@ document.addEventListener('DOMContentLoaded', () => {
   test(!!motion && motion.getAttribute('aria-pressed')==='true','motion-button');
   motion?.click();
   test(document.body.dataset.memberFlow==='reduced','can-reduce-motion');
+  test(!window.ScrollTrigger?.getById('members-cinematic-first'),'no-pinning-when-reduced');
   motion?.click();
   test(document.body.dataset.memberFlow==='active','can-restore-motion');
+  test(!!window.ScrollTrigger?.getById('members-cinematic-first'),'pin-restored');
   test(document.querySelector('#activity-empty') !== null && !document.querySelector('.activity-album'), 'gallery-empty-state');
   test(document.querySelector('#activity-lightbox') !== null, 'gallery-dialog');
   test(document.querySelector('a[href="#lab-life"]') !== null, 'activity-navigation');

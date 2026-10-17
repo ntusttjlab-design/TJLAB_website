@@ -6,9 +6,9 @@
   <meta name="description" content="國立臺灣科技大學多尺度模擬與熱力學實驗室的研究室成員、研究室生活與活動照片，以及元素互動遊戲。">
   <meta name="theme-color" content="#f6f8f5">
   <title>Members & Students · MSMTJL | NTUST</title>
-  <link rel="stylesheet" href="./assets/css/style.css"><link rel="stylesheet" href="./assets/css/editorial.css?v=2.5.0">
+  <link rel="stylesheet" href="./assets/css/style.css"><link rel="stylesheet" href="./assets/css/editorial.css?v=pr4.1">
   <script defer src="./assets/vendor/gsap/gsap.min.js"></script><script defer src="./assets/vendor/gsap/ScrollTrigger.min.js"></script>
-  <script defer src="./assets/js/lab-life-gallery.js?v=2.3.0"></script><script defer src="./assets/js/member-motion.js?v=2.5.0"></script>
+  <script defer src="./assets/js/lab-life-gallery.js?v=2.3.0"></script><script defer src="./assets/js/member-motion.js?v=pr4.1"></script>
   <script defer src="./assets/js/elements.js"></script><script defer src="./assets/js/main.js"></script><script defer src="./assets/js/arcade-config.js"></script><script defer src="./assets/js/arcade-embed.js"></script>
 </head>
 <body class="members-page">
@@ -19,11 +19,62 @@
     <div class="header-actions"><button id="language-toggle" aria-label="Switch language to English">EN</button><button id="mobile-menu-btn" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">☰</button></div>
   </header>
   <main id="main">
-    <section id="members" class="members-hero" data-member-flow="intro">
-      <p class="eyebrow">MSMTJL / NTUST · MEMBERS & STUDENTS</p>
-      <h1>[[研究室成員與學生||Lab Members & Students]]</h1>
-      <p class="members-lead">[[這裡整理研究室成員、日常活動與元素互動遊戲。成員資訊與活動照片以研究室確認、同意公開的資料為準。||This page brings together lab members, activities, and element-themed interactive games. Member details and activity photos are published only after laboratory verification and permission.]]</p>
-      <div class="members-hero-actions"><a href="#members-list">[[研究室成員||Lab members]] ↓</a><a href="#lab-life">[[研究室生活||Lab life]] ↓</a><a href="#arcade">[[元素互動遊戲||Element games]] ↓</a><button id="members-motion-toggle" type="button" aria-pressed="true">[[減少動態||Reduce motion]]</button></div>
+    <section id="members" class="members-hero cinematic-members-hero" data-member-flow="intro">
+      <div class="cinematic-hero-inner">
+        <div class="cinematic-hero-copy">
+          <p class="eyebrow">NTUST / MSMTJL · PEOPLE & STORIES</p>
+          <p class="cinematic-hero-overline">[[多尺度模擬與熱力學實驗室||MULTI-SCALE MODELING & THERMODYNAMICS LAB]]</p>
+          <h1>[[研究室成員與學生||Lab Members & Students]]</h1>
+          <p class="members-lead">[[從研究團隊、實驗室生活到元素互動，認識我們共同學習與研究的空間。成員與照片資訊以研究室確認可公開的資料為準。||Explore the people, lab life, and playful elements of our shared research space. Names and photos are published only when verified and approved by the laboratory.]]</p>
+          <div class="members-hero-actions">
+            <a href="#members-list">[[認識研究室成員||Meet the lab]] <span aria-hidden="true">↗</span></a>
+            <a href="#lab-life">[[研究室生活||Lab life]] <span aria-hidden="true">↗</span></a>
+            <a href="#arcade">[[元素遊戲||Element games]] <span aria-hidden="true">↗</span></a>
+            <button id="members-motion-toggle" type="button" aria-pressed="true">[[減少動態||Reduce motion]]</button>
+          </div>
+        </div>
+        <div class="cinematic-hero-visual" aria-hidden="true">
+          <svg class="cinematic-network" viewBox="0 0 520 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="network-trace" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#83B3A0"/><stop offset="1" stop-color="#416D59"/></linearGradient></defs>
+            <circle class="network-halo" cx="260" cy="270" r="204" stroke="#6B9785" stroke-opacity=".28" stroke-width="1"/>
+            <circle class="network-halo" cx="260" cy="270" r="159" stroke="#6B9785" stroke-opacity=".18" stroke-width="1" stroke-dasharray="5 12"/>
+            <ellipse class="network-orbit" cx="260" cy="270" rx="225" ry="115" transform="rotate(-31 260 270)" stroke="#527D6C" stroke-opacity=".45" stroke-width="1.6"/>
+            <ellipse class="network-orbit" cx="260" cy="270" rx="220" ry="104" transform="rotate(46 260 270)" stroke="#7C9F8E" stroke-opacity=".38" stroke-width="1.6"/>
+            <path class="network-connection" d="M125 182L248 116L396 186L409 333L273 416L119 350Z M125 182L273 416 M248 116L409 333 M396 186L119 350" stroke="url(#network-trace)" stroke-width="1.7" stroke-opacity=".57"/>
+            <circle cx="260" cy="267" r="50" fill="#E2EFE5" stroke="#416D59" stroke-width="1.5"/>
+            <circle cx="260" cy="267" r="31" stroke="#416D59" stroke-opacity=".5"/>
+            <path d="M246 279Q260 259 274 279M249 253a11 11 0 1 0 22 0a11 11 0 1 0-22 0" stroke="#416D59" stroke-width="2"/>
+            <g class="network-node"><circle cx="125" cy="182" r="28" fill="#CADFD1" stroke="#4A806A" stroke-width="2"/><circle cx="125" cy="176" r="7" fill="#669A83"/><path d="M111 197q14-16 28 0" stroke="#669A83" stroke-width="2"/></g>
+            <g class="network-node"><circle cx="248" cy="116" r="25" fill="#EDF5EE" stroke="#4A806A" stroke-width="2"/><circle cx="248" cy="111" r="6" fill="#669A83"/><path d="M235 130q13-15 26 0" stroke="#669A83" stroke-width="2"/></g>
+            <g class="network-node"><circle cx="396" cy="186" r="30" fill="#BCD7C6" stroke="#4A806A" stroke-width="2"/><circle cx="396" cy="179" r="8" fill="#669A83"/><path d="M381 205q15-17 30 0" stroke="#669A83" stroke-width="2"/></g>
+            <g class="network-node"><circle cx="409" cy="333" r="24" fill="#E7F1E7" stroke="#4A806A" stroke-width="2"/><circle cx="409" cy="328" r="6" fill="#669A83"/><path d="M397 348q12-15 24 0" stroke="#669A83" stroke-width="2"/></g>
+            <g class="network-node"><circle cx="273" cy="416" r="29" fill="#C8DFD0" stroke="#4A806A" stroke-width="2"/><circle cx="273" cy="409" r="8" fill="#669A83"/><path d="M258 436q15-17 30 0" stroke="#669A83" stroke-width="2"/></g>
+            <g class="network-node"><circle cx="119" cy="350" r="25" fill="#E8F1E7" stroke="#4A806A" stroke-width="2"/><circle cx="119" cy="345" r="6" fill="#669A83"/><path d="M106 366q13-15 26 0" stroke="#669A83" stroke-width="2"/></g>
+          </svg>
+          <div class="cinematic-visual-annotation"><span class="cinematic-pulse"></span> PEOPLE · IDEAS · CONNECTIONS</div>
+          <span class="cinematic-giant-mark">MSMTJL</span>
+        </div>
+      </div>
+      <div class="cinematic-next" aria-hidden="true">
+        <div class="cinematic-next-inner">
+          <div class="cinematic-next-copy">
+            <span class="cinematic-next-index">01 / THE PEOPLE</span>
+            <h2>[[研究室成員||Lab Members]]</h2>
+            <p>[[從不同的研究背景出發，一起探索材料世界。||Different research paths, a shared curiosity for materials.]]</p>
+            <div class="cinematic-next-tags"><span>PI</span><span>Ph.D.</span><span>M.Sc.</span><span>Alumni</span></div>
+          </div>
+          <svg class="cinematic-next-art" viewBox="0 0 500 460" fill="none" aria-hidden="true">
+            <circle cx="250" cy="224" r="180" stroke="#578872" stroke-opacity=".35"/>
+            <circle cx="250" cy="224" r="131" stroke="#578872" stroke-opacity=".23" stroke-dasharray="5 8"/>
+            <path d="M94 230L186 95L350 116L422 267L290 397L130 354Z M94 230L350 116 M186 95L290 397 M422 267L130 354" stroke="#56846D" stroke-width="1.5" stroke-opacity=".5"/>
+            <g fill="#E8F2E8" stroke="#5A8B70" stroke-width="2">
+              <circle cx="94" cy="230" r="30"/><circle cx="186" cy="95" r="25"/><circle cx="350" cy="116" r="29"/><circle cx="422" cy="267" r="27"/><circle cx="290" cy="397" r="30"/><circle cx="130" cy="354" r="26"/>
+            </g>
+            <g fill="#83A894"><circle cx="94" cy="224" r="8"/><circle cx="186" cy="90" r="7"/><circle cx="350" cy="110" r="8"/><circle cx="422" cy="261" r="7"/><circle cx="290" cy="391" r="8"/><circle cx="130" cy="349" r="7"/></g>
+          </svg>
+        </div>
+      </div>
+      <div class="cinematic-scroll-cue" aria-hidden="true"><span>SCROLL TO DISCOVER</span><i></i><span>01 — 05</span></div>
     </section>
     <section id="members-list" class="section-wrap member-area member-reveal-section" data-member-flow="people">
       <div class="member-section-heading"><p class="eyebrow">01 / MEMBERS</p><h2>[[研究室成員||Laboratory members]]</h2><p>[[此處區分主持人、博士班、碩士班、大學部專題生與歷屆成員。學生名單尚待確認，暫不刊登姓名、照片或個人聯絡資料。||Members are organized by principal investigator, doctoral students, master's students, undergraduate researchers, and alumni. Student listings await verification, so no unconfirmed names, photographs, or personal contact details are displayed.]]</p></div>
