@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
  const disabled=()=>mode==='reduced'||(mode!=='full'&&reducedPref.matches);
  function updateHeaderHeight(){
   document.documentElement.style.setProperty('--member-header-height',Math.ceil(header?.getBoundingClientRect().height||80)+'px');
+  document.documentElement.style.setProperty('--member-viewport-height',window.innerHeight+'px');
  }
  function updateToggle(){
   if(!toggle)return;

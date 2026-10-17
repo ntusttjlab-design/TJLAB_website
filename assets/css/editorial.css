@@ -201,7 +201,7 @@ body[data-story-motion="reduced"] .bridge-curtain{display:none}
    based on the lab's own colors and SVG network, not stock photos or artificial people. */
 .members-page .cinematic-members-hero{
  --cinema-before:#e9eeeb;--cinema-after:#d9e8da;
- min-height:calc(100svh - var(--member-header-height,80px));
+ min-height:calc(var(--member-viewport-height,100svh) - var(--member-header-height,80px));
  height:auto;width:100%;max-width:none;
  padding:clamp(30px,4vw,65px) max(5.5vw,calc((100vw - 1320px)/2));
  display:flex;align-items:center;position:relative;overflow:hidden;
@@ -256,7 +256,7 @@ body[data-story-motion="reduced"] .bridge-curtain{display:none}
  .cinematic-hero-visual{max-height:min(58svh,520px)}
 }
 @media(max-width:800px){
- .members-page .cinematic-members-hero{padding:28px 6% 36px;min-height:calc(100svh - var(--member-header-height,80px))}
+ .members-page .cinematic-members-hero{padding:28px 6% 36px;min-height:calc(var(--member-viewport-height,100svh) - var(--member-header-height,80px))}
  .cinematic-hero-inner{grid-template-columns:1fr;gap:6px;align-content:center}
  .cinematic-hero-copy{z-index:5}
  .cinematic-hero-copy h1{font-size:clamp(2.8rem,8.4vw,4.5rem);max-width:620px;margin-bottom:14px}
@@ -293,12 +293,12 @@ body[data-story-motion="reduced"] .bridge-curtain{display:none}
 @media(min-width:801px) and (max-width:1200px){
  .members-page .cinematic-members-hero{padding-top:22px;padding-bottom:35px}
  .cinematic-hero-inner{grid-template-columns:1fr;gap:0}
- .cinematic-hero-copy{max-width:min(730px,75%);z-index:5}
+ .cinematic-hero-copy{max-width:min(830px,95%);z-index:5}
  .cinematic-hero-copy h1{font-size:clamp(3.1rem,5vw,4.6rem);line-height:1.08;margin:0 0 16px}
  .cinematic-hero-copy .members-lead{font-size:.92rem;line-height:1.68;max-width:620px}
  .cinematic-members-hero .members-hero-actions{margin-top:17px;gap:7px}
  .cinematic-members-hero .members-hero-actions a,
  .cinematic-members-hero .members-hero-actions button{padding:9px 12px;min-height:40px}
- .cinematic-hero-visual{position:absolute;right:-4%;top:5%;width:48%;height:85%;max-height:85%;opacity:.5;z-index:1;pointer-events:none}
+ .cinematic-hero-visual{position:absolute;right:-7%;top:5%;width:42%;height:85%;max-height:85%;opacity:.32;z-index:1;pointer-events:none}
  .cinematic-next-copy h2{font-size:clamp(3.3rem,6.4vw,6rem)}
 }

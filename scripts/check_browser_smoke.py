@@ -97,7 +97,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const hero=document.querySelector('.cinematic-members-hero');
   const height=hero.getBoundingClientRect().height;
   const availableHeight=innerHeight-header.getBoundingClientRect().height;
-  test(height >= availableHeight-6 && height <= availableHeight+120,'first-viewport-only:'+Math.round(height)+'/'+Math.round(availableHeight));
+  const heroCopy=hero.querySelector('.cinematic-hero-copy');
+  test(height >= availableHeight-6 && height <= availableHeight+120,
+    'first-viewport-only:'+Math.round(height)+'/'+Math.round(availableHeight)+
+    ':min'+getComputedStyle(hero).minHeight+':copy'+Math.round(heroCopy.getBoundingClientRect().height));
   test(document.getElementById('members-list').getBoundingClientRect().top >= innerHeight-15,'second-screen-below-fold');
   test(document.querySelectorAll('.cinematic-next').length===1 && document.querySelectorAll('.network-node').length===6,'cinematic-team-model');
   test(!!window.ScrollTrigger?.getById('members-cinematic-first') && window.ScrollTrigger.getById('members-cinematic-first').vars.pin===true,'hero-pin-trigger');
