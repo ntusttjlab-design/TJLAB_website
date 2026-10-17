@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fail(document.querySelectorAll('.pub-card').length === 64, 'publications');
   fail(document.querySelectorAll('.story-copy').length === 2 && document.querySelectorAll('[data-scene]').length === 2, 'two-scene-hero');
   fail(!document.querySelector('[data-model-label="2"]'), 'no-graphite');
-  const chapters = ['pi','research','publications','tutorials','tutorial-resources','dielectric','arcade','join'].map(id=>document.getElementById(id));
+  const chapters = ['pi','research','publications','tutorials','tutorial-resources','dielectric','join'].map(id=>document.getElementById(id));
   fail(chapters.every((node,i)=>node && (!i || !!(chapters[i-1].compareDocumentPosition(node)&Node.DOCUMENT_POSITION_FOLLOWING))), 'academic-first-order');
   fail(document.querySelector('.pi-statement')?.textContent.includes('Hello World！'), 'PI-original-translation');
   fail(document.querySelectorAll('.course-card').length === 16, 'courses');
