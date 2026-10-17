@@ -1,0 +1,237 @@
+{
+  "source_files": [
+    "raw_html/gallery.html",
+    "raw_html/tutorial-resources.html"
+  ],
+  "checked": "2026-10-18",
+  "note": "Labels from archived Google Sites iframe; current YouTube embeddability not verified.",
+  "gallery": [
+    {
+      "kind": "video",
+      "youtube_id": "27-cUJIVkTs",
+      "title_en": "poly sol vap film",
+      "embed_url": "https://www.youtube.com/embed/27-cUJIVkTs",
+      "watch_url": "https://www.youtube.com/watch?v=27-cUJIVkTs",
+      "title_zh": "poly sol vap film",
+      "group": "gallery"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "4ixA9rhGxwU",
+      "title_en": "amorphous cook",
+      "embed_url": "https://www.youtube.com/embed/4ixA9rhGxwU",
+      "watch_url": "https://www.youtube.com/watch?v=4ixA9rhGxwU",
+      "title_zh": "amorphous cook",
+      "group": "gallery"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "BwbCtJZxFgk",
+      "title_en": "mem water 1",
+      "embed_url": "https://www.youtube.com/embed/BwbCtJZxFgk",
+      "watch_url": "https://www.youtube.com/watch?v=BwbCtJZxFgk",
+      "title_zh": "mem water 1",
+      "group": "gallery"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "uSj7lyDDFaM",
+      "title_en": "nemd example 04",
+      "embed_url": "https://www.youtube.com/embed/uSj7lyDDFaM",
+      "watch_url": "https://www.youtube.com/watch?v=uSj7lyDDFaM",
+      "title_zh": "nemd example 04",
+      "group": "gallery"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "kO_39ikDl00",
+      "title_en": "NEMD example 02",
+      "embed_url": "https://www.youtube.com/embed/kO_39ikDl00",
+      "watch_url": "https://www.youtube.com/watch?v=kO_39ikDl00",
+      "title_zh": "NEMD example 02",
+      "group": "gallery"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "i13VZKxA-J4",
+      "title_en": "nemd example 03",
+      "embed_url": "https://www.youtube.com/embed/i13VZKxA-J4",
+      "watch_url": "https://www.youtube.com/watch?v=i13VZKxA-J4",
+      "title_zh": "nemd example 03",
+      "group": "gallery"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "PenFHW4f6F8",
+      "title_en": "NEMD example 01",
+      "embed_url": "https://www.youtube.com/embed/PenFHW4f6F8",
+      "watch_url": "https://www.youtube.com/watch?v=PenFHW4f6F8",
+      "title_zh": "NEMD example 01",
+      "group": "gallery"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "m9d9XsvZjWM",
+      "title_en": "Untitled  Feb 24, 2020 5 49 PM",
+      "embed_url": "https://www.youtube.com/embed/m9d9XsvZjWM",
+      "watch_url": "https://www.youtube.com/watch?v=m9d9XsvZjWM",
+      "title_zh": "Untitled  Feb 24, 2020 5 49 PM",
+      "group": "gallery"
+    }
+  ],
+  "tutorials": [
+    {
+      "kind": "video",
+      "youtube_id": "Ksx2oKBTvEU",
+      "title_en": "Getting Started with GaussView 6",
+      "embed_url": "https://www.youtube.com/embed/Ksx2oKBTvEU",
+      "watch_url": "https://www.youtube.com/watch?v=Ksx2oKBTvEU",
+      "title_zh": "GaussView 6 入門",
+      "group": "gaussian"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "dqKWfXsEcWs",
+      "title_en": "GaussView 6 Tutorial 1: Building Molecules",
+      "embed_url": "https://www.youtube.com/embed/dqKWfXsEcWs",
+      "watch_url": "https://www.youtube.com/watch?v=dqKWfXsEcWs",
+      "title_zh": "GaussView 6：建立分子",
+      "group": "gaussian"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "7F2JMfOvjmw",
+      "title_en": "Gaussian Calculation Setup Overview",
+      "embed_url": "https://www.youtube.com/embed/7F2JMfOvjmw",
+      "watch_url": "https://www.youtube.com/watch?v=7F2JMfOvjmw",
+      "title_zh": "Gaussian 計算設定總覽",
+      "group": "gaussian"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "17QpHFoQKMM",
+      "title_en": "GaussView 6 Tutorial 2: Running Jobs",
+      "embed_url": "https://www.youtube.com/embed/17QpHFoQKMM",
+      "watch_url": "https://www.youtube.com/watch?v=17QpHFoQKMM",
+      "title_zh": "GaussView 6：執行計算",
+      "group": "gaussian"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "EeUQu0g8agE",
+      "title_en": "GaussView 6 Tutorial 3: Visualizing Results",
+      "embed_url": "https://www.youtube.com/embed/EeUQu0g8agE",
+      "watch_url": "https://www.youtube.com/watch?v=EeUQu0g8agE",
+      "title_zh": "GaussView 6：結果視覺化",
+      "group": "gaussian"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "I8YYvuu5GaM",
+      "title_en": "GaussView 6 Tutorial 5: Working with Spectra",
+      "embed_url": "https://www.youtube.com/embed/I8YYvuu5GaM",
+      "watch_url": "https://www.youtube.com/watch?v=I8YYvuu5GaM",
+      "title_zh": "GaussView 6：光譜分析",
+      "group": "gaussian"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "t0kTVRXXi84",
+      "title_en": "GaussView 6 Tutorial 4: 3-D Results Visualization",
+      "embed_url": "https://www.youtube.com/embed/t0kTVRXXi84",
+      "watch_url": "https://www.youtube.com/watch?v=t0kTVRXXi84",
+      "title_zh": "GaussView 6：3D 結果視覺化",
+      "group": "gaussian"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "N11nlKMyrjk",
+      "title_en": "Gaussian Calculation Setup Defaults & Defining Schemes",
+      "embed_url": "https://www.youtube.com/embed/N11nlKMyrjk",
+      "watch_url": "https://www.youtube.com/watch?v=N11nlKMyrjk",
+      "title_zh": "Gaussian 計算預設值與設定方案",
+      "group": "gaussian"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "QuoRCyYrS9s",
+      "title_en": "Geometry Optimization in Computational Chemistry",
+      "embed_url": "https://www.youtube.com/embed/QuoRCyYrS9s",
+      "watch_url": "https://www.youtube.com/watch?v=QuoRCyYrS9s",
+      "title_zh": "計算化學：幾何最佳化",
+      "group": "quantum"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "HronzRpN7Ws",
+      "title_en": "Computing Thermodynamic Properties",
+      "embed_url": "https://www.youtube.com/embed/HronzRpN7Ws",
+      "watch_url": "https://www.youtube.com/watch?v=HronzRpN7Ws",
+      "title_zh": "熱力學性質計算",
+      "group": "quantum"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "mnWh2SFzk6g",
+      "title_en": "Practical Advice for Quantum Chemistry Computations",
+      "embed_url": "https://www.youtube.com/embed/mnWh2SFzk6g",
+      "watch_url": "https://www.youtube.com/watch?v=mnWh2SFzk6g",
+      "title_zh": "量子化學計算實務建議",
+      "group": "quantum"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "QGyfGCZT110",
+      "title_en": "Introduction to Density Functional Theory (DFT)",
+      "embed_url": "https://www.youtube.com/embed/QGyfGCZT110",
+      "watch_url": "https://www.youtube.com/watch?v=QGyfGCZT110",
+      "title_zh": "密度泛函理論（DFT）導論",
+      "group": "quantum"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "Ha5yWbxOqFk",
+      "title_en": "Molecular Vibrations",
+      "embed_url": "https://www.youtube.com/embed/Ha5yWbxOqFk",
+      "watch_url": "https://www.youtube.com/watch?v=Ha5yWbxOqFk",
+      "title_zh": "分子振動",
+      "group": "quantum"
+    },
+    {
+      "kind": "video",
+      "youtube_id": "MlbKoXACAx8",
+      "title_en": "Excited Electronic States in Quantum Chemistry",
+      "embed_url": "https://www.youtube.com/embed/MlbKoXACAx8",
+      "watch_url": "https://www.youtube.com/watch?v=MlbKoXACAx8",
+      "title_zh": "量子化學：電子激發態",
+      "group": "quantum"
+    },
+    {
+      "kind": "playlist",
+      "youtube_id": "PLwwTz0GVILdLh5bHAE2QOLPwSZRlaYzli",
+      "title_en": "MS_tutorial_2020",
+      "embed_url": "https://www.youtube.com/embed/videoseries?list=PLwwTz0GVILdLh5bHAE2QOLPwSZRlaYzli",
+      "watch_url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdLh5bHAE2QOLPwSZRlaYzli",
+      "title_zh": "Materials Studio 2020 教學播放清單",
+      "group": "playlists"
+    },
+    {
+      "kind": "playlist",
+      "youtube_id": "PLwwTz0GVILdKayxH5WDGoCQJSOL54L4U3",
+      "title_en": "Quantum_chemistry",
+      "embed_url": "https://www.youtube.com/embed/videoseries?list=PLwwTz0GVILdKayxH5WDGoCQJSOL54L4U3",
+      "watch_url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdKayxH5WDGoCQJSOL54L4U3",
+      "title_zh": "量子化學教學播放清單",
+      "group": "playlists"
+    },
+    {
+      "kind": "playlist",
+      "youtube_id": "PLwwTz0GVILdKyA4WmVfkQdNAWw01xLScR",
+      "title_en": "Basics_of_Molecular_Danymics",
+      "embed_url": "https://www.youtube.com/embed/videoseries?list=PLwwTz0GVILdKyA4WmVfkQdNAWw01xLScR",
+      "watch_url": "https://www.youtube.com/playlist?list=PLwwTz0GVILdKyA4WmVfkQdNAWw01xLScR",
+      "title_zh": "分子動力學基礎播放清單",
+      "group": "playlists"
+    }
+  ]
+}
