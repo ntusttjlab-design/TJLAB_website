@@ -53,3 +53,13 @@
 ## PR #3 雙入口資訊架構（待使用者審核）
 
 研究室介紹頁 `index.html`：PI 研究理念、研究方向、論文、課程、教學清單、定性電場互動、聯絡。成員／學生頁 `members.html`：已確認主持人、待驗證的博士班／碩士班／大學部／歷屆成員分類，與學生互動遊戲及排行榜。成員姓名、照片和私人資料未確認前不公開。遊戲只在 members 頁初始化，Google Apps Script 排行榜維持原本的連線設計。兩頁共用語言切換與手機導覽。發版打包及預覽允許兩個 HTML；首頁不再有遊戲章節，仍需檢查首頁兩段式 3D 不存在石墨。
+
+
+## PR #3 成員頁活動照片與動畫（審查分支）
+
+- 成員頁移除重複的公開教學資源捷徑，研究室介紹頁原本課程及論文資料不變。
+- 章節過場由 `assets/js/chapter-transitions.js` 共用：成員人物、拍立得照片、元素方塊、收尾聯絡。研究室介紹頁的原有過場視覺維持一致，避免成員頁載入 Three.js。
+- `assets/js/member-motion.js` 提供溫和卡片進場。尊重 prefers-reduced-motion，無 JS 時過場內容仍可讀。
+- 相簿來源為 `content/lab_activities.json`。目前 `albums: []`，僅顯示實際空狀態；請先將取得公開同意的 JPG/PNG/WebP 放入 `assets/images/lab-life/`，再新增含 `date` (YYYY-MM-DD)、`title.zh/en`、`photos[].src`、`photos[].alt.zh/en`、`photos[].caption.zh/en` 的相簿紀錄。路徑必須是該資料夾實際存在的相對路徑，不能使用外部圖片或虛構人物。
+- 相片按鈕由 `assets/js/lab-life-gallery.js` 管理原生 dialog：可用左右鍵、上一張／下一張、Esc 關閉；資料為雙語，保留鍵盤焦點。未提供照片時不建立假相簿。
+- 以上修改僅提交 PR #3，使用者正式驗收前不要合併 main。

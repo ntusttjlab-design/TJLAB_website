@@ -85,9 +85,46 @@ for key, value in {'JOURNAL_COUNT': str(pubs.journals), 'COURSE_COUNT': str(len(
     html = html.replace('{{' + key + '}}', value)
 assert '{{' not in html
 (ROOT / 'index.html').write_text(html, encoding='utf-8')
+activity_data = json.loads((ROOT / 'content/lab_activities.json').read_text(encoding='utf-8'))
+assert isinstance(activity_data.get('albums'), list)
+def activity_lang(item, name):
+    result = item.get(name, {})
+    assert isinstance(result, dict) and isinstance(result.get('zh'), str) and isinstance(result.get('en'), str)
+    return result
+def activity_gallery(albums):
+    cards = []
+    for album in albums:
+        assert isinstance(album, dict)
+        title = activity_lang(album, 'title')
+        date = album['date']
+        assert isinstance(date, str) and re.fullmatch(r'\\d{4}-\\d{2}-\\d{2}', date)
+        photos = album.get('photos', [])
+        assert isinstance(photos, list) and photos, 'Only publish albums with verified photographs'
+        images = []
+        for photo in photos:
+            assert isinstance(photo, dict)
+            path = photo['src']
+            assert isinstance(path, str) and re.fullmatch(r'assets/images/lab-life/[a-zA-Z0-9_./-]+\\.(?:jpg|jpeg|png|webp)', path)
+            assert '..' not in path and (ROOT / path).is_file(), 'Activity image must be a local approved file'
+            alt = activity_lang(photo, 'alt')
+            caption = activity_lang(photo, 'caption')
+            images.append(
+                '<button class="activity-photo" type="button" data-activity-photo '
+                f'data-alt-zh="{escape(alt["zh"], quote=True)}" data-alt-en="{escape(alt["en"], quote=True)}" '
+                f'data-caption-zh="{escape(caption["zh"], quote=True)}" data-caption-en="{escape(caption["en"], quote=True)}" '
+                f'data-title-zh="{escape(title["zh"], quote=True)}" data-title-en="{escape(title["en"], quote=True)}" '
+                f'aria-label="{escape(caption["zh"], quote=True)}"><img src="./{escape(path, quote=True)}" alt="{escape(alt["zh"], quote=True)}" loading="lazy" decoding="async"></button>'
+            )
+        cards.append('<article class="activity-album"><div class="activity-album-heading"><h3>'
+            + bilingual(title['zh'], title['en']) + '</h3><time datetime="' + escape(date) + '">' + escape(date)
+            + '</time></div><div class="activity-photos">' + ''.join(images) + '</div></article>')
+    return ''.join(cards)
 member_template = (ROOT / 'content/members_template.html').read_text(encoding='utf-8')
 arcade_source = (ROOT / 'content/arcade_section.html').read_text(encoding='utf-8')
 member_html = member_template.replace('{{ARCADE}}', arcade_source)
+member_html = member_html.replace('{{ACTIVITY_GALLERY}}', activity_gallery(activity_data['albums']))
+if activity_data['albums']:
+    member_html = member_html.replace('class="activity-empty" id="activity-empty"', 'class="activity-empty" id="activity-empty" hidden')
 member_html = re.sub(r'\[\[(.*?)\|\|(.*?)\]\]', lambda match: bilingual(*match.groups()), member_html)
 assert '{{' not in member_html
 (ROOT / 'members.html').write_text(member_html, encoding='utf-8')
