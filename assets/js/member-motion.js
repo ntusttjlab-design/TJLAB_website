@@ -1,24 +1,65 @@
 'use strict';
-// Small, accessible member-page reveals; shares the site's GSAP timing and typography.
+// Direct section-to-section flow without interstitial pages or scroll pinning.
+// CSS does all cross-section color blends, GSAP only adds subtle on-content reveals.
 document.addEventListener('DOMContentLoaded',()=>{
  if(!document.body.classList.contains('members-page'))return;
- const blocks=[...document.querySelectorAll('.member-reveal-section')];
- const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
- if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined')return;
- gsap.registerPlugin(ScrollTrigger);
- let ctx;
- function start(){
+ const sections=[...document.querySelectorAll('[data-member-flow]')];
+ const contentSections=sections.filter(section=>section.dataset.memberFlow!=='intro');
+ const button=document.getElementById('members-motion-toggle');
+ const preference=window.matchMedia('(prefers-reduced-motion: reduce)');
+ const mobile=window.matchMedia('(max-width:800px)');
+ const available=typeof gsap!=='undefined'&&typeof ScrollTrigger!=='undefined';
+ let ctx=null,mode='system';
+ try{mode=localStorage.getItem('msmtjl_motion')||'system';}catch{}
+ function reduced(){return mode==='reduced'||(mode!=='full'&&preference.matches);}
+ function label(){
+  if(!button)return;
+  const en=document.documentElement.lang==='en';
+  button.textContent=reduced()?(en?'Play motion':'播放動態'):(en?'Reduce motion':'減少動態');
+  button.setAttribute('aria-pressed',String(!reduced()));
+ }
+ function reset(){
   if(ctx){ctx.revert();ctx=null;}
-  if(reduced.matches)return;
+  contentSections.forEach(section=>section.style.removeProperty('--member-glow-offset'));
+ }
+ function start(){
+  reset();label();
+  document.body.dataset.memberFlow=reduced()?'reduced':available?'loading':'unavailable';
+  if(reduced()||!available)return;
+  gsap.registerPlugin(ScrollTrigger);
   ctx=gsap.context(()=>{
-   blocks.forEach(section=>{
-    const heading=section.querySelector('.member-section-heading,.member-note h2');
-    if(heading)gsap.fromTo(heading,{y:20,opacity:.75},{y:0,opacity:1,duration:.6,ease:'power2.out',scrollTrigger:{trigger:section,start:'top 84%',toggleActions:'play none none reverse'}});
-    const cards=[...section.querySelectorAll('.member-category,.activity-album')];
-    if(cards.length)gsap.fromTo(cards,{y:18,opacity:.65},{y:0,opacity:1,stagger:.08,duration:.55,ease:'power1.out',scrollTrigger:{trigger:section,start:'top 76%',toggleActions:'play none none reverse'}});
+   contentSections.forEach(section=>{
+    const heading=section.querySelector('.member-section-heading,.section-heading,.member-note h2');
+    const cards=[...section.querySelectorAll('.member-pi-card,.member-category,.activity-album,.activity-empty,.game-card')];
+    const tl=gsap.timeline({scrollTrigger:{
+      id:'member-flow-'+section.dataset.memberFlow,
+      trigger:section,
+      start:'top 88%',end:mobile.matches?'top 44%':'top 40%',
+      scrub:mobile.matches?.25:.45,
+      invalidateOnRefresh:true
+    }});
+    if(heading)tl.fromTo(heading,{autoAlpha:.72,y:20},
+      {autoAlpha:1,y:0,duration:1,ease:'none',immediateRender:false},0);
+    if(cards.length)tl.fromTo(cards,{autoAlpha:.75,y:18},
+      {autoAlpha:1,y:0,stagger:.09,duration:.9,ease:'none',immediateRender:false},.1);
+    tl.fromTo(section,{'--member-glow-offset':'-14px'},
+      {'--member-glow-offset':'18px',duration:1,ease:'none',immediateRender:false},0);
    });
   });
+  document.body.dataset.memberFlow='active';
   ScrollTrigger.refresh();
  }
- start();reduced.addEventListener?.('change',start);
+ button?.addEventListener('click',()=>{
+  mode=reduced()?'full':'reduced';
+  try{localStorage.setItem('msmtjl_motion',mode);}catch{}
+  start();
+ });
+ start();
+ preference.addEventListener?.('change',start);
+ mobile.addEventListener?.('change',start);
+ document.addEventListener('languagechange',()=>{
+  label();
+  if(available)ScrollTrigger.refresh();
+ });
+ window.addEventListener('load',()=>{if(available)ScrollTrigger.refresh();},{once:true});
 });
