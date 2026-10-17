@@ -50,11 +50,29 @@ groups = [
     ('高中理化', 'School science', range(15, 16)),
 ]
 course_html = [f'<section class="course-group"><h3>{bilingual(zh,en)}</h3><div class="course-items">{"".join(course_html[i] for i in indices)}</div></section>' for zh,en,indices in groups]
+# Gallery 8 and independent tutorial resources 17: do not merge with the PI's 16 playlists.
+media = json.loads((ROOT / 'content/media_embeds.json').read_text(encoding='utf-8'))
+assert len(media['gallery']) == 8 and len(media['tutorials']) == 17
+def render_embeds(items, collection):
+    cards = []
+    for item in items:
+        cards.append(
+            f'<article class="media-card"><div class="media-player"><iframe data-collection="{collection}" '
+            f'src="{escape(item["embed_url"], quote=True)}" title="{escape(item["title_en"], quote=True)}" '
+            f'loading="lazy" referrerpolicy="strict-origin-when-cross-origin" '
+            f'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" '
+            f'allowfullscreen></iframe></div><div class="media-caption"><h4>'
+            f'{bilingual(item["title_zh"], item["title_en"])}</h4><a href="{escape(item["watch_url"], quote=True)}" '
+            f'target="_blank" rel="noopener noreferrer">{bilingual("在 YouTube 開啟", "Open on YouTube")} ↗'
+            f'</a></div></article>'
+        )
+    return ''.join(cards)
+
 html = (ROOT / 'content/site_template.html').read_text(encoding='utf-8')
 html = html.replace('{{HERO}}', (ROOT / 'content/hero_story.html').read_text(encoding='utf-8'))
 html = html.replace('{{DIELECTRIC}}', (ROOT / 'content/dielectric_demo.html').read_text(encoding='utf-8'))
 html = re.sub(r'\[\[(.*?)\|\|(.*?)\]\]', lambda match: bilingual(*match.groups()), html)
-for key, value in {'JOURNAL_COUNT': str(pubs.journals), 'COURSE_COUNT': str(len(courses)), 'COURSE_UNIQUE_COUNT': str(len({course['Id'] for course in courses})), 'RESEARCH': research_html, 'PUBLICATIONS': ''.join(pubs.output), 'COURSES': ''.join(course_html)}.items():
+for key, value in {'JOURNAL_COUNT': str(pubs.journals), 'COURSE_COUNT': str(len(courses)), 'COURSE_UNIQUE_COUNT': str(len({course['Id'] for course in courses})), 'RESEARCH': research_html, 'PUBLICATIONS': ''.join(pubs.output), 'COURSES': ''.join(course_html), 'TUTORIAL_GAUSSIAN': render_embeds([x for x in media['tutorials'] if x['group'] == 'gaussian'], 'tutorial'), 'TUTORIAL_QUANTUM': render_embeds([x for x in media['tutorials'] if x['group'] == 'quantum'], 'tutorial'), 'TUTORIAL_PLAYLISTS': render_embeds([x for x in media['tutorials'] if x['group'] == 'playlists'], 'tutorial'), 'GALLERY_EMBEDS': render_embeds(media['gallery'], 'gallery')}.items():
     html = html.replace('{{' + key + '}}', value)
 assert '{{' not in html
 (ROOT / 'index.html').write_text(html, encoding='utf-8')
