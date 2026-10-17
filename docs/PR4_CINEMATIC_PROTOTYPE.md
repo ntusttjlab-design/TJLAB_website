@@ -29,3 +29,8 @@ This proof of concept implements the **first** key scene only: complete viewport
 7. Review visual pacing manually. CI cannot guarantee aesthetic quality or reproduce every browser device.
 
 **Merge PR #4 into PR #3 only after user confirms; leave PR #3 and main untouched until then.**
+
+
+## PR4.2 — real content replaces duplicate scene
+
+Removed the decorative `cinematic-next` presentation entirely. The actual `#members-list` section is now the second scene, and its real PI, PhD, master’s, undergraduate and alumni content is revealed with a GSAP-controlled mask while the original hero transforms away. No pinned hero, no extra slide/section, no artificial scrolling distance. Exactly five real content sections remain siblings. Reduced motion leaves everything readable.

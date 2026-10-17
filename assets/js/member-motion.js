@@ -1,95 +1,87 @@
 'use strict';
-// PR4 experiment: the actual first Members hero becomes a scroll-controlled scene.
-// It pins temporarily, scales the abstract team network, and reveals a second palette
-// via a circular mask. There is NO inserted interstitial section or fabricated person.
-document.addEventListener('DOMContentLoaded', () => {
+// One topic, one real section. Transform the full viewport hero into the real team list.
+// No extra page, pinned viewport, or duplicate team introduction.
+document.addEventListener('DOMContentLoaded',()=>{
  if(!document.body.classList.contains('members-page'))return;
  const hero=document.querySelector('.cinematic-members-hero');
- const pageSections=[...document.querySelectorAll('main > section[data-member-flow]')];
- const remaining=pageSections.filter(s=>s!==hero);
+ const team=document.getElementById('members-list');
+ const all=[...document.querySelectorAll('main > section[data-member-flow]')];
+ const after=all.filter(s=>s!==hero&&s!==team);
  const header=document.querySelector('.site-header');
- const next=hero?.querySelector('.cinematic-next');
- const nextContent=hero?.querySelector('.cinematic-next-inner');
  const copy=hero?.querySelector('.cinematic-hero-copy');
- const art=hero?.querySelector('.cinematic-hero-visual');
+ const visual=hero?.querySelector('.cinematic-hero-visual');
  const svg=hero?.querySelector('.cinematic-network');
  const cue=hero?.querySelector('.cinematic-scroll-cue');
  const toggle=document.getElementById('members-motion-toggle');
- const reducedPref=window.matchMedia('(prefers-reduced-motion: reduce)');
- const mobile=window.matchMedia('(max-width:800px)');
- const enabled=typeof gsap!=='undefined'&&typeof ScrollTrigger!=='undefined';
- if(!hero||!next||!nextContent||!copy||!art||!svg)return;
+ const preference=matchMedia('(prefers-reduced-motion: reduce)');
+ const mobile=matchMedia('(max-width:800px)');
+ const ready=typeof gsap!=='undefined'&&typeof ScrollTrigger!=='undefined';
+ if(!hero||!team||!copy||!visual||!svg)return;
  let ctx=null,mode='system';
  try{mode=localStorage.getItem('msmtjl_motion')||'system';}catch{}
- const disabled=()=>mode==='reduced'||(mode!=='full'&&reducedPref.matches);
- function updateHeaderHeight(){
+ const reduced=()=>mode==='reduced'||(mode!=='full'&&preference.matches);
+ function dimensions(){
   document.documentElement.style.setProperty('--member-header-height',Math.ceil(header?.getBoundingClientRect().height||80)+'px');
-  document.documentElement.style.setProperty('--member-viewport-height',window.innerHeight+'px');
+  document.documentElement.style.setProperty('--member-viewport-height',innerHeight+'px');
  }
- function updateToggle(){
+ function label(){
   if(!toggle)return;
   const en=document.documentElement.lang==='en';
-  toggle.textContent=disabled()?(en?'Play motion':'播放動態'):(en?'Reduce motion':'減少動態');
-  toggle.setAttribute('aria-pressed',String(!disabled()));
+  toggle.textContent=reduced()?(en?'Play motion':'播放動態'):(en?'Reduce motion':'減少動態');
+  toggle.setAttribute('aria-pressed',String(!reduced()));
  }
- function clear(){
+ function reset(){
   if(ctx){ctx.revert();ctx=null;}
   hero.removeAttribute('data-cinematic-active');
-  remaining.forEach(section=>section.style.removeProperty('--member-glow-offset'));
+  team.style.removeProperty('clip-path');
+  after.forEach(s=>s.style.removeProperty('--member-glow-offset'));
  }
- function configure(){
-  updateHeaderHeight();clear();updateToggle();
-  document.body.dataset.memberFlow=disabled()?'reduced':enabled?'loading':'unavailable';
-  if(disabled()||!enabled)return;
+ function start(){
+  dimensions();reset();label();
+  document.body.dataset.memberFlow=reduced()?'reduced':ready?'loading':'unavailable';
+  if(reduced()||!ready)return;
   gsap.registerPlugin(ScrollTrigger);
   ctx=gsap.context(()=>{
-   const heroScene=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{
-    id:'members-cinematic-first',
-    trigger:hero,
+   const outgoing=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{
+    id:'members-cinematic-first',trigger:hero,
     start:()=> 'top top+='+(header?.getBoundingClientRect().height||80),
-    end:()=>'+='+Math.max(420,Math.round((innerHeight-(header?.getBoundingClientRect().height||80))*(mobile.matches?.95:1.10))),
-    pin:true,pinSpacing:true,scrub:.55,anticipatePin:1,
-    invalidateOnRefresh:true
+    end:()=> 'bottom top+='+(header?.getBoundingClientRect().height||80),
+    scrub:mobile.matches?.45:.65,pin:false,invalidateOnRefresh:true
    }});
-   heroScene.to(copy,{autoAlpha:0,y:-58,scale:.94,duration:.48},.08)
-      .to(art,{scale:1.36,rotation:14,x:mobile.matches?-25:-45,y:mobile.matches?25:5,opacity:.23,duration:.8},0)
-      .to(svg.querySelectorAll('.network-orbit'),{rotation:24,transformOrigin:'50% 50%',duration:.9},0)
-      .to(next,{clipPath:'circle(155% at 72% 50%)',duration:.92},.1)
-      .fromTo(nextContent,{autoAlpha:0,y:65,scale:.93},
-         {autoAlpha:1,y:0,scale:1,duration:.64,immediateRender:false},.36);
-   if(cue)heroScene.to(cue,{opacity:0,y:14,duration:.3},.02);
-   // Later long-form sections retain their normal reading and game interaction.
-   remaining.forEach(section=>{
-    const heading=section.querySelector('.member-section-heading,.section-heading,.member-note h2');
-    const items=[...section.querySelectorAll('.member-pi-card,.member-category,.activity-album,.activity-empty,.game-card')];
-    const tl=gsap.timeline({scrollTrigger:{
-     id:'member-flow-'+section.dataset.memberFlow,
-     trigger:section,start:'top 88%',end:mobile.matches?'top 43%':'top 40%',
-     scrub:mobile.matches?.25:.45,invalidateOnRefresh:true
-    }});
-    if(heading)tl.fromTo(heading,{autoAlpha:.78,y:22},
-      {autoAlpha:1,y:0,duration:1,immediateRender:false},0);
-    if(items.length)tl.fromTo(items,{autoAlpha:.78,y:18},
-      {autoAlpha:1,y:0,stagger:.07,duration:.9,immediateRender:false},.15);
-    tl.fromTo(section,{'--member-glow-offset':'-12px'},
-      {'--member-glow-offset':'18px',duration:1,immediateRender:false},0);
+   outgoing.to(copy,{autoAlpha:.1,y:-70,scale:.9,duration:1},0)
+     .to(visual,{scale:1.55,rotation:20,x:mobile.matches?-15:-95,y:-30,opacity:.08,duration:1},0)
+     .to(svg.querySelectorAll('.network-orbit'),{rotation:32,transformOrigin:'50% 50%',duration:1},0);
+   if(cue)outgoing.to(cue,{autoAlpha:0,y:16,duration:.5},0);
+   const heading=team.querySelector('.member-section-heading');
+   const cards=[...team.querySelectorAll('.member-pi-card,.member-category')];
+   const incoming=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{
+    id:'members-real-content-reveal',trigger:team,
+    start:'top bottom',end:mobile.matches?'top 12%':'top 22%',
+    scrub:mobile.matches?.36:.55,pin:false,invalidateOnRefresh:true
+   }});
+   incoming.fromTo(team,{clipPath:'inset(0 0 96% 0)'},{clipPath:'inset(0 0 0% 0)',duration:1,immediateRender:false},0);
+   if(heading)incoming.fromTo(heading,{autoAlpha:.35,y:58},{autoAlpha:1,y:0,duration:.8,immediateRender:false},.16);
+   if(cards.length)incoming.fromTo(cards,{autoAlpha:.45,y:50},{autoAlpha:1,y:0,stagger:.04,duration:.7,immediateRender:false},.24);
+   after.forEach(section=>{
+    const title=section.querySelector('.member-section-heading,.section-heading,.member-note h2');
+    const items=[...section.querySelectorAll('.activity-album,.activity-empty,.game-card')];
+    const tl=gsap.timeline({scrollTrigger:{id:'member-flow-'+section.dataset.memberFlow,
+      trigger:section,start:'top 88%',end:mobile.matches?'top 43%':'top 40%',
+      scrub:mobile.matches?.25:.45,invalidateOnRefresh:true}});
+    if(title)tl.fromTo(title,{autoAlpha:.78,y:22},{autoAlpha:1,y:0,duration:1,immediateRender:false},0);
+    if(items.length)tl.fromTo(items,{autoAlpha:.78,y:18},{autoAlpha:1,y:0,stagger:.07,duration:.9,immediateRender:false},.15);
+    tl.fromTo(section,{'--member-glow-offset':'-12px'},{'--member-glow-offset':'18px',duration:1,immediateRender:false},0);
    });
   });
   hero.dataset.cinematicActive='true';
   document.body.dataset.memberFlow='active';
   ScrollTrigger.refresh();
  }
- toggle?.addEventListener('click',()=>{
-  mode=disabled()?'full':'reduced';
-  try{localStorage.setItem('msmtjl_motion',mode);}catch{}
-  configure();
- });
- configure();
- reducedPref.addEventListener?.('change',configure);
- mobile.addEventListener?.('change',configure);
- window.addEventListener('resize',updateHeaderHeight,{passive:true});
- document.addEventListener('languagechange',()=>{
-  updateToggle();updateHeaderHeight();if(enabled)ScrollTrigger.refresh();
- });
- window.addEventListener('load',()=>{updateHeaderHeight();if(enabled)ScrollTrigger.refresh();},{once:true});
+ toggle?.addEventListener('click',()=>{mode=reduced()?'full':'reduced';try{localStorage.setItem('msmtjl_motion',mode);}catch{}start();});
+ start();
+ preference.addEventListener?.('change',start);
+ mobile.addEventListener?.('change',start);
+ addEventListener('resize',dimensions,{passive:true});
+ document.addEventListener('languagechange',()=>{label();dimensions();if(ready)ScrollTrigger.refresh();});
+ addEventListener('load',()=>{dimensions();if(ready)ScrollTrigger.refresh();},{once:true});
 });

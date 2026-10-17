@@ -88,11 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
   test(document.querySelector('#student-resources') === null && document.querySelector('a[href="#student-resources"]') === null, 'resources-removed');
   test(document.querySelector('#lab-life') !== null, 'activity-gallery');
   test(document.querySelectorAll('.member-bridge,.member-transition-copy').length===0,'no-separate-slides');
-  // GSAP pin wraps the real hero in a temporary pin-spacer; it does not add a new page.
-  const flow=[...document.querySelectorAll('main section[data-member-flow]')];
+  // Five adjacent real sections, no pin spacer or extra transition screen.
+  const flow=[...document.querySelectorAll('main > section[data-member-flow]')];
   test(flow.map(s=>s.id).join(',')==='members,members-list,lab-life,arcade,members-contact','natural-five-section-order');
-  const first=flow[0],following=first?.parentElement?.classList.contains('pin-spacer')?first.parentElement: first;
-  test(following?.nextElementSibling===flow[1] && flow.slice(2).every((node,i)=>flow[i+1].nextElementSibling===node),'direct-neighbor-sections');
+  test(flow.slice(1).every((node,i)=>flow[i].nextElementSibling===node),'direct-neighbor-sections');
+  test(!document.querySelector('.pin-spacer'),'no-pin-spacer');
   const header=document.querySelector('.site-header');
   const hero=document.querySelector('.cinematic-members-hero');
   const height=hero.getBoundingClientRect().height;
@@ -102,32 +102,33 @@ document.addEventListener('DOMContentLoaded', () => {
     'first-viewport-only:'+Math.round(height)+'/'+Math.round(availableHeight)+
     ':min'+getComputedStyle(hero).minHeight+':copy'+Math.round(heroCopy.getBoundingClientRect().height));
   test(document.getElementById('members-list').getBoundingClientRect().top >= innerHeight-15,'second-screen-below-fold');
-  test(document.querySelectorAll('.cinematic-next').length===1 && document.querySelectorAll('.network-node').length===6,'cinematic-team-model');
-  test(!!window.ScrollTrigger?.getById('members-cinematic-first') && window.ScrollTrigger.getById('members-cinematic-first').vars.pin===true,'hero-pin-trigger');
+  test(document.querySelectorAll('.cinematic-next').length===0 && document.querySelectorAll('.network-node').length===6,'no-fake-next-scene');
+  test(!!window.ScrollTrigger?.getById('members-cinematic-first') && window.ScrollTrigger.getById('members-cinematic-first').vars.pin===false,'hero-pin-trigger');
   const firstTransition=window.ScrollTrigger?.getById('members-cinematic-first');
-  const sceneAnimation=firstTransition?.animation;
-  test(!!sceneAnimation,'cinematic-scene-timeline');
-  if(sceneAnimation){
-    const initial=sceneAnimation.progress();
-    sceneAnimation.progress(.72).pause();
-    const reveal=getComputedStyle(document.querySelector('.cinematic-next')).clipPath;
-    test(reveal.includes('circle(') && !reveal.includes('circle(0%'),'cinematic-mask-progress');
-    test(parseFloat(getComputedStyle(document.querySelector('.cinematic-hero-copy')).opacity)<.95,'first-scene-copy-exits');
-    sceneAnimation.progress(initial).pause();
+  const realReveal=window.ScrollTrigger?.getById('members-real-content-reveal');
+  test(!!firstTransition?.animation,'hero-transforms-during-scroll');
+  test(!!realReveal?.animation && realReveal.vars.pin===false,'real-content-is-reveal');
+  if(firstTransition?.animation && realReveal?.animation){
+    const outgoing=firstTransition.animation,incoming=realReveal.animation;
+    const oldA=outgoing.progress(),oldB=incoming.progress();
+    outgoing.progress(.72).pause();incoming.progress(.72).pause();
+    const mask=getComputedStyle(document.querySelector('#members-list')).clipPath;
+    test(mask.includes('inset(') && !mask.includes('96%'),'actual-members-mask-progress');
+    test(parseFloat(getComputedStyle(document.querySelector('.cinematic-hero-copy')).opacity)<.95,'hero-copy-exits');
+    outgoing.progress(oldA).pause();incoming.progress(oldB).pause();
   }
-  test(getComputedStyle(document.querySelector('.cinematic-next')).clipPath.includes('circle('),'mask-reveal-enabled');
   test(document.body.dataset.memberFlow==='active','member-motion-active');
-  test((window.ScrollTrigger?.getAll()||[]).filter(t=>(t.vars?.id||'').startsWith('member-flow-')).length===4,'four-subtle-reveals');
+  test((window.ScrollTrigger?.getAll()||[]).filter(t=>(t.vars?.id||'').startsWith('member-flow-')).length===3,'three-remaining-reveals');
   test(['members-list','lab-life','arcade','members-contact'].every(id=>getComputedStyle(document.getElementById(id)).backgroundImage.includes('linear-gradient')),'adjacent-color-gradients');
   test(Math.abs(document.getElementById('members-list').getBoundingClientRect().width-document.documentElement.clientWidth)<4,'full-width-color');
   const motion=document.getElementById('members-motion-toggle');
   test(!!motion && motion.getAttribute('aria-pressed')==='true','motion-button');
   motion?.click();
   test(document.body.dataset.memberFlow==='reduced','can-reduce-motion');
-  test(!window.ScrollTrigger?.getById('members-cinematic-first'),'no-pinning-when-reduced');
+  test(!window.ScrollTrigger?.getById('members-cinematic-first')&&!window.ScrollTrigger?.getById('members-real-content-reveal'),'no-animation-when-reduced');
   motion?.click();
   test(document.body.dataset.memberFlow==='active','can-restore-motion');
-  test(!!window.ScrollTrigger?.getById('members-cinematic-first'),'pin-restored');
+  test(!!window.ScrollTrigger?.getById('members-cinematic-first')&&!!window.ScrollTrigger?.getById('members-real-content-reveal'),'real-animation-restored');
   test(document.querySelector('#activity-empty') !== null && !document.querySelector('.activity-album'), 'gallery-empty-state');
   test(document.querySelector('#activity-lightbox') !== null, 'gallery-dialog');
   test(document.querySelector('a[href="#lab-life"]') !== null, 'activity-navigation');
