@@ -5,7 +5,7 @@
 - 基底為遠端 main `9d622a2b97238bcfb699635adfd4518fa0c519b2`，發布前重新讀取，不以備份 checkout 的舊 HEAD 覆寫。
 - GAS 02:27 更新既有部署為第 6 版；Code.gs / Arcade.html 編輯器全選複製讀回與本機一致。
 - 公開蛇 1 元素及球 5:1、34009ms 經正常遊玩、表單與 Sheets 讀回通過；測試兩列清理，合法玩家及舊表保留。
-- 變更內容、逐項驗收與截圖：ACCEPTANCE_2.1.md。Pages 提交／Actions／正式入口驗證結果於下方補記。
+- 變更內容、逐項驗收與截圖：ACCEPTANCE_2.1.md。功能提交 `a6ecdff0f1a6991e9ba812a73425d2d8c78ba375`；[Actions 39059948073](https://github.com/ntusttjlab-design/TJLAB_website/actions/runs/39059948073) completed / success，全部生成檢查與部署步驟成功。正式 HTML 與本機逐字比對一致，7 個轉場及 2.1.0 資產標記確認。Google Sites 的 innerFrame 指向正式 Pages，框內也讀到 7 個轉場及 2.1.0 CSS。
 
 此檔只記錄實際狀態；本機完成不代表已上線。
 
