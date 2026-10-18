@@ -312,25 +312,18 @@ body[data-story-motion="reduced"] .bridge-curtain{display:none}
 .members-page .cinematic-hero-visual{transform-origin:72% 50%}
 @media(prefers-reduced-motion:reduce){.members-page #members-list.cinematic-member-destination{clip-path:none!important}}
 
-/* PR4.3 — only the REAL section 02 → 03 color handoff changes.
-   Photos' full-bleed surface starts at the member sage, then the same surface
-   warms gradually as its existing title/cards gently enter on scroll. */
+
+/* PR4.4: only the real 02→03 boundary changes. A warm paper layer inside
+   the lab-life section fades over its sage base under the existing content. */
 .members-page #lab-life{
- --life-transition-progress:1;
  background:#dfeae0;
- isolation:isolate;
  position:relative;
+ isolation:isolate;
 }
-.members-page #lab-life::after{
- content:"";
- position:absolute;
- inset:0;
- background:linear-gradient(165deg,#e7ebe2 0%,#f0eae1 48%,#f3eee8 100%);
- opacity:var(--life-transition-progress,1);
+.members-page #lab-life>.lab-life-color-wash{
+ position:absolute;inset:0;z-index:0;
+ opacity:1;
  pointer-events:none;
- z-index:0;
+ background:linear-gradient(165deg,#e7ebe2 0%,#f0eae1 48%,#f3eee8 100%);
 }
 .members-page #lab-life>.section-wrap{position:relative;z-index:1}
-@media(prefers-reduced-motion:reduce){
- .members-page #lab-life::after{opacity:1!important}
-}

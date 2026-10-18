@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(ctx){ctx.revert();ctx=null;}
   hero.removeAttribute('data-cinematic-active');
   team.style.removeProperty('clip-path');
-  after.forEach(s=>{s.style.removeProperty('--member-glow-offset');s.style.removeProperty('--life-transition-progress');});
+  after.forEach(s=>s.style.removeProperty('--member-glow-offset'));
  }
  function start(){
   dimensions();reset();label();
@@ -69,10 +69,10 @@ document.addEventListener('DOMContentLoaded',()=>{
       trigger:section,start:'top 88%',end:mobile.matches?'top 43%':'top 40%',
       scrub:mobile.matches?.25:.45,invalidateOnRefresh:true}});
     if(section.id==='lab-life'){
-      // Begin with the sage surface before the photo section enters the viewport.
-      // Context-scoped set is reverted when motion is disabled.
-      gsap.set(section,{'--life-transition-progress':0});
-      tl.to(section,{'--life-transition-progress':1,duration:1,ease:'none'},0);
+      // Animate a real decorative layer inside the real photo section.
+      // This never inserts a page or scroll distance and is easy to verify.
+      const wash=section.querySelector('.lab-life-color-wash');
+      if(wash)tl.fromTo(wash,{opacity:0},{opacity:1,duration:1,ease:'none'},0);
     }
     if(title)tl.fromTo(title,{autoAlpha:.78,y:22},{autoAlpha:1,y:0,duration:1,immediateRender:false},0);
     if(items.length)tl.fromTo(items,{autoAlpha:.78,y:18},{autoAlpha:1,y:0,stagger:.07,duration:.9,immediateRender:false},.15);

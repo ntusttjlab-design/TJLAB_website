@@ -123,14 +123,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const labLife=document.getElementById('lab-life');
   const photosTrigger=window.ScrollTrigger?.getById('member-flow-photos');
   test(!!photosTrigger?.animation && photosTrigger.vars.pin!==true,'photos-real-section-transition');
-  test(getComputedStyle(labLife,'::after').backgroundImage.includes('linear-gradient'),'warm-background-overlay');
+  const wash=labLife.querySelector('.lab-life-color-wash');
+  test(!!wash && getComputedStyle(wash).backgroundImage.includes('linear-gradient'),'warm-background-overlay');
   if(photosTrigger?.animation){
     const t=photosTrigger.animation,initial=t.progress();
     t.progress(0).pause();
-    const startOpacity=parseFloat(getComputedStyle(labLife,'::after').opacity);
+    const startOpacity=parseFloat(getComputedStyle(wash).opacity);
     t.progress(1).pause();
-    const endOpacity=parseFloat(getComputedStyle(labLife,'::after').opacity);
-    test(startOpacity<.15 && endOpacity>.85,'second-to-third-color-changes-with-scroll:'+startOpacity+'/'+endOpacity+':var'+getComputedStyle(labLife).getPropertyValue('--life-transition-progress'));
+    const endOpacity=parseFloat(getComputedStyle(wash).opacity);
+    test(startOpacity<.15 && endOpacity>.85,'second-to-third-color-changes-with-scroll:'+startOpacity+'/'+endOpacity+':inline'+wash?.style.opacity);
     t.progress(initial).pause();
   }
   test(Math.abs(document.getElementById('members-list').getBoundingClientRect().width-document.documentElement.clientWidth)<4,'full-width-color');
