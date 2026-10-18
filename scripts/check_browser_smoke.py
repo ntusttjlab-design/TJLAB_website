@@ -88,61 +88,61 @@ document.addEventListener('DOMContentLoaded', () => {
   test(document.querySelector('#student-resources') === null && document.querySelector('a[href="#student-resources"]') === null, 'resources-removed');
   test(document.querySelector('#lab-life') !== null, 'activity-gallery');
   test(document.querySelectorAll('.member-bridge,.member-transition-copy').length===0,'no-separate-slides');
-  // Five adjacent real sections, no pin spacer or extra transition screen.
+  // Same two-scene hero design system as the academic Laboratory homepage.
   const flow=[...document.querySelectorAll('main > section[data-member-flow]')];
-  test(flow.map(s=>s.id).join(',')==='members,members-list,lab-life,arcade,members-contact','natural-five-section-order');
+  test(flow.map(s=>s.id).join(',')==='members,members-list,lab-life,arcade,members-contact','five-real-topics');
   test(flow.slice(1).every((node,i)=>flow[i].nextElementSibling===node),'direct-neighbor-sections');
-  test(!document.querySelector('.pin-spacer'),'no-pin-spacer');
+  test(!document.querySelector('.member-bridge,.cinematic-next'),'no-transition-slide');
   const header=document.querySelector('.site-header');
-  const hero=document.querySelector('.cinematic-members-hero');
-  const height=hero.getBoundingClientRect().height;
-  const availableHeight=innerHeight-header.getBoundingClientRect().height;
-  const heroCopy=hero.querySelector('.cinematic-hero-copy');
-  test(height >= availableHeight-6 && height <= availableHeight+120,
-    'first-viewport-only:'+Math.round(height)+'/'+Math.round(availableHeight)+
-    ':min'+getComputedStyle(hero).minHeight+':copy'+Math.round(heroCopy.getBoundingClientRect().height));
-  test(document.getElementById('members-list').getBoundingClientRect().top >= innerHeight-15,'second-screen-below-fold');
-  test(document.querySelectorAll('.cinematic-next').length===0 && document.querySelectorAll('.network-node').length===6,'no-fake-next-scene');
-  test(!!window.ScrollTrigger?.getById('members-cinematic-first') && window.ScrollTrigger.getById('members-cinematic-first').vars.pin===false,'hero-pin-trigger');
-  const firstTransition=window.ScrollTrigger?.getById('members-cinematic-first');
-  const realReveal=window.ScrollTrigger?.getById('members-real-content-reveal');
-  test(!!firstTransition?.animation,'hero-transforms-during-scroll');
-  test(!!realReveal?.animation && realReveal.vars.pin===false,'real-content-is-reveal');
-  if(firstTransition?.animation && realReveal?.animation){
-    const outgoing=firstTransition.animation,incoming=realReveal.animation;
-    const oldA=outgoing.progress(),oldB=incoming.progress();
-    outgoing.progress(.72).pause();incoming.progress(.72).pause();
-    const mask=getComputedStyle(document.querySelector('#members-list')).clipPath;
-    test(mask.includes('inset(') && !mask.includes('96%'),'actual-members-mask-progress');
-    test(parseFloat(getComputedStyle(document.querySelector('.cinematic-hero-copy')).opacity)<.95,'hero-copy-exits');
-    outgoing.progress(oldA).pause();incoming.progress(oldB).pause();
+  const hero=document.querySelector('.members-story-stage');
+  const usable=innerHeight-header.getBoundingClientRect().height;
+  test(hero.getBoundingClientRect().height>=usable-6 && hero.getBoundingClientRect().height<=usable+100,
+    'members-story-viewport:'+Math.round(hero.getBoundingClientRect().height)+'/'+Math.round(usable));
+  test(document.querySelectorAll('#members .story-copy').length===2,'two-member-story-panels');
+  test(document.querySelectorAll('#members [data-graphic]').length===2,'two-distinct-team-illustrations');
+  test(document.querySelectorAll('#members [data-scene]').length===2,'two-chapter-buttons');
+  test(document.querySelectorAll('#members [data-model-label]').length===2,'two-scene-labels');
+  const story=window.ScrollTrigger?.getById('members-dual-story');
+  test(!!story?.animation && !!story.vars.pin,'members-story-pinned-like-overview');
+  test(hero.dataset.material==='0','story-begins-on-team');
+  if(story?.animation){
+   const timeline=story.animation;
+   const original=timeline.progress();
+   timeline.progress(.85).pause();
+   test(hero.dataset.material==='1','scroll-swaps-to-collaboration');
+   test(parseFloat(getComputedStyle(document.querySelector('[data-graphic="1"]')).opacity)>.85,'collaboration-illustration-visible');
+   test(document.querySelector('#members .story-copy[data-step="1"]')?.style.visibility==='visible','collaboration-copy-visible');
+   timeline.progress(original).pause();
   }
   test(document.body.dataset.memberFlow==='active','member-motion-active');
-  test((window.ScrollTrigger?.getAll()||[]).filter(t=>(t.vars?.id||'').startsWith('member-flow-')).length===3,'three-remaining-reveals');
-  test(['members-list','arcade','members-contact'].every(id=>getComputedStyle(document.getElementById(id)).backgroundImage.includes('linear-gradient')),'unchanged-other-gradients');
+  test((window.ScrollTrigger?.getAll()||[]).filter(t=>(t.vars?.id||'').startsWith('member-flow-')).length===4,'four-academic-section-reveals');
+  test(['members-list','arcade','members-contact'].every(id=>getComputedStyle(document.getElementById(id)).backgroundImage.includes('linear-gradient')),'subtle-section-gradients');
   const labLife=document.getElementById('lab-life');
-  const photosTrigger=window.ScrollTrigger?.getById('member-flow-photos');
-  test(!!photosTrigger?.animation && photosTrigger.vars.pin!==true,'photos-real-section-transition');
+  const photosTrigger=window.ScrollTrigger?.getById('members-photo-color-transition');
+  test(!!photosTrigger?.animation,'lab-life-background-transition');
   const wash=labLife.querySelector('.lab-life-color-wash');
   test(!!wash && getComputedStyle(wash).backgroundImage.includes('linear-gradient'),'warm-background-overlay');
   if(photosTrigger?.animation){
-    const t=photosTrigger.animation,initial=t.progress();
-    t.progress(0).pause();
-    const startOpacity=parseFloat(getComputedStyle(wash).opacity);
-    t.progress(1).pause();
-    const endOpacity=parseFloat(getComputedStyle(wash).opacity);
-    test(startOpacity<.15 && endOpacity>.85,'second-to-third-color-changes-with-scroll:'+startOpacity+'/'+endOpacity+':inline'+wash?.style.opacity);
-    t.progress(initial).pause();
+    const timeline=photosTrigger.animation,was=timeline.progress();
+    timeline.progress(0).pause();const initialOpacity=parseFloat(getComputedStyle(wash).opacity);
+    timeline.progress(1).pause();const finalOpacity=parseFloat(getComputedStyle(wash).opacity);
+    test(initialOpacity<.15&&finalOpacity>.85,'second-to-third-color-changes-with-scroll');
+    timeline.progress(was).pause();
   }
   test(Math.abs(document.getElementById('members-list').getBoundingClientRect().width-document.documentElement.clientWidth)<4,'full-width-color');
   const motion=document.getElementById('members-motion-toggle');
-  test(!!motion && motion.getAttribute('aria-pressed')==='true','motion-button');
+  test(!!motion&&motion.getAttribute('aria-pressed')==='true','members-story-motion-control');
   motion?.click();
   test(document.body.dataset.memberFlow==='reduced','can-reduce-motion');
-  test(!window.ScrollTrigger?.getById('members-cinematic-first')&&!window.ScrollTrigger?.getById('members-real-content-reveal'),'no-animation-when-reduced');
+  test(!window.ScrollTrigger?.getById('members-dual-story'),'pinned-story-disabled-with-reduced-motion');
+  const sceneButtons=[...document.querySelectorAll('#members [data-scene]')];
+  sceneButtons[1]?.click();
+  test(hero.dataset.material==='1','manual-chapter-2-works-with-reduced-motion');
+  sceneButtons[0]?.click();
+  test(hero.dataset.material==='0','manual-chapter-1-works-with-reduced-motion');
   motion?.click();
   test(document.body.dataset.memberFlow==='active','can-restore-motion');
-  test(!!window.ScrollTrigger?.getById('members-cinematic-first')&&!!window.ScrollTrigger?.getById('members-real-content-reveal'),'real-animation-restored');
+  test(!!window.ScrollTrigger?.getById('members-dual-story'),'two-scene-timeline-restored');
   test(document.querySelector('#activity-empty') !== null && !document.querySelector('.activity-album'), 'gallery-empty-state');
   test(document.querySelector('#activity-lightbox') !== null, 'gallery-dialog');
   test(document.querySelector('a[href="#lab-life"]') !== null, 'activity-navigation');
