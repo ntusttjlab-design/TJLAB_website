@@ -197,121 +197,73 @@ body[data-story-motion="reduced"] .bridge-curtain{display:none}
 }
 @media(prefers-reduced-motion:reduce){.members-page [data-member-flow]::before{transform:none!important}}
 
-/* PR4 experimental cinematic hero. Full-screen scene and in-place visual transformation,
-   based on the lab's own colors and SVG network, not stock photos or artificial people. */
-.members-page .cinematic-members-hero{
- --cinema-before:#e9eeeb;--cinema-after:#d9e8da;
- min-height:calc(var(--member-viewport-height,100svh) - var(--member-header-height,80px));
- height:auto;width:100%;max-width:none;
- padding:clamp(30px,4vw,65px) max(5.5vw,calc((100vw - 1320px)/2));
- display:flex;align-items:center;position:relative;overflow:hidden;
- background:radial-gradient(circle at 77% 46%,#d8e9de 0%,#e9eeeb 46%,#e9eeeb 100%);
- border:0;isolation:isolate;
+/* PR4.5: academic-intro-matched two-scene Members hero.
+   Same story-stage, copy, chapter buttons and scroll-timeline layout as Laboratory.
+   Scene art is original academic SVG about team and collaboration. */
+.members-page .members-story-section{background:#15241e}
+.members-page .members-story-stage{
+ height:calc(var(--member-viewport-height,100svh) - var(--member-header-height,72px));
+ min-height:0;max-height:none;width:100%;
+ background:#15251f;color:#f5f2e9;
+ transition:background .65s ease;
 }
-.cinematic-members-hero::before{
- content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.3;
- background-image:linear-gradient(#668c791b 1px,transparent 1px),linear-gradient(90deg,#668c791b 1px,transparent 1px);
- background-size:62px 62px;
- mask-image:linear-gradient(90deg,transparent 8%,#000 60%,transparent 100%);
+.members-page .members-story-stage[data-material="1"]{background:#28463b}
+.members-page .members-story-stage .story-grid{opacity:.21}
+.members-page .members-story-stage .story-topline{color:#b6ccbe}
+.members-page .members-story-copy{top:21%;left:6%;width:46%;max-width:610px}
+.members-page .members-story-copy h1,.members-page .members-story-copy h2{
+ font-size:clamp(2.65rem,4.8vw,5.4rem);font-weight:600;line-height:1.11;letter-spacing:-.05em;
 }
-.cinematic-hero-inner{width:100%;max-width:1390px;margin:auto;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);align-items:center;gap:clamp(8px,3.5vw,70px);position:relative;z-index:4;}
-.cinematic-hero-copy{position:relative;z-index:5}
-.cinematic-hero-overline{font-size:.68rem;font-weight:650;letter-spacing:.19em;color:#63826e;margin:0 0 18px}
-.cinematic-hero-copy h1{font-size:clamp(3.25rem,6.3vw,7rem);line-height:1.07;letter-spacing:-.066em;font-weight:550;margin:0 0 26px;max-width:740px;color:#244e40}
-.cinematic-hero-copy .members-lead{max-width:620px;font-size:clamp(.9rem,1.15vw,1.08rem);line-height:1.9;margin-bottom:20px}
-.cinematic-hero-copy .eyebrow{margin:0 0 11px;color:#779585;letter-spacing:.23em}
-.cinematic-members-hero .members-hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
-.cinematic-members-hero .members-hero-actions a,.cinematic-members-hero .members-hero-actions button{
- border:1px solid #aac6b5;border-radius:999px;min-height:44px;padding:10px 17px;
- font-size:clamp(.68rem,.9vw,.82rem);background:#eaf3ebdd;color:#315a45;
- display:inline-flex;gap:8px;align-items:center;justify-content:center;text-align:center;white-space:nowrap;
+.members-page .members-story-copy em{color:#c4dfcd}
+.members-page .members-story-copy .eyebrow{color:#b0cfbd}
+.members-page .members-story-copy .story-description{max-width:410px;color:#b7c8bf}
+.members-page .members-story-stage .story-model-label{color:#bfd2c5}
+.members-page .members-story-stage .story-model-label [hidden]{display:none!important}
+.members-page .members-story-stage .story-motion-button{background:transparent!important;border:1px solid #789182;color:#eaf2e8;border-radius:6px;padding:8px 13px;font-size:.7rem;min-height:40px;cursor:pointer}
+.members-page .members-story-stage .story-chapters button{cursor:pointer}
+.members-page .members-story-stage .story-chapters button:focus-visible,.members-page .members-story-stage .story-motion-button:focus-visible{outline:2px solid #cee8d6;outline-offset:4px}
+.members-page .members-story-stage .story-progress{background:#385547}
+.members-page .members-story-stage .story-progress>span{background:#b6ddc3}
+.members-story-canvas{
+ position:absolute;inset:9% 1% 12% auto;width:59%;height:79%;
+ z-index:1;pointer-events:none;overflow:visible;
 }
-.cinematic-members-hero .members-hero-actions a:first-child{background:#295543;color:#f0f5ed;border-color:#295543}
-.cinematic-members-hero .members-hero-actions a:hover{background:#f7faf5}
-.cinematic-members-hero .members-hero-actions a:first-child:hover{background:#214736;color:white}
-.cinematic-hero-visual{width:100%;position:relative;aspect-ratio:1/1;max-height:min(72svh,660px);display:grid;place-items:center;filter:drop-shadow(0 22px 50px rgba(42,90,65,.10))}
-.cinematic-hero-visual svg{width:100%;height:100%;max-height:610px;overflow:visible}
-.cinematic-visual-annotation{position:absolute;right:1%;top:8%;font-size:.63rem;letter-spacing:.2em;color:#57816a;display:flex;align-items:center;gap:8px}
-.cinematic-pulse{display:inline-block;height:7px;width:7px;border-radius:50%;background:#6b9c7f;box-shadow:0 0 0 5px #6b9c7f26}
-.cinematic-giant-mark{position:absolute;bottom:0;right:0;color:#739481;opacity:.1;font-size:clamp(3rem,8vw,8rem);letter-spacing:-.07em;font-weight:800;pointer-events:none}
-.cinematic-scroll-cue{position:absolute;bottom:22px;left:max(5.5vw,calc((100vw - 1320px)/2));right:max(5.5vw,calc((100vw - 1320px)/2));z-index:6;display:flex;align-items:center;gap:16px;color:#618575;font-size:.62rem;letter-spacing:.2em}
-.cinematic-scroll-cue i{width:clamp(20px,7vw,120px);height:1px;background:#9dbbac}
-.cinematic-scroll-cue span:last-child{margin-left:auto}
+.members-story-graphic{
+ position:absolute;inset:0;width:100%;height:100%;
+ filter:drop-shadow(0 16px 28px rgba(0,0,0,.14));
+ transform-origin:50% 50%;will-change:opacity,transform;
+}
+.members-story-graphic[data-graphic="1"]{opacity:0}
 .members-page #members-list{
- --member-color-before:#d9e8da;--member-color-after:#dfeae0;
- background:linear-gradient(180deg,var(--member-color-before) 0%,var(--member-color-after) 19%,var(--member-color-after) 100%);
+ --member-color-before:#28463b;--member-color-after:#dfeae0;
+ background:linear-gradient(180deg,#28463b 0px,#b4d0bd 100px,#dfeae0 210px,#dfeae0 100%);
 }
-.members-page #lab-life{--member-color-before:#dfeae0}
-@media(max-width:1100px){
- .cinematic-hero-copy h1{font-size:clamp(2.85rem,6.3vw,5rem)}
- .cinematic-hero-visual{max-height:min(58svh,520px)}
-}
+.members-page #members-list>.member-section-heading{padding-top:20px}
 @media(max-width:800px){
- .members-page .cinematic-members-hero{padding:28px 6% 36px;min-height:calc(var(--member-viewport-height,100svh) - var(--member-header-height,80px))}
- .cinematic-hero-inner{grid-template-columns:1fr;gap:6px;align-content:center}
- .cinematic-hero-copy{z-index:5}
- .cinematic-hero-copy h1{font-size:clamp(2.8rem,8.4vw,4.5rem);max-width:620px;margin-bottom:14px}
- .cinematic-hero-copy .members-lead{font-size:.88rem;line-height:1.65;max-width:530px}
- .cinematic-hero-visual{position:absolute;width:min(48vw,320px);height:min(48vw,320px);right:-9%;top:-6%;opacity:.46;z-index:1;pointer-events:none}
- .cinematic-visual-annotation,.cinematic-giant-mark{display:none}
- .cinematic-scroll-cue{bottom:17px;left:6%;right:6%}
- .cinematic-members-hero .members-hero-actions{gap:8px}
+ .members-page .members-story-stage{min-height:0;height:calc(var(--member-viewport-height,100svh) - var(--member-header-height,72px));max-height:none}
+ .members-page .members-story-copy{top:10%;left:7%;width:86%;max-width:580px}
+ .members-page .members-story-copy h1,.members-page .members-story-copy h2{font-size:clamp(2.3rem,7.2vw,3.8rem);margin:16px 0}
+ .members-page .members-story-copy .story-description{font-size:.8rem;max-width:330px;line-height:1.75}
+ .members-story-canvas{inset:39% 2% 11% 4%;width:94%;height:50%;opacity:.92}
+ .members-page .members-story-stage .story-model-label{bottom:95px;right:7%;font-size:.6rem;max-width:54%}
+ .members-page .members-story-stage .story-bottom{bottom:16px;left:7%;right:7%;gap:9px}
+ .members-page .members-story-stage .story-chapters{gap:12px}
+ .members-page .members-story-stage .story-chapters button{font-size:.65rem}
+ .members-page .members-story-stage .story-scroll{display:none}
 }
 @media(max-width:480px){
- .members-page .cinematic-members-hero{padding:18px 5% 35px}
- .cinematic-hero-overline{font-size:.56rem;letter-spacing:.1em;margin-bottom:10px}
- .cinematic-hero-copy .eyebrow{font-size:.57rem}
- .cinematic-hero-copy h1{font-size:clamp(2.7rem,9vw,3.6rem);line-height:1.1}
- .cinematic-hero-copy .members-lead{font-size:.82rem;line-height:1.6;margin:0}
- .cinematic-hero-visual{width:78vw;height:78vw;top:5%;right:-25%;opacity:.22}
- .cinematic-members-hero .members-hero-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:20px;gap:8px}
- .cinematic-members-hero .members-hero-actions a,.cinematic-members-hero .members-hero-actions button{white-space:normal;min-height:43px;padding:7px 9px;line-height:1.2;font-size:.7rem}
- .cinematic-scroll-cue{font-size:.5rem}
+ .members-page .members-story-copy{top:8%}
+ .members-page .members-story-copy h1,.members-page .members-story-copy h2{font-size:clamp(2.13rem,8.3vw,3rem)}
+ .members-page .members-story-copy .story-description{max-width:300px;font-size:.75rem;line-height:1.58}
+ .members-story-canvas{inset:38% -6% 12% 2%;width:104%;height:50%;opacity:.85}
+ .members-page .members-story-stage .story-model-label{font-size:.51rem;bottom:83px}
+ .members-page .members-story-stage .story-motion-button{font-size:.61rem;padding:7px 8px}
+ .members-page .members-story-stage .story-chapters button{font-size:.57rem}
 }
 @media(prefers-reduced-motion:reduce){
- .cinematic-hero-copy,.cinematic-hero-visual,.cinematic-scroll-cue{opacity:1!important;transform:none!important}
+ .members-page .members-story-stage{transition:none!important}
+ .members-story-graphic{transition:none!important}
 }
-
-/* Small laptops and landscape tablets: full first scene without clipped controls. */
-@media(min-width:801px) and (max-width:1200px){
- .members-page .cinematic-members-hero{padding-top:22px;padding-bottom:35px;height:calc(var(--member-viewport-height,100svh) - var(--member-header-height,80px));min-height:0;max-height:calc(var(--member-viewport-height,100svh) - var(--member-header-height,80px))}
- .cinematic-hero-inner{grid-template-columns:1fr;gap:0}
- .cinematic-hero-copy{max-width:min(830px,95%);z-index:5}
- .cinematic-hero-copy h1{font-size:clamp(3.1rem,5vw,4.6rem);line-height:1.08;margin:0 0 16px}
- .cinematic-hero-copy .members-lead{font-size:.92rem;line-height:1.68;max-width:620px}
- .cinematic-members-hero .members-hero-actions{margin-top:17px;gap:7px}
- .cinematic-members-hero .members-hero-actions a,
- .cinematic-members-hero .members-hero-actions button{padding:9px 12px;min-height:40px}
- .cinematic-hero-visual{position:absolute;right:-7%;top:5%;width:42%;height:85%;max-height:85%;opacity:.32;z-index:1;pointer-events:none}
-}
-
-/* The first cinematic scene must fit exactly between the sticky header and
-   viewport bottom on wide desktops too (including headless/browser chrome).
-   Text and art fit this box; overflow must not expose the next section. */
-@media(min-width:801px){
- .members-page .cinematic-members-hero{
-  height:calc(var(--member-viewport-height,100svh) - var(--member-header-height,80px));
-  min-height:0;
-  max-height:calc(var(--member-viewport-height,100svh) - var(--member-header-height,80px));
- }
-}
-
-/* PR4.2: the real member list is the incoming scene, not a duplicate slide. */
-.members-page #members-list.cinematic-member-destination{
- --member-color-before:#d9e8da;--member-color-after:#dfeae0;
- position:relative;z-index:2;overflow:clip;
- background:linear-gradient(145deg,#d9e8da,#dfeae0 55%,#d3e3d6)!important;
-}
-.members-page #members-list.cinematic-member-destination::after{
- content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
- background:radial-gradient(ellipse at 90% 7%,rgba(89,150,117,.27),transparent 63%);
-}
-.members-page #members-list.cinematic-member-destination>.member-section-heading,
-.members-page #members-list.cinematic-member-destination>.member-pi-card,
-.members-page #members-list.cinematic-member-destination>.member-categories{position:relative;z-index:1}
-.members-page .cinematic-hero-visual{transform-origin:72% 50%}
-@media(prefers-reduced-motion:reduce){.members-page #members-list.cinematic-member-destination{clip-path:none!important}}
-
 
 /* PR4.4: only the real 02→03 boundary changes. A warm paper layer inside
    the lab-life section fades over its sage base under the existing content. */
