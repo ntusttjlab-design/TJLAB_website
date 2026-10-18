@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startOpacity=parseFloat(getComputedStyle(labLife,'::after').opacity);
     t.progress(1).pause();
     const endOpacity=parseFloat(getComputedStyle(labLife,'::after').opacity);
-    test(startOpacity<.15 && endOpacity>.85,'second-to-third-color-changes-with-scroll');
+    test(startOpacity<.15 && endOpacity>.85,'second-to-third-color-changes-with-scroll:'+startOpacity+'/'+endOpacity+':var'+getComputedStyle(labLife).getPropertyValue('--life-transition-progress'));
     t.progress(initial).pause();
   }
   test(Math.abs(document.getElementById('members-list').getBoundingClientRect().width-document.documentElement.clientWidth)<4,'full-width-color');
