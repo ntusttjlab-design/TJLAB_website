@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="國立臺灣科技大學多尺度模擬與熱力學實驗室的研究室成員、研究室生活與活動照片，以及元素互動遊戲。">
+  <meta name="description" content="國立臺灣科技大學多尺度模擬與熱力學實驗室的研究室成員、研究室生活與活動照片，以及舒壓小遊戲。">
   <meta name="theme-color" content="#f6f8f5">
   <title>Members & Students · MSMTJL | NTUST</title>
-  <link rel="stylesheet" href="./assets/css/style.css"><link rel="stylesheet" href="./assets/css/editorial.css?v=pr4.5">
+  <link rel="stylesheet" href="./assets/css/style.css"><link rel="stylesheet" href="./assets/css/editorial.css?v=pr4.6">
   <script defer src="./assets/vendor/gsap/gsap.min.js"></script><script defer src="./assets/vendor/gsap/ScrollTrigger.min.js"></script>
   <script defer src="./assets/js/lab-life-gallery.js?v=2.3.0"></script><script defer src="./assets/js/member-motion.js?v=pr4.5"></script>
-  <script defer src="./assets/js/elements.js"></script><script defer src="./assets/js/main.js"></script><script defer src="./assets/js/arcade-config.js"></script><script defer src="./assets/js/arcade-embed.js"></script>
+  <script defer src="./assets/js/elements.js"></script><script defer src="./assets/js/main.js"></script><script defer src="./assets/js/arcade-config.js"></script><script defer src="./assets/js/arcade-embed.js?v=pr4.6"></script>
 </head>
 <body class="members-page">
   <a class="skip-link" href="#main"><span data-zh="跳到主要內容" data-en="Skip to content">跳到主要內容</span></a>
@@ -105,12 +105,12 @@
         <div class="activity-categories" aria-label="Activity categories"><span><span data-zh="團體合照" data-en="Group photos">團體合照</span></span><span><span data-zh="研究室聚餐" data-en="Gatherings">研究室聚餐</span></span><span><span data-zh="學術活動" data-en="Academic activities">學術活動</span></span><span><span data-zh="歷年回顧" data-en="Memories">歷年回顧</span></span></div>
       </div>
     </div></section>
-    <section id="arcade" class="section-wrap member-reveal-section" data-member-flow="games"><div class="section-heading"><div><p class="eyebrow">03 / STUDENT INTERACTIVES</p><h2><span data-zh="元素互動遊戲" data-en="Interactive element games">元素互動遊戲</span></h2></div><p><span data-zh="學生互動區提供元素貪食蛇、元素彈跳球及既有排行榜功能。" data-en="Student interactive activities include Element Snake, Element Paddle Rally, and the existing leaderboard.">學生互動區提供元素貪食蛇、元素彈跳球及既有排行榜功能。</span></p></div><div class="games-grid">
+    <section id="arcade" class="section-wrap member-reveal-section" data-member-flow="games"><div class="section-heading"><div><p class="eyebrow">03 / MINI GAMES</p><h2><span data-zh="舒壓小遊戲" data-en="Relaxing Mini Games">舒壓小遊戲</span></h2></div><p><span data-zh="稍微休息一下！這裡有元素貪食蛇、元素彈跳球與排行榜。" data-en="Take a quick break with Element Snake, Element Paddle Rally, and the leaderboard.">稍微休息一下！這裡有元素貪食蛇、元素彈跳球與排行榜。</span></p></div><div class="games-grid">
       <article class="game-card" id="snake-game"><div class="game-heading"><h3><span data-zh="元素貪食蛇" data-en="Element snake">元素貪食蛇</span></h3><span><span data-zh="元素" data-en="Elements">元素</span> <strong id="snake-dp-score">0</strong> / 118 · BEST <strong id="snake-high-score">0</strong></span></div><p><span data-zh="依原子序收集元素。方向鍵／WASD 或下方按鈕操作。" data-en="Collect elements in atomic-number order. Use arrows / WASD or the buttons below.">依原子序收集元素。方向鍵／WASD 或下方按鈕操作。</span></p><p id="snake-next" class="element-readout"></p><canvas id="snake-canvas" width="600" height="420" tabindex="0" aria-label="Element snake game"></canvas><div class="game-actions"><button id="snake-start-btn" class="button primary"><span data-zh="開始新局" data-en="New game">開始新局</span></button><button id="snake-pause-btn" class="button" aria-pressed="false"><span data-zh="暫停／繼續" data-en="Pause / resume">暫停／繼續</span></button><div class="direction-controls" role="group" aria-label="Snake direction"><button data-direction="up" aria-label="Up">↑</button><button data-direction="left" aria-label="Left">←</button><button data-direction="down" aria-label="Down">↓</button><button data-direction="right" aria-label="Right">→</button></div></div><p id="snake-status" role="status" aria-live="polite"></p><details class="element-collection"><summary><span data-zh="元素收集表" data-en="Element collection">元素收集表</span></summary><div id="element-collection-grid"></div></details></article>
       <article class="game-card" id="volley-game"><div class="game-heading"><h3><span data-zh="元素彈跳球" data-en="Element paddle rally">元素彈跳球</span></h3><span>YOU <strong id="volley-score-p1">0</strong> : <strong id="volley-score-ai">0</strong> AI</span></div><p><span data-zh="先得 5 分獲勝。以滑鼠、手指拖曳，或 W／S 控制左側球拍。" data-en="First to 5 wins. Move the left paddle with your mouse, touch or W / S.">先得 5 分獲勝。以滑鼠、手指拖曳，或 W／S 控制左側球拍。</span></p><p id="rally-element" class="element-readout"></p><canvas id="volley-canvas" width="480" height="320" tabindex="0" aria-label="Paddle rally game"></canvas><div class="game-actions"><button id="volley-start-btn" class="button primary"><span data-zh="開始新局" data-en="New game">開始新局</span></button><button id="volley-pause-btn" class="button" aria-pressed="false"><span data-zh="暫停／繼續" data-en="Pause / resume">暫停／繼續</span></button></div><p id="volley-status" role="status" aria-live="polite"></p></article>
     </div></section>
 
-    <section id="members-contact" class="section-wrap member-note member-reveal-section" data-member-flow="contact"><h2><span data-zh="研究室聯絡" data-en="Laboratory contact">研究室聯絡</span></h2><p><span data-zh="研究室成員資訊及學術交流相關問題，請透過主持人電子郵件聯繫。" data-en="Questions about laboratory members or academic exchanges may be directed to the principal investigator by email.">研究室成員資訊及學術交流相關問題，請透過主持人電子郵件聯繫。</span> <a class="text-link" href="mailto:tjlin@mail.ntust.edu.tw">tjlin@mail.ntust.edu.tw ↗</a></p></section>
+
   </main>
   <dialog id="activity-lightbox" class="activity-lightbox" aria-label="Photo preview">
     <div class="activity-lightbox-header"><p id="activity-lightbox-title" aria-live="polite"></p><button type="button" id="activity-lightbox-close" aria-label="Close photo">×</button></div>
@@ -118,6 +118,6 @@
     <p id="activity-lightbox-caption"></p>
     <div class="activity-lightbox-controls"><button type="button" id="activity-lightbox-prev"><span data-zh="上一張" data-en="Previous">上一張</span></button><span id="activity-lightbox-counter" aria-live="polite"></span><button type="button" id="activity-lightbox-next"><span data-zh="下一張" data-en="Next">下一張</span></button></div>
   </dialog>
-  <footer class="section-wrap members-footer"><a class="brand" href="./index.html">MSMTJL <small>@ NTUST</small></a><p><span data-zh="多尺度模擬與熱力學實驗室 · 國立臺灣科技大學" data-en="Multi-Scale Modeling and Thermodynamics Lab · NTUST">多尺度模擬與熱力學實驗室 · 國立臺灣科技大學</span></p><a class="text-link" href="./index.html"><span data-zh="回研究室介紹" data-en="Back to laboratory overview">回研究室介紹</span> ↗</a></footer>
+  <footer class="section-wrap members-footer"><a class="brand" href="./index.html">MSMTJL <small>@ NTUST</small></a><p><span data-zh="多尺度模擬與熱力學實驗室 · 國立臺灣科技大學" data-en="Multi-Scale Modeling and Thermodynamics Lab · NTUST">多尺度模擬與熱力學實驗室 · 國立臺灣科技大學</span></p><a class="text-link" href="./index.html"><span data-zh="回研究室介紹" data-en="Back to laboratory overview">回研究室介紹</span> ↗</a><a class="text-link members-contact-link" href="./index.html#join"><span data-zh="聯絡研究室" data-en="Contact the lab">聯絡研究室</span> ↗</a></footer>
 </body>
 </html>

@@ -9,3 +9,14 @@ Latest confirmed direction: **Use exactly the same introductory layout and inter
 - Following the single two-scene intro section, the actual member list, lab life gallery, games and contact remain direct sibling sections with original features, gentle academic reveals, and nuanced background colors.
 - The site overview `index.html`, the original PR #3, and `main` remain unchanged. PR #4 is still a review-only stacked draft; merge to PR #3 only after the user approves the appearance.
 - QA: 390/1024/1440px desktop/mobile, chapter state at mid-scroll, click buttons and reduced-motion, bilingual controls, no generated-HTML drift, photo gallery and games.
+
+
+## PR #4 update: user-approved game/footer simplification
+
+- Rename section **元素互動遊戲 → 舒壓小遊戲** / **Relaxing Mini Games**; keep Element Snake and Element Paddle Rally names and scoring rules unchanged.
+- Embedded Google Apps Script leaderboard formerly included its own `record-language` button. Remove that second button and retain the host website's existing `languagechange → msmtjl-language` postMessage link. Directly opening the standalone Apps Script app still supports the `?lang=` initial language.
+- Eliminate nested iframe scrollbar via generated GAS source using `html,body{overflow:hidden}` plus intrinsic-content `ResizeObserver` height broadcast. The outer page accepts all plausible heights up to 15,000px without old 4,000px clipping, sets `scrolling=no`, and refreshes ScrollTrigger only when height changes.
+- Enforce `[hidden]` CSS on both `games-grid` (native fallback) and `arcade-frame` (GAS) because existing author `display` rules can otherwise override browser hidden defaults.
+- Remove the duplicated Members `#members-contact` section. Footer links to the complete verified contact info at `./index.html#join`. Keep other sections, bilingual intro animations, games, leaderboard, and photo albums.
+- **Deployment caveat**: the PR updates `backend/google-apps-script/Arcade.html` and `Code.gs` in GitHub, but the live Google Apps Script URL remains the previously deployed version until the Apps Script deployment is updated by an authorized editor. The PR preview can validate the host sizing and local markup; it cannot immediately suppress the old EN button inside the cross-origin deployed game iframe.
+- No merge to PR3/main without user approval.

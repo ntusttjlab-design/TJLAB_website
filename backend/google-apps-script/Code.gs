@@ -5,7 +5,7 @@ const LEGACY_RECORD_SHEET='MSMTJL_Records';
 const RECORD_LIMIT=5;
 const RECORD_RULES={snake:'snake-elements-v1',rally:'rally-elements-v1'};
 const RECORD_CACHE='records-v4';
-function doGet(e){const page=HtmlService.createTemplateFromFile('Arcade');page.initialLanguage=e&&e.parameter.lang==='en'?'en':'zh-TW';return page.evaluate().setTitle('MSMTJL · 元素遊戲').setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);}
+function doGet(e){const page=HtmlService.createTemplateFromFile('Arcade');page.initialLanguage=e&&e.parameter.lang==='en'?'en':'zh-TW';return page.evaluate().setTitle('MSMTJL · 舒壓小遊戲').setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);}
 function recordsRead(){
  const cache=CacheService.getScriptCache(),cached=cache.get(RECORD_CACHE);if(cached)return JSON.parse(cached);
  const result={records:currentRows_(SpreadsheetApp.openById(RECORD_SPREADSHEET))};

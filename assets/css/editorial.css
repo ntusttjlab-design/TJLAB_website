@@ -279,3 +279,26 @@ body[data-story-motion="reduced"] .bridge-curtain{display:none}
  background:linear-gradient(165deg,#e7ebe2 0%,#f0eae1 48%,#f3eee8 100%);
 }
 .members-page #lab-life>.section-wrap{position:relative;z-index:1}
+
+/* PR #4: one page-level scroll only. Explicit hidden rules prevent rendering
+   the native fallback and GAS iframe at once while the remote app initializes. */
+.members-page #arcade .games-grid[hidden],
+.members-page #arcade .arcade-frame[hidden]{display:none!important}
+.members-page #arcade .arcade-frame{
+ display:block;width:100%;border:0;overflow:hidden;scrollbar-width:none;
+ max-height:none;min-height:0;border-radius:0;
+}
+/* Remove the duplicate contact chapter; keep a short footer with a direct link
+   to the full contact details on Laboratory overview. */
+.members-page footer.members-footer{
+ max-width:none;width:100%;margin:0;
+ padding:115px max(6vw,calc((100vw - 1200px)/2)) 42px!important;
+ background:linear-gradient(180deg,#19232a 0px,#faf9f6 105px,#faf9f6 100%);
+}
+.members-page .members-contact-link{white-space:nowrap}
+@media(max-width:800px){
+ .members-page footer.members-footer{padding:112px 7% 36px!important}
+}
+@media(max-width:480px){
+ .members-page footer.members-footer{padding:105px 6% 32px!important}
+}

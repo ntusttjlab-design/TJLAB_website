@@ -113,7 +113,7 @@ for ref in members.refs:
         assert (ROOT / urlsplit(ref).path).is_file(), f'成員頁缺少本機檔案：{ref}'
 assert len(members.categories) == 0 and len(members.playlists) == 0
 assert members.translations >= 12, '成員頁需有基本雙語標示'
-assert all(id in members.ids for id in ('members', 'members-list', 'lab-life', 'arcade', 'members-contact', 'snake-canvas', 'volley-canvas', 'activity-gallery', 'activity-lightbox'))
+assert all(id in members.ids for id in ('members', 'members-list', 'lab-life', 'arcade', 'snake-canvas', 'volley-canvas', 'activity-gallery', 'activity-lightbox'))
 assert members_html.count('class="primary-site-link') == 2
 assert members_html.count('class="game-card"') == 2
 assert members_html.count('class="member-category"') == 4
@@ -122,7 +122,7 @@ assert 'student-resources' not in members.ids and 'Public teaching & research re
 assert 'id="lab-life"' in members_html and '研究室生活與活動' in members_html
 assert 'class="chapter-bridge member-bridge' not in members_html
 assert 'class="member-transition-copy"' not in members_html
-assert members_html.count('data-member-flow=') == 5
+assert members_html.count('data-member-flow=') == 4
 assert 'id="members-motion-toggle"' in members_html
 assert 'assets/js/chapter-transitions.js' not in members_html
 assert 'assets/js/member-motion.js?v=pr4.5' in members_html
@@ -135,7 +135,7 @@ assert members_html.count('data-model-label=') == 2
 assert members_html.count('data-scene=') == 2
 assert 'class="cinematic-next"' not in members_html
 assert 'cinematic-member-destination' not in members_html
-assert 'editorial.css?v=pr4.5' in members_html
+assert 'editorial.css?v=pr4.6' in members_html
 assert members_html.count('class="lab-life-color-wash"') == 1
 
 assert 'assets/js/chapter-transitions.js' in html
@@ -149,7 +149,20 @@ assert 'href="./index.html"' in members_html
 assert 'href="./index.html"' in members_html
 assert 'href="./members.html"' in members_html
 assert 'window.labArcadeUrl' not in html
-assert 'assets/js/arcade-config.js' in members_html and 'assets/js/arcade-embed.js' in members_html
+assert 'assets/js/arcade-config.js' in members_html and 'assets/js/arcade-embed.js?v=pr4.6' in members_html
+assert '舒壓小遊戲' in members_html and 'Relaxing Mini Games' in members_html
+assert '元素互動遊戲' not in members_html and 'Interactive element games' not in members_html
+assert 'id="members-contact"' not in members_html
+assert 'href="./index.html#join"' in members_html
+gas_html = (ROOT / 'backend/google-apps-script/Arcade.html').read_text(encoding='utf-8')
+assert 'id="record-language"' not in gas_html and "getElementById('record-language')" not in gas_html
+assert 'msmtjl-language' in gas_html and 'msmtjl-arcade-size' in gas_html
+assert 'html,body{overflow:hidden' in gas_html
+assert 'broadcastArcadeHeight' in gas_html and 'lastReportedHeight' in gas_html
+embed_js = (ROOT / 'assets/js/arcade-embed.js').read_text(encoding='utf-8')
+assert "frame.setAttribute('scrolling','no')" in embed_js
+assert 'Math.min(4000' not in embed_js
+assert "gameWindow?.postMessage({type:'msmtjl-language'" in embed_js
 assert 'data-step="2"' not in html and 'GRAPHITE / AB STACKING' not in html
 
 print('PASS：30篇期刊、34筆研討會、16筆課程、3筆老師教學播放清單、Gallery保留來源不公開、完整官網原文、雙語及路徑檢查。')

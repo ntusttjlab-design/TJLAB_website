@@ -84,13 +84,31 @@ document.addEventListener('DOMContentLoaded', () => {
   test(document.querySelectorAll('.member-category').length === 4, 'member-categories');
   test(document.querySelectorAll('.game-card').length === 2, 'game-cards');
   test(document.querySelectorAll('.pub-card').length === 0, 'no-publications');
+  test(document.querySelector('#arcade .section-heading h2')?.textContent.trim()==='舒壓小遊戲','relaxing-mini-games-zh');
+  test(!document.querySelector('#members-contact')&&!!document.querySelector('.members-contact-link[href="./index.html#join"]'),'footer-contact-only');
+  test(document.querySelectorAll('main > section[data-member-flow]').length===4,'four-only-topics');
+  const nativeGameGrid=document.querySelector('#arcade .games-grid');
+  nativeGameGrid.hidden=true;
+  test(getComputedStyle(nativeGameGrid).display==='none','native-games-hide-when-embedded');
+  nativeGameGrid.hidden=false;
+  const embedFrame=document.querySelector('#arcade .arcade-frame');
+  test(!!embedFrame&&embedFrame.hidden&&getComputedStyle(embedFrame).display==='none','remote-games-hidden-until-ready');
+  test(embedFrame?.getAttribute('scrolling')==='no','embedded-scroll-disabled');
+  if(embedFrame){
+    window.dispatchEvent(new MessageEvent('message',{
+      origin:'https://preview-script.googleusercontent.com',
+      source:window,
+      data:{type:'msmtjl-arcade-size',height:5100}
+    }));
+    test(parseFloat(embedFrame.style.height)>5100,'iframe-height-not-clamped-to-4000');
+  }
   test(document.querySelector('a[href="./index.html"]') !== null, 'back-to-overview');
   test(document.querySelector('#student-resources') === null && document.querySelector('a[href="#student-resources"]') === null, 'resources-removed');
   test(document.querySelector('#lab-life') !== null, 'activity-gallery');
   test(document.querySelectorAll('.member-bridge,.member-transition-copy').length===0,'no-separate-slides');
   // Same two-scene hero design system as the academic Laboratory homepage.
   const flow=[...document.querySelectorAll('main > section[data-member-flow]')];
-  test(flow.map(s=>s.id).join(',')==='members,members-list,lab-life,arcade,members-contact','five-real-topics');
+  test(flow.map(s=>s.id).join(',')==='members,members-list,lab-life,arcade','four-real-topics');
   test(flow.slice(1).every((node,i)=>flow[i].nextElementSibling===node),'direct-neighbor-sections');
   test(!document.querySelector('.member-bridge,.cinematic-next'),'no-transition-slide');
   const header=document.querySelector('.site-header');
@@ -115,8 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
    timeline.progress(original).pause();
   }
   test(document.body.dataset.memberFlow==='active','member-motion-active');
-  test((window.ScrollTrigger?.getAll()||[]).filter(t=>(t.vars?.id||'').startsWith('member-flow-')).length===4,'four-academic-section-reveals');
-  test(['members-list','arcade','members-contact'].every(id=>getComputedStyle(document.getElementById(id)).backgroundImage.includes('linear-gradient')),'subtle-section-gradients');
+  test((window.ScrollTrigger?.getAll()||[]).filter(t=>(t.vars?.id||'').startsWith('member-flow-')).length===3,'three-academic-section-reveals');
+  test(['members-list','arcade'].every(id=>getComputedStyle(document.getElementById(id)).backgroundImage.includes('linear-gradient')),'subtle-section-gradients');
   const labLife=document.getElementById('lab-life');
   const photosTrigger=window.ScrollTrigger?.getById('members-photo-color-transition');
   test(!!photosTrigger?.animation,'lab-life-background-transition');
@@ -149,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const lang = document.getElementById('language-toggle');
   lang.click();
   test(document.documentElement.lang === 'en', 'member-english');
+  test(document.querySelector('#arcade .section-heading h2')?.textContent.trim()==='Relaxing Mini Games','relaxing-mini-games-en');
   lang.click();
   test(document.documentElement.lang === 'zh-TW', 'member-chinese');
   const mobileMenu = document.getElementById('mobile-menu-btn');
