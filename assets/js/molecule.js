@@ -16,8 +16,8 @@ function initThreeJsMolecule(){
  frame=0;if(!visible||document.hidden){last=0;return;}
  const moving=document.body.dataset.storyMotion==='full'||!reduced.matches&&document.body.dataset.storyMotion!=='reduced';
  if(moving)elapsed+=last?Math.min((now-last)/1000,.04):0;last=now;
- const p=Math.max(0,Math.min(2.99,progress)),index=Math.floor(p),shot=p-index;
- groups.forEach((group,i)=>{group.visible=i===index;if(i===index)group.rotation.set(i===2?-.1-shot*1.25:-.1+shot*.16,-.3+shot*.65+Math.sin(elapsed*.18)*.05,i===1?.12:0);});
+ const p=Math.max(0,Math.min(1.99,progress)),index=Math.floor(p),shot=p-index;
+ groups.forEach((group,i)=>{group.visible=i===index;if(i===index)group.rotation.set(-.1+shot*.16,-.3+shot*.65+Math.sin(elapsed*.18)*.05,i===1?.12:0);});
  const edge=Math.min(1,shot/.12,(1-shot)/.12);
  renderer.domElement.style.opacity=String(Math.max(.04,edge));
  // 玻璃場景加入局部近看；各材料仍維持固定鍵結，不相互變形。

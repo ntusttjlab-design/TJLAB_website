@@ -11,13 +11,13 @@ def bilingual(zh, en):
     return f'<span data-zh="{escape(zh, quote=True)}" data-en="{escape(en, quote=True)}">{escape(zh)}</span>'
 
 research = [
-    ('01', '高頻介電材料', 'High-frequency dielectrics', '研究高分子、玻璃態材料與溶劑的介電行為，了解分子結構與能量損耗的關係。', 'We study dielectric behavior in polymers, glasses and solvents to connect molecular structure with energy loss.', 'Polyimides / Low Dk & Df'),
-    ('02', '催化劑與載體', 'Catalysts & supports', '以量子化學計算分析金屬與載體的交互作用，探討催化反應與材料穩定性。', 'Quantum chemical calculations help us understand metal–support interactions, catalytic reactions and stability.', 'Metal–support interactions'),
-    ('03', '原子層沉積', 'Atomic layer deposition', '研究前驅物在表面的吸附與反應，從原子尺度理解薄膜形成的機制。', 'We investigate precursor adsorption and surface reactions to understand thin-film growth at the atomic scale.', 'ALD / Surface chemistry'),
-    ('04', '有機光電材料', 'Organic photovoltaics', '分析有機分子的排列與電荷轉移，探討分子設計如何影響太陽能電池材料。', 'We examine molecular packing and charge transfer to understand how molecular design affects photovoltaic materials.', 'OPV / Charge transfer'),
-    ('05', '材料機器學習', 'Machine learning for materials', '結合分子特徵與計算資料，建立結構與物性之間的預測模型。', 'Molecular descriptors and simulation data help us build predictive models linking structure and properties.', 'Structure–property relations'),
-    ('06', '溶液熱力學', 'Solution thermodynamics', '研究高分子與溶劑的交互作用，了解混合、溶解與相分離的行為。', 'We study polymer–solvent interactions to understand mixing, solubility and phase separation.', 'Flory–Huggins interactions'),
-    ('07', '分子力場開發', 'Molecular force fields', '發展與驗證高分子、溶劑及特殊化合物的力場，改善模擬對材料行為的描述。', 'We develop and validate force fields for polymers, solvents and specialized compounds to improve molecular simulations.', 'Force-field development / IFF'),
+    ('01', '高分子、玻璃態材料與溶劑的介電損耗', 'Dielectric loss in polymers, glasses & solvents', '研究高分子、玻璃態材料與溶劑系統的介電損耗及相關物理化學問題。', 'Research on dielectric loss and related physical chemistry in polymers, glassy materials, and solvents.', 'Dielectric loss'),
+    ('02', '催化劑的金屬與載體交互作用', 'Metal–support interactions in catalysts', '研究催化劑系統中金屬與載體之間的交互作用。', 'Research on interactions between metals and support materials in catalytic systems.', 'Metal–support interactions'),
+    ('03', '原子層沉積的化學物種與反應', 'Chemistry of atomic layer deposition', '研究原子層沉積所涉及的化學物種與反應。', 'Research on chemical species and reactions involved in atomic layer deposition.', 'Atomic layer deposition'),
+    ('04', '有機光電材料的分子設計', 'Molecular design for organic photovoltaics', '探討有機光電材料的分子設計與相關物理化學問題。', 'Research on molecular design and related physical chemistry of organic photovoltaic materials.', 'Organic photovoltaics'),
+    ('05', '材料結構與性質關係的機器學習', 'Machine learning for structure–property relations', '以機器學習方法研究材料結構與性質之間的關係。', 'Study of structure–property relationships in materials using machine learning.', 'Structure–property relations'),
+    ('06', '溶液交互作用參數', 'Solution interaction parameters', '探討溶液系統中的分子交互作用與相關參數。', 'Research on molecular interactions and associated parameters in solution systems.', 'Solution interactions'),
+    ('07', '高分子、溶劑與特殊化合物的分子力場開發', 'Force-field development for molecular systems', '研究高分子、溶劑與特殊化合物的分子力場開發。', 'Research on force-field development for polymers, solvents, and specialized chemical compounds.', 'Force-field development'),
 ]
 
 from types import SimpleNamespace
@@ -85,4 +85,48 @@ for key, value in {'JOURNAL_COUNT': str(pubs.journals), 'COURSE_COUNT': str(len(
     html = html.replace('{{' + key + '}}', value)
 assert '{{' not in html
 (ROOT / 'index.html').write_text(html, encoding='utf-8')
+activity_data = json.loads((ROOT / 'content/lab_activities.json').read_text(encoding='utf-8'))
+assert isinstance(activity_data.get('albums'), list)
+def activity_lang(item, name):
+    result = item.get(name, {})
+    assert isinstance(result, dict) and isinstance(result.get('zh'), str) and isinstance(result.get('en'), str)
+    return result
+def activity_gallery(albums):
+    cards = []
+    for album in albums:
+        assert isinstance(album, dict)
+        title = activity_lang(album, 'title')
+        date = album['date']
+        assert isinstance(date, str) and re.fullmatch(r'\d{4}-\d{2}-\d{2}', date)
+        photos = album.get('photos', [])
+        assert isinstance(photos, list) and photos, 'Only publish albums with verified photographs'
+        images = []
+        for photo in photos:
+            assert isinstance(photo, dict)
+            path = photo['src']
+            assert isinstance(path, str) and re.fullmatch(r'assets/images/lab-life/[a-zA-Z0-9_./-]+\.(?:jpg|jpeg|png|webp)', path)
+            assert '..' not in path and (ROOT / path).is_file(), 'Activity image must be a local approved file'
+            alt = activity_lang(photo, 'alt')
+            caption = activity_lang(photo, 'caption')
+            images.append(
+                '<button class="activity-photo" type="button" data-activity-photo '
+                f'data-alt-zh="{escape(alt["zh"], quote=True)}" data-alt-en="{escape(alt["en"], quote=True)}" '
+                f'data-caption-zh="{escape(caption["zh"], quote=True)}" data-caption-en="{escape(caption["en"], quote=True)}" '
+                f'data-title-zh="{escape(title["zh"], quote=True)}" data-title-en="{escape(title["en"], quote=True)}" '
+                f'aria-label="{escape(caption["zh"], quote=True)}"><img src="./{escape(path, quote=True)}" alt="{escape(alt["zh"], quote=True)}" loading="lazy" decoding="async"></button>'
+            )
+        cards.append('<article class="activity-album"><div class="activity-album-heading"><h3>'
+            + bilingual(title['zh'], title['en']) + '</h3><time datetime="' + escape(date) + '">' + escape(date)
+            + '</time></div><div class="activity-photos">' + ''.join(images) + '</div></article>')
+    return ''.join(cards)
+member_template = (ROOT / 'content/members_template.html').read_text(encoding='utf-8')
+arcade_source = (ROOT / 'content/arcade_section.html').read_text(encoding='utf-8')
+member_html = member_template.replace('{{ARCADE}}', arcade_source)
+member_html = member_html.replace('{{ACTIVITY_GALLERY}}', activity_gallery(activity_data['albums']))
+if activity_data['albums']:
+    member_html = member_html.replace('class="activity-empty" id="activity-empty"', 'class="activity-empty" id="activity-empty" hidden')
+member_html = re.sub(r'\[\[(.*?)\|\|(.*?)\]\]', lambda match: bilingual(*match.groups()), member_html)
+assert '{{' not in member_html
+(ROOT / 'members.html').write_text(member_html, encoding='utf-8')
+
 print(f'已產生 index.html：{pubs.journals} 篇期刊、{pubs.conferences} 筆研討會、{len(courses)} 筆教學連結。')

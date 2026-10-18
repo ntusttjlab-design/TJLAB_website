@@ -17,7 +17,7 @@ const server = http.createServer(async (request, response) => {
     }
     const relative = pathname === '/' ? 'index.html' : pathname.slice(1);
     const file = path.resolve(root, relative);
-    if (!(relative === 'index.html' || relative.startsWith('assets/')) || !file.startsWith(root + path.sep)) { response.writeHead(404); response.end(); return; }
+    if (!((relative === 'index.html' || relative === 'members.html') || relative.startsWith('assets/')) || !file.startsWith(root + path.sep)) { response.writeHead(404); response.end(); return; }
     const data = await fs.readFile(file);
     response.writeHead(200, {'Content-Type':types[path.extname(file)] || 'application/octet-stream','Cache-Control':'no-store'});
     response.end(data);

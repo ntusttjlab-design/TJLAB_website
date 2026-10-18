@@ -16,7 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
  setTimeout(() => {
   const errors = [];
   const fail = (ok, label) => { if (!ok) errors.push(label); };
+  fail(document.querySelectorAll('.game-card').length === 0, 'games-removed-from-overview');
+  fail(document.querySelector('a[href="./members.html"]') !== null, 'members-link');
   fail(document.querySelectorAll('.pub-card').length === 64, 'publications');
+  fail(document.querySelectorAll('.story-copy').length === 2 && document.querySelectorAll('[data-scene]').length === 2, 'two-scene-hero');
+  fail(!document.querySelector('[data-model-label="2"]'), 'no-graphite');
+  const chapters = ['pi','research','publications','tutorials','tutorial-resources','dielectric','join'].map(id=>document.getElementById(id));
+  fail(chapters.every((node,i)=>node && (!i || !!(chapters[i-1].compareDocumentPosition(node)&Node.DOCUMENT_POSITION_FOLLOWING))), 'academic-first-order');
+  fail(document.querySelector('.pi-statement')?.textContent.includes('Hello World！'), 'PI-original-translation');
   fail(document.querySelectorAll('.course-card').length === 16, 'courses');
   fail(document.querySelectorAll('.media-launch[data-collection="tutorial"]').length === 3, 'tutorials');
   fail(document.querySelectorAll('.media-launch[data-collection="gallery"]').length === 0, 'gallery-hidden');
@@ -67,5 +74,165 @@ try:
             issues = document[loc:loc+220] if loc >= 0 else "missing smoke status"
             raise AssertionError(f"{width}px smoke failed; {issues}; exit={proc.returncode}; stderr={proc.stderr[-700:]}")
         print(f"PASS browser {width}px: resources, navigation, language and click-to-play")
+    members_markup = (ROOT / "members.html").read_text(encoding="utf-8")
+    members_script = """
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+ setTimeout(() => {
+  const failures = [];
+  const test = (good, label) => { if (!good) failures.push(label); };
+  test(document.querySelectorAll('.member-category').length === 4, 'member-categories');
+  test(document.querySelectorAll('.game-card').length === 2, 'game-cards');
+  test(document.querySelectorAll('.pub-card').length === 0, 'no-publications');
+  test(document.querySelector('#arcade .section-heading h2')?.textContent.trim()==='舒壓小遊戲','relaxing-mini-games-zh');
+  test(!document.querySelector('#members-contact')&&!!document.querySelector('.members-contact-link[href="./index.html#join"]'),'footer-contact-only');
+  test(document.querySelectorAll('main > section[data-member-flow]').length===4,'four-only-topics');
+  const nativeGameGrid=document.querySelector('#arcade .games-grid');
+  nativeGameGrid.hidden=true;
+  test(getComputedStyle(nativeGameGrid).display==='none','native-games-hide-when-embedded');
+  nativeGameGrid.hidden=false;
+  const embedFrame=document.querySelector('#arcade .arcade-frame');
+  test(!!embedFrame&&embedFrame.hidden&&getComputedStyle(embedFrame).display==='none','remote-games-hidden-until-ready');
+  test(embedFrame?.getAttribute('scrolling')==='no','embedded-scroll-disabled');
+  if(embedFrame){
+    window.dispatchEvent(new MessageEvent('message',{
+      origin:'https://preview-script.googleusercontent.com',
+      source:window,
+      data:{type:'msmtjl-arcade-size',height:5100}
+    }));
+    test(parseFloat(embedFrame.style.height)>5100,'iframe-height-not-clamped-to-4000');
+  }
+  test(document.querySelector('a[href="./index.html"]') !== null, 'back-to-overview');
+  test(document.querySelector('#student-resources') === null && document.querySelector('a[href="#student-resources"]') === null, 'resources-removed');
+  test(document.querySelector('#lab-life') !== null, 'activity-gallery');
+  test(document.querySelectorAll('.member-bridge,.member-transition-copy').length===0,'no-separate-slides');
+  // Same two-scene hero design system as the academic Laboratory homepage.
+  const flow=[...document.querySelectorAll('main > section[data-member-flow]')];
+  test(flow.map(s=>s.id).join(',')==='members,members-list,lab-life,arcade','four-real-topics');
+  test(flow.slice(1).every((node,i)=>flow[i].nextElementSibling===node),'direct-neighbor-sections');
+  test(!document.querySelector('.member-bridge,.cinematic-next'),'no-transition-slide');
+  const header=document.querySelector('.site-header');
+  const hero=document.querySelector('.members-story-stage');
+  const usable=innerHeight-header.getBoundingClientRect().height;
+  test(hero.getBoundingClientRect().height>=usable-6 && hero.getBoundingClientRect().height<=usable+100,
+    'members-story-viewport:'+Math.round(hero.getBoundingClientRect().height)+'/'+Math.round(usable));
+  test(document.querySelectorAll('#members .story-copy').length===2,'two-member-story-panels');
+  test(document.querySelectorAll('#members [data-graphic]').length===2,'two-distinct-team-illustrations');
+  test(document.querySelectorAll('#members [data-scene]').length===2,'two-chapter-buttons');
+  test(document.querySelectorAll('#members [data-model-label]').length===2,'two-scene-labels');
+  const story=window.ScrollTrigger?.getById('members-dual-story');
+  test(!!story?.animation && !!story.vars.pin,'members-story-pinned-like-overview');
+  test(hero.dataset.material==='0','story-begins-on-team');
+  if(story?.animation){
+   const timeline=story.animation;
+   const original=timeline.progress();
+   timeline.progress(.85).pause();
+   test(hero.dataset.material==='1','scroll-swaps-to-collaboration');
+   test(parseFloat(getComputedStyle(document.querySelector('[data-graphic="1"]')).opacity)>.85,'collaboration-illustration-visible');
+   test(document.querySelector('#members .story-copy[data-step="1"]')?.style.visibility==='visible','collaboration-copy-visible');
+   timeline.progress(original).pause();
+  }
+  test(document.body.dataset.memberFlow==='active','member-motion-active');
+  test((window.ScrollTrigger?.getAll()||[]).filter(t=>(t.vars?.id||'').startsWith('member-flow-')).length===3,'three-academic-section-reveals');
+  // Only the hero changes scene backgrounds; real content sections remain solid,
+  // matching the academic Laboratory page without transitional color bands.
+  const solidColors={
+    'members-list':'rgb(223, 234, 224)',
+    'lab-life':'rgb(241, 242, 238)',
+    'arcade':'rgb(25, 35, 42)'
+  };
+  Object.entries(solidColors).forEach(([id,color])=>{
+    const computed=getComputedStyle(document.getElementById(id));
+    test(computed.backgroundColor===color,'solid-section-'+id);
+    test(computed.backgroundImage==='none','no-section-gradient-'+id);
+  });
+  const footer=getComputedStyle(document.querySelector('footer.members-footer'));
+  test(footer.backgroundColor==='rgb(250, 249, 246)' && footer.backgroundImage==='none','footer-no-gradient');
+  test(!document.querySelector('.lab-life-color-wash'),'no-gradient-overlay-element');
+  test(!window.ScrollTrigger?.getById('members-photo-color-transition'),'no-gradient-overlay-animation');
+  test(Math.abs(document.getElementById('members-list').getBoundingClientRect().width-document.documentElement.clientWidth)<4,'full-width-color');
+  const motion=document.getElementById('members-motion-toggle');
+  test(!!motion&&motion.getAttribute('aria-pressed')==='true','members-story-motion-control');
+  motion?.click();
+  test(document.body.dataset.memberFlow==='reduced','can-reduce-motion');
+  test(!window.ScrollTrigger?.getById('members-dual-story'),'pinned-story-disabled-with-reduced-motion');
+  const sceneButtons=[...document.querySelectorAll('#members [data-scene]')];
+  sceneButtons[1]?.click();
+  test(hero.dataset.material==='1','manual-chapter-2-works-with-reduced-motion');
+  sceneButtons[0]?.click();
+  test(hero.dataset.material==='0','manual-chapter-1-works-with-reduced-motion');
+  motion?.click();
+  test(document.body.dataset.memberFlow==='active','can-restore-motion');
+  test(!!window.ScrollTrigger?.getById('members-dual-story'),'two-scene-timeline-restored');
+  test(document.querySelector('#activity-empty') !== null && !document.querySelector('.activity-album'), 'gallery-empty-state');
+  test(document.querySelector('#activity-lightbox') !== null, 'gallery-dialog');
+  test(document.querySelector('a[href="#lab-life"]') !== null, 'activity-navigation');
+  const lang = document.getElementById('language-toggle');
+  lang.click();
+  test(document.documentElement.lang === 'en', 'member-english');
+  test(document.querySelector('#arcade .section-heading h2')?.textContent.trim()==='Relaxing Mini Games','relaxing-mini-games-en');
+  lang.click();
+  test(document.documentElement.lang === 'zh-TW', 'member-chinese');
+  const mobileMenu = document.getElementById('mobile-menu-btn');
+  mobileMenu.click();
+  test(mobileMenu.getAttribute('aria-expanded') === 'true', 'menu-open');
+  mobileMenu.click();
+  test(mobileMenu.getAttribute('aria-expanded') === 'false', 'menu-close');
+  // Inject a test-only approved local thumbnail into the empty gallery to exercise the dialog.
+  const testGallery = document.getElementById('activity-gallery');
+  const testPhoto = document.createElement('button');
+  testPhoto.type = 'button';
+  testPhoto.className = 'activity-photo';
+  testPhoto.dataset.activityPhoto = '';
+  Object.assign(testPhoto.dataset, {
+    titleZh:'測試活動', titleEn:'Test activity',
+    altZh:'測試圖片', altEn:'Test image',
+    captionZh:'測試照片說明', captionEn:'Test caption'
+  });
+  const testImage = document.createElement('img');
+  testImage.src = './assets/images/pi-intro_img_1.png';
+  testPhoto.appendChild(testImage);
+  testGallery.appendChild(testPhoto);
+  testPhoto.click();
+  const lightbox = document.getElementById('activity-lightbox');
+  test(lightbox.open, 'activity-lightbox-open');
+  test(document.getElementById('activity-lightbox-caption').textContent === '測試照片說明', 'lightbox-caption');
+  document.getElementById('activity-lightbox-close').click();
+  test(!lightbox.open, 'activity-lightbox-close');
+  testPhoto.remove();
+  document.getElementById('snake-start-btn').click();
+  test(document.getElementById('snake-status').textContent.length > 0, 'snake-start');
+  document.getElementById('volley-start-btn').click();
+  test(document.getElementById('volley-status').textContent.length > 0, 'paddle-start');
+  document.getElementById('snake-pause-btn').click();
+  test(document.documentElement.scrollWidth <= innerWidth + 5, 'horizontal-overflow');
+  document.body.dataset.smokeStatus = failures.length ? 'fail' : 'pass';
+  document.body.dataset.smokeIssues = failures.join(',');
+ }, 900);
+});
+</script>
+"""
+    member_tmp = ROOT / "_member_browser_smoke.html"
+    members_markup = re.sub(r'<script defer src="https://[^"]+"[^>]*></script>', '', members_markup)
+    member_tmp.write_text(members_markup.replace("</body>", members_script + "</body>"), encoding="utf-8")
+    try:
+        for width in (390, 1024, 1440):
+            proc = subprocess.run(
+                [CHROME, "--headless=new", "--no-sandbox", "--disable-gpu",
+                 "--disable-dev-shm-usage", "--hide-scrollbars",
+                 "--disable-background-networking", "--host-resolver-rules=MAP * ~NOTFOUND",
+                 "--blink-settings=imagesEnabled=false", "--virtual-time-budget=1800",
+                 f"--window-size={width},900", "--dump-dom", member_tmp.as_uri()],
+                cwd=ROOT, capture_output=True, text=True, timeout=30
+            )
+            document = proc.stdout
+            if 'data-smoke-status="pass"' not in document:
+                marker = "data-smoke-issues="
+                loc = document.find(marker)
+                issues = document[loc:loc+230] if loc >= 0 else "missing smoke status"
+                raise AssertionError(f"members {width}px smoke failed; {issues}; exit={proc.returncode}; stderr={proc.stderr[-700:]}")
+            print(f"PASS members {width}px: navigation, i18n, games and responsive layout")
+    finally:
+        member_tmp.unlink(missing_ok=True)
 finally:
     tmp.unlink(missing_ok=True)

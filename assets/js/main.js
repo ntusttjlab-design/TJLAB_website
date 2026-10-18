@@ -43,16 +43,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('focusin', event => {
         if (event.target.closest('input,textarea,[contenteditable]')) Object.values(gameControllers).forEach(game => game.pause());
     });
-    initPublications();
-    initTerminal();
-    initSnake();
-    initRally();
+    if (document.getElementById('publication-list')) initPublications();
+    if (document.getElementById('terminal-modal')) initTerminal();
+    if (document.getElementById('snake-canvas')) initSnake();
+    if (document.getElementById('volley-canvas')) initRally();
     setLanguage(storage.get('msmtjl_language', 'zh-TW'));
     // 外部 3D 服務失敗時，保留靜態分子示意及其餘功能。
     try {
         if (typeof THREE !== 'undefined' && typeof initThreeJsMolecule === 'function') {
-            initThreeJsMolecule();
-            document.getElementById('molecule-fallback').hidden = true;
+            if (document.getElementById('molecule-canvas')) {
+                initThreeJsMolecule();
+                document.getElementById('molecule-fallback').hidden = true;
+            }
         }
     } catch {
         document.querySelector('#molecule-canvas canvas')?.remove();
@@ -121,9 +123,10 @@ function initTerminal() {
         switch (command) {
             case 'help': result = 'help · cat pi.txt · skills · run_md · play · join · clear · exit'; break;
             case 'cat pi.txt': result = '林子仁 / Tzu-Jen Lin\nNTUST · Materials Science and Engineering\nOffice E1-101-2 · Lab E1-241-2\ntjlin@mail.ntust.edu.tw'; break;
-            case 'skills': result = 'DFT / Gaussian / CP2K / xTB / CASTEP\nMD / LAMMPS / GROMACS / Materials Studio\nPython / NumPy / RDKit / scikit-learn / Bash'; break;
+            case 'skills': result = 'Quantum chemistry / First-principles calculations\nEquilibrium MD / Non-equilibrium MD\nMachine learning for structure-property relations'; break;
             case 'run_md': result = localized('示意輸出，未執行真實模擬：\nStep 0 → 250 → 500 → 1000\nTemperature ≈ 298 K', 'Illustrative output only; no simulation was executed:\nStep 0 → 250 → 500 → 1000\nTemperature ≈ 298 K'); break;
-            case 'play': case 'join': dialog.close(); document.getElementById(command === 'play' ? 'arcade' : 'join').scrollIntoView(); return;
+            case 'play': dialog.close(); window.location.href = './members.html#arcade'; return;
+            case 'join': dialog.close(); document.getElementById('join').scrollIntoView(); return;
             default: result = localized('找不到此指令，請輸入 help。', 'Unknown command. Type help.');
         }
         // 使用純文字插入，避免把輸入內容當成 HTML 執行。
