@@ -90,11 +90,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     else gsap.fromTo(node,{opacity:1},{opacity:1,scrollTrigger:{id:'member-flow-'+node.dataset.memberFlow,trigger:node,start:'top 87%'}});
     if(cards.length)gsap.fromTo(cards,{y:24},{y:0,ease:'none',
       scrollTrigger:{trigger:node,start:'top 90%',end:'top 20%',scrub:.4}});
-    if(node.id==='lab-life'){
-      const wash=node.querySelector('.lab-life-color-wash');
-      if(wash)gsap.fromTo(wash,{opacity:0},{opacity:1,ease:'none',
-       scrollTrigger:{id:'members-photo-color-transition',trigger:node,start:'top 96%',end:'top 32%',scrub:.45}});
-    }
    });
   });
   ScrollTrigger.refresh();

@@ -134,19 +134,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   test(document.body.dataset.memberFlow==='active','member-motion-active');
   test((window.ScrollTrigger?.getAll()||[]).filter(t=>(t.vars?.id||'').startsWith('member-flow-')).length===3,'three-academic-section-reveals');
-  test(['members-list','arcade'].every(id=>getComputedStyle(document.getElementById(id)).backgroundImage.includes('linear-gradient')),'subtle-section-gradients');
-  const labLife=document.getElementById('lab-life');
-  const photosTrigger=window.ScrollTrigger?.getById('members-photo-color-transition');
-  test(!!photosTrigger?.animation,'lab-life-background-transition');
-  const wash=labLife.querySelector('.lab-life-color-wash');
-  test(!!wash && getComputedStyle(wash).backgroundImage.includes('linear-gradient'),'warm-background-overlay');
-  if(photosTrigger?.animation){
-    const timeline=photosTrigger.animation,was=timeline.progress();
-    timeline.progress(0).pause();const initialOpacity=parseFloat(getComputedStyle(wash).opacity);
-    timeline.progress(1).pause();const finalOpacity=parseFloat(getComputedStyle(wash).opacity);
-    test(initialOpacity<.15&&finalOpacity>.85,'second-to-third-color-changes-with-scroll');
-    timeline.progress(was).pause();
-  }
+  // Only the hero changes scene backgrounds; real content sections remain solid,
+  // matching the academic Laboratory page without transitional color bands.
+  const solidColors={
+    'members-list':'rgb(223, 234, 224)',
+    'lab-life':'rgb(241, 242, 238)',
+    'arcade':'rgb(25, 35, 42)'
+  };
+  Object.entries(solidColors).forEach(([id,color])=>{
+    const computed=getComputedStyle(document.getElementById(id));
+    test(computed.backgroundColor===color,'solid-section-'+id);
+    test(computed.backgroundImage==='none','no-section-gradient-'+id);
+  });
+  const footer=getComputedStyle(document.querySelector('footer.members-footer'));
+  test(footer.backgroundColor==='rgb(250, 249, 246)' && footer.backgroundImage==='none','footer-no-gradient');
+  test(!document.querySelector('.lab-life-color-wash'),'no-gradient-overlay-element');
+  test(!window.ScrollTrigger?.getById('members-photo-color-transition'),'no-gradient-overlay-animation');
   test(Math.abs(document.getElementById('members-list').getBoundingClientRect().width-document.documentElement.clientWidth)<4,'full-width-color');
   const motion=document.getElementById('members-motion-toggle');
   test(!!motion&&motion.getAttribute('aria-pressed')==='true','members-story-motion-control');

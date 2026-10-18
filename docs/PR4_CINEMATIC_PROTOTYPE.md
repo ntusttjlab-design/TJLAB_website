@@ -22,3 +22,12 @@ Latest confirmed direction: **Use exactly the same introductory layout and inter
 - No merge to PR3/main without user approval.
 
 - Language messages are accepted only from the approved production GitHub Pages and PR4 RawGitHack preview origins (plus localhost dev). The embedded app still requires redeployment for source changes to take effect.
+
+
+## PR4.7 — Solid backgrounds aligned with the Laboratory overview
+
+- Removed the 100–210px background gradients between the actual member list, lab-life gallery, mini-games and footer. Each section now has a solid muted academic color (#dfeae0, #f1f2ee, #19232a, #faf9f6 respectively).
+- Removed the PR4.4 lab-life warm color-wash overlay and its dedicated GSAP timeline, plus the subtle decorative radial highlight at section boundaries. These were responsible for the unwanted gradient bands.
+- The two-scene GSAP/SVG Team–Collaboration hero, 01/02 chapter buttons, content title/card animations, images, games, leaderboard and bilingual behavior are unchanged.
+- CI now explicitly checks computed background colors and `backgroundImage: none` at 390/1024/1440px, and that no gallery wash trigger/element is present.
+- Updates are limited to the PR #4 experiment branch; PR #3 and main remain unchanged.

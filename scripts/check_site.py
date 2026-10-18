@@ -135,7 +135,9 @@ assert members_html.count('data-model-label=') == 2
 assert members_html.count('data-scene=') == 2
 assert 'class="cinematic-next"' not in members_html
 assert 'cinematic-member-destination' not in members_html
-assert 'editorial.css?v=pr4.6' in members_html
+assert 'editorial.css?v=pr4.7' in members_html
+assert 'lab-life-color-wash' not in members_html
+assert members_html.count('data-member-flow=') == 4
 assert members_html.count('class="lab-life-color-wash"') == 1
 
 assert 'assets/js/chapter-transitions.js' in html
