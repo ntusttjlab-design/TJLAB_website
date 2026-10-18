@@ -26,7 +26,7 @@ ${elements}
 ${games}
 initSnake();initRally();
 
-window.addEventListener('message',event=>{if(!['https://ntusttjlab-design.github.io','http://127.0.0.1:4173','http://localhost:4173'].includes(event.origin)||event.data?.type!=='msmtjl-language')return;language=event.data.lang==='en'?'en':'zh-TW';setLanguage();});
+window.addEventListener('message',event=>{if(!['https://ntusttjlab-design.github.io','https://raw.githack.com','http://127.0.0.1:4173','http://localhost:4173'].includes(event.origin)||event.data?.type!=='msmtjl-language')return;language=event.data.lang==='en'?'en':'zh-TW';setLanguage();});
 ${bridge}
 setLanguage();
 // GAS 有兩層沙盒，網站另可能由協作平台嵌入；通知各層但不傳送成績或個資。

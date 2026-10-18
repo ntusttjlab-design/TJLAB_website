@@ -20,3 +20,5 @@ Latest confirmed direction: **Use exactly the same introductory layout and inter
 - Remove the duplicated Members `#members-contact` section. Footer links to the complete verified contact info at `./index.html#join`. Keep other sections, bilingual intro animations, games, leaderboard, and photo albums.
 - **Deployment caveat**: the PR updates `backend/google-apps-script/Arcade.html` and `Code.gs` in GitHub, but the live Google Apps Script URL remains the previously deployed version until the Apps Script deployment is updated by an authorized editor. The PR preview can validate the host sizing and local markup; it cannot immediately suppress the old EN button inside the cross-origin deployed game iframe.
 - No merge to PR3/main without user approval.
+
+- Language messages are accepted only from the approved production GitHub Pages and PR4 RawGitHack preview origins (plus localhost dev). The embedded app still requires redeployment for source changes to take effect.

@@ -159,6 +159,7 @@ assert 'id="record-language"' not in gas_html and "getElementById('record-langua
 assert 'msmtjl-language' in gas_html and 'msmtjl-arcade-size' in gas_html
 assert 'html,body{overflow:hidden' in gas_html
 assert 'broadcastArcadeHeight' in gas_html and 'lastReportedHeight' in gas_html
+assert 'https://raw.githack.com' in gas_html and 'https://ntusttjlab-design.github.io' in gas_html
 embed_js = (ROOT / 'assets/js/arcade-embed.js').read_text(encoding='utf-8')
 assert "frame.setAttribute('scrolling','no')" in embed_js
 assert 'Math.min(4000' not in embed_js

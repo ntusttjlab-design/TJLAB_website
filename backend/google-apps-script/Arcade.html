@@ -118,7 +118,7 @@ if(typeof IntersectionObserver!=='undefined'){
 
 initSnake();initRally();
 
-window.addEventListener('message',event=>{if(!['https://ntusttjlab-design.github.io','http://127.0.0.1:4173','http://localhost:4173'].includes(event.origin)||event.data?.type!=='msmtjl-language')return;language=event.data.lang==='en'?'en':'zh-TW';setLanguage();});
+window.addEventListener('message',event=>{if(!['https://ntusttjlab-design.github.io','https://raw.githack.com','http://127.0.0.1:4173','http://localhost:4173'].includes(event.origin)||event.data?.type!=='msmtjl-language')return;language=event.data.lang==='en'?'en':'zh-TW';setLanguage();});
 // 與遊戲同頁，使用 Apps Script 官方通道讀寫每款遊戲前五名。
 let records=[],recordReady=false,pendingRecord=null,request=0;
 const recordStatus=document.getElementById('record-status'),recordDialog=document.getElementById('record-dialog');
