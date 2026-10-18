@@ -69,10 +69,10 @@ document.addEventListener('DOMContentLoaded',()=>{
       trigger:section,start:'top 88%',end:mobile.matches?'top 43%':'top 40%',
       scrub:mobile.matches?.25:.45,invalidateOnRefresh:true}});
     if(section.id==='lab-life'){
-      // Exactly the second-to-third real section seam: sage shifts gradually
-      // to warm off-white while scrolling; no spacer, pin or new page.
-      tl.fromTo(section,{'--life-transition-progress':0},
-        {'--life-transition-progress':1,duration:1,ease:'none',immediateRender:false},0);
+      // Begin with the sage surface before the photo section enters the viewport.
+      // Context-scoped set is reverted when motion is disabled.
+      gsap.set(section,{'--life-transition-progress':0});
+      tl.to(section,{'--life-transition-progress':1,duration:1,ease:'none'},0);
     }
     if(title)tl.fromTo(title,{autoAlpha:.78,y:22},{autoAlpha:1,y:0,duration:1,immediateRender:false},0);
     if(items.length)tl.fromTo(items,{autoAlpha:.78,y:18},{autoAlpha:1,y:0,stagger:.07,duration:.9,immediateRender:false},.15);
