@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(ctx){ctx.revert();ctx=null;}
   hero.removeAttribute('data-cinematic-active');
   team.style.removeProperty('clip-path');
-  after.forEach(s=>s.style.removeProperty('--member-glow-offset'));
+  after.forEach(s=>{s.style.removeProperty('--member-glow-offset');s.style.removeProperty('--life-transition-progress');});
  }
  function start(){
   dimensions();reset();label();
@@ -68,6 +68,12 @@ document.addEventListener('DOMContentLoaded',()=>{
     const tl=gsap.timeline({scrollTrigger:{id:'member-flow-'+section.dataset.memberFlow,
       trigger:section,start:'top 88%',end:mobile.matches?'top 43%':'top 40%',
       scrub:mobile.matches?.25:.45,invalidateOnRefresh:true}});
+    if(section.id==='lab-life'){
+      // Exactly the second-to-third real section seam: sage shifts gradually
+      // to warm off-white while scrolling; no spacer, pin or new page.
+      tl.fromTo(section,{'--life-transition-progress':0},
+        {'--life-transition-progress':1,duration:1,ease:'none',immediateRender:false},0);
+    }
     if(title)tl.fromTo(title,{autoAlpha:.78,y:22},{autoAlpha:1,y:0,duration:1,immediateRender:false},0);
     if(items.length)tl.fromTo(items,{autoAlpha:.78,y:18},{autoAlpha:1,y:0,stagger:.07,duration:.9,immediateRender:false},.15);
     tl.fromTo(section,{'--member-glow-offset':'-12px'},{'--member-glow-offset':'18px',duration:1,immediateRender:false},0);

@@ -34,3 +34,8 @@ This proof of concept implements the **first** key scene only: complete viewport
 ## PR4.2 — real content replaces duplicate scene
 
 Removed the decorative `cinematic-next` presentation entirely. The actual `#members-list` section is now the second scene, and its real PI, PhD, master’s, undergraduate and alumni content is revealed with a GSAP-controlled mask while the original hero transforms away. No pinned hero, no extra slide/section, no artificial scrolling distance. Exactly five real content sections remain siblings. Reduced motion leaves everything readable.
+
+
+## PR4.3 — narrowly scoped second-to-third section color handoff
+
+User requested no further first-screen or first-to-second changes. These are **untouched**. Only the existing `#lab-life` background now uses an overlay from pale sage to warm paper, driven by the existing photo-section ScrollTrigger. Its existing headline and album/empty-state reveal are preserved, with subtle movement like the academic overview. No interstitial, pin or extra section was created. Reduced motion and no JavaScript render the final warm color. Browser tests verify the second-to-third transition's overlay actually fades from transparent to opaque at timeline endpoints and no unrelated section is changed.

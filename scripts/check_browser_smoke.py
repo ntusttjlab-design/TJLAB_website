@@ -119,7 +119,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   test(document.body.dataset.memberFlow==='active','member-motion-active');
   test((window.ScrollTrigger?.getAll()||[]).filter(t=>(t.vars?.id||'').startsWith('member-flow-')).length===3,'three-remaining-reveals');
-  test(['members-list','lab-life','arcade','members-contact'].every(id=>getComputedStyle(document.getElementById(id)).backgroundImage.includes('linear-gradient')),'adjacent-color-gradients');
+  test(['members-list','arcade','members-contact'].every(id=>getComputedStyle(document.getElementById(id)).backgroundImage.includes('linear-gradient')),'unchanged-other-gradients');
+  const labLife=document.getElementById('lab-life');
+  const photosTrigger=window.ScrollTrigger?.getById('member-flow-photos');
+  test(!!photosTrigger?.animation && photosTrigger.vars.pin!==true,'photos-real-section-transition');
+  test(getComputedStyle(labLife,'::after').backgroundImage.includes('linear-gradient'),'warm-background-overlay');
+  if(photosTrigger?.animation){
+    const t=photosTrigger.animation,initial=t.progress();
+    t.progress(0).pause();
+    const startOpacity=parseFloat(getComputedStyle(labLife,'::after').opacity);
+    t.progress(1).pause();
+    const endOpacity=parseFloat(getComputedStyle(labLife,'::after').opacity);
+    test(startOpacity<.15 && endOpacity>.85,'second-to-third-color-changes-with-scroll');
+    t.progress(initial).pause();
+  }
   test(Math.abs(document.getElementById('members-list').getBoundingClientRect().width-document.documentElement.clientWidth)<4,'full-width-color');
   const motion=document.getElementById('members-motion-toggle');
   test(!!motion && motion.getAttribute('aria-pressed')==='true','motion-button');

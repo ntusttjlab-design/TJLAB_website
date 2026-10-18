@@ -125,12 +125,12 @@ assert 'class="member-transition-copy"' not in members_html
 assert members_html.count('data-member-flow=') == 5
 assert 'id="members-motion-toggle"' in members_html
 assert 'assets/js/chapter-transitions.js' not in members_html
-assert 'assets/js/member-motion.js?v=pr4.2' in members_html
+assert 'assets/js/member-motion.js?v=pr4.3' in members_html
 assert 'cinematic-members-hero' in members_html and 'cinematic-member-destination' in members_html
 assert 'class="cinematic-next"' not in members_html
 assert members_html.count('class="cinematic-hero-visual"') == 1
 assert members_html.count('class="network-node"') == 6
-assert 'editorial.css?v=pr4.2' in members_html
+assert 'editorial.css?v=pr4.3' in members_html
 
 assert 'assets/js/chapter-transitions.js' in html
 assert 'assets/js/lab-life-gallery.js' in members_html
